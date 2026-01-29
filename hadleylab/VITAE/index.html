@@ -270,6 +270,27 @@
         .identity-badges a:hover img {
             filter: grayscale(0%);
         }
+        /* EVO Index at very top */
+        .evo-index {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid #222;
+            padding: 0.75rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .evo-index.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .topnav.sticky {
+            top: 56px; /* Below EVO index */
+        }
+        .evo-index.hidden + .topnav.sticky {
+            top: 0;
+        }
         .evo-title {
             text-align: center;
             color: var(--accent);
@@ -381,6 +402,61 @@
     </style>
 </head>
 <body class="has-sticky-nav">
+    <!-- EVO INDEX - THE VERY TOP -->
+    <nav class="evo-index" id="evo-index">
+        <div class="evo-timeline">
+            <a href="?view=full#evo-1999" class="evo-node">
+                <div class="evo-dot"></div>
+                <div class="evo-content">
+                    <span class="evo-year">1999</span>
+                    <span class="evo-label">PENN</span>
+                </div>
+            </a>
+            <a href="?view=full#evo-2010" class="evo-node">
+                <div class="evo-dot"></div>
+                <div class="evo-content">
+                    <span class="evo-year">2010</span>
+                    <span class="evo-label">CHOP</span>
+                </div>
+            </a>
+            <a href="?view=full#evo-2012" class="evo-node">
+                <div class="evo-dot"></div>
+                <div class="evo-content">
+                    <span class="evo-year">2012</span>
+                    <span class="evo-label">STANFORD</span>
+                </div>
+            </a>
+            <a href="?view=full#evo-2016" class="evo-node">
+                <div class="evo-dot"></div>
+                <div class="evo-content">
+                    <span class="evo-year">2016</span>
+                    <span class="evo-label">UCSF</span>
+                </div>
+            </a>
+            <a href="?view=full#evo-2019" class="evo-node">
+                <div class="evo-dot"></div>
+                <div class="evo-content">
+                    <span class="evo-year">2019</span>
+                    <span class="evo-label">UCF</span>
+                </div>
+            </a>
+            <a href="?view=full#evo-now" class="evo-node current">
+                <div class="evo-dot"></div>
+                <div class="evo-content">
+                    <span class="evo-year">NOW</span>
+                    <span class="evo-label">HADLEYLAB</span>
+                </div>
+            </a>
+            <a href="https://github.com/hadleylab-dexter/hadleylab-dexter.github.io/commits/main/hadleylab/VITAE" class="evo-node">
+                <div class="evo-dot"></div>
+                <div class="evo-content">
+                    <span class="evo-year">LEDGER</span>
+                    <span class="evo-label">History</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+
     <nav class="topnav sticky">
         <a href="https://hadleylab-dexter.github.io" class="topnav-brand">D</a>
         <div class="topnav-links">
@@ -1080,58 +1156,6 @@
     </section>
 
     <footer class="evo-footer">
-        <h3 class="evo-title">EVOLUTION</h3>
-        <div class="evo-timeline">
-            <a href="?view=full#evo-1999" class="evo-node">
-                <div class="evo-dot"></div>
-                <div class="evo-content">
-                    <span class="evo-year">1999</span>
-                    <span class="evo-label">PENN</span>
-                </div>
-            </a>
-            <a href="?view=full#evo-2010" class="evo-node">
-                <div class="evo-dot"></div>
-                <div class="evo-content">
-                    <span class="evo-year">2010</span>
-                    <span class="evo-label">CHOP</span>
-                </div>
-            </a>
-            <a href="?view=full#evo-2012" class="evo-node">
-                <div class="evo-dot"></div>
-                <div class="evo-content">
-                    <span class="evo-year">2012</span>
-                    <span class="evo-label">STANFORD</span>
-                </div>
-            </a>
-            <a href="?view=full#evo-2016" class="evo-node">
-                <div class="evo-dot"></div>
-                <div class="evo-content">
-                    <span class="evo-year">2016</span>
-                    <span class="evo-label">UCSF</span>
-                </div>
-            </a>
-            <a href="?view=full#evo-2019" class="evo-node">
-                <div class="evo-dot"></div>
-                <div class="evo-content">
-                    <span class="evo-year">2019</span>
-                    <span class="evo-label">UCF</span>
-                </div>
-            </a>
-            <a href="?view=full#evo-now" class="evo-node current">
-                <div class="evo-dot"></div>
-                <div class="evo-content">
-                    <span class="evo-year">NOW</span>
-                    <span class="evo-label">HADLEYLAB</span>
-                </div>
-            </a>
-            <a href="https://github.com/hadleylab-dexter/hadleylab-dexter.github.io/commits/main/hadleylab/VITAE" class="evo-node">
-                <div class="evo-dot"></div>
-                <div class="evo-content">
-                    <span class="evo-year">LEDGER</span>
-                    <span class="evo-label">History</span>
-                </div>
-            </a>
-        </div>
         <div class="evo-ledger">
             <a href="https://www.linkedin.com/in/dexterhadley/">LinkedIn</a> |
             <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ">Scholar</a> |
@@ -1210,6 +1234,19 @@
                     }, 100);
                 }
             });
+        });
+
+        // Auto-hide EVO on scroll down, show on scroll up
+        let lastScroll = 0;
+        const evoIndex = document.getElementById('evo-index');
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 100 && currentScroll > lastScroll) {
+                evoIndex.classList.add('hidden');
+            } else {
+                evoIndex.classList.remove('hidden');
+            }
+            lastScroll = currentScroll;
         });
     </script>
     <script src="https://canonic-foundation.github.io/assets/nav.js"></script>
