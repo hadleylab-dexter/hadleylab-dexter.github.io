@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEXTER CV CHAT | CANONIC</title>
+    <link rel="stylesheet" href="https://canonic-foundation.github.io/assets/style.css">
+    <style>
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .chat-window {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 8px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .message-avatar.agent {
+            background: var(--accent);
+            color: #000;
+        }
+        .message-content {
+            flex: 1;
+        }
+        .message-role {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .message-text {
+            color: #ddd;
+            line-height: 1.6;
+        }
+        .message-text a {
+            color: var(--accent);
+        }
+        .chat-input-area {
+            border-top: 1px solid #222;
+            padding: 1rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+        .chat-input {
+            flex: 1;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .chat-btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .chat-btn:hover {
+            opacity: 0.9;
+        }
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .quick-btn {
+            background: #111;
+            border: 1px solid #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            color: #888;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .quick-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .evidence-tag {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 3px;
+            font-size: 0.7rem;
+            color: var(--accent);
+            margin-left: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="https://hadleylab-dexter.github.io" class="topnav-brand">D</a>
+        <div class="topnav-links">
+            <a href="../">CV</a>
+            <a href="./" class="active">CHAT</a>
+            <a href="../EVO/">EVO</a>
+        </div>
+    </nav>
+
+    <section class="hero" style="padding-bottom: 2rem;">
+        <p class="tagline">Conversational Interface to Evidence</p>
+        <img src="https://raw.githubusercontent.com/canonic-foundation/canonic/main/LANGUAGE/COMPLIANCE/assets/logo-business.svg" alt="CANONIC" style="height: 140px; margin-bottom: 1rem; filter: invert(1);">
+        <span class="badge">CHAT</span>
+    </section>
+
+    <div class="chat-container">
+        <div class="chat-window">
+            <div class="chat-messages" id="messages">
+                <div class="message">
+                    <div class="message-avatar agent">D</div>
+                    <div class="message-content">
+                        <div class="message-role">DEXTER CV</div>
+                        <div class="message-text">
+                            Welcome to DEXTER's evidence-linked CV interface. Every answer traces to verifiable evidence.
+                            <br><br>
+                            <strong>Quick facts:</strong>
+                            <br>- CANONIC #0 — First certified developer
+                            <br>- 20,000+ patient encounters in breast oncology
+                            <br>- 166+ development episodes building CANONIC
+                            <br>- ENTERPRISE tier with full DETROS compliance
+                            <br><br>
+                            Ask me anything about this CV.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="userInput" placeholder="Ask about DEXTER's CV..." onkeypress="if(event.key==='Enter')sendMessage()">
+                <button class="chat-btn" onclick="sendMessage()">ASK</button>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <button class="quick-btn" onclick="askQuestion('What clinical experience does DEXTER have?')">Clinical experience?</button>
+            <button class="quick-btn" onclick="askQuestion('What is CANONIC?')">What is CANONIC?</button>
+            <button class="quick-btn" onclick="askQuestion('What is MAMMOCHAT?')">What is MAMMOCHAT?</button>
+            <button class="quick-btn" onclick="askQuestion('Show evidence for claims')">Show evidence</button>
+        </div>
+    </div>
+
+    <section class="section" style="margin-top: 3rem;">
+        <h2 class="section-title">HOW IT WORKS</h2>
+        <p class="section-subtitle">AGENT = CHAT + EVO</p>
+        <div class="flow">
+            <span class="flow-item">Question</span> <span class="flow-arrow">→</span> <span class="flow-item">CV Context</span> <span class="flow-arrow">→</span> <span class="flow-item">Evidence Lookup</span> <span class="flow-arrow">→</span> <span class="flow-item">Answer + Links</span>
+        </div>
+    </section>
+
+    <footer style="margin-top: 3rem;">
+        <p><a href="../">DEXTER CV</a> | <a href="../EVO/">EVO</a> | <a href="https://hadleylab-dexter.github.io">DEXTER</a></p>
+        <p>Every answer traces to evidence. Evidence traces to LEDGER.</p>
+    </footer>
+
+    <script>
+        const responses = {
+            'clinical': `<strong>Clinical Experience</strong><span class="evidence-tag">PACS</span><span class="evidence-tag">NPI</span>
+                <br><br>
+                <strong>20,000+ mammography interpretations</strong>
+                <br>Sub-specialty fellowship trained in breast imaging.
+                <br><br>
+                <strong>Breast Oncology</strong>
+                <br>Multidisciplinary tumor boards. Cancer staging and treatment planning.
+                <br><br>
+                <strong>MAMMOCHAT Clinical Lead</strong>
+                <br>Built AI assistant for breast oncology. Enterprise deployment at AdventHealth.
+                <br><br>
+                Evidence: PACS records, NPI verification, institutional employment records.`,
+
+            'canonic': `<strong>CANONIC</strong><span class="evidence-tag">GitHub</span><span class="evidence-tag">Foundation</span>
+                <br><br>
+                Constitutional AI Governance framework. DEXTER is the founder and CANONIC #0.
+                <br><br>
+                <strong>Key contributions:</strong>
+                <br>- DETROS dimensional lattice (64-element governance space)
+                <br>- VaaS (Validator as a Service)
+                <br>- 166+ development episodes
+                <br>- Compiler correspondence theorem
+                <br><br>
+                Evidence: <a href="https://github.com/canonic-foundation">github.com/canonic-foundation</a>`,
+
+            'mammochat': `<strong>MAMMOCHAT</strong><span class="evidence-tag">AdventHealth</span><span class="evidence-tag">GitHub</span>
+                <br><br>
+                AI assistant for breast oncology. Evidence-linked clinical decision support.
+                <br><br>
+                <strong>Metrics:</strong>
+                <br>- 20,000+ patient encounters (2017-2026)
+                <br>- Live enterprise deployment
+                <br>- Full DETROS compliance
+                <br><br>
+                <strong>Status:</strong> ENTERPRISE tier. Reference customer: AdventHealth.
+                <br><br>
+                Evidence: Clinical deployment records, institutional contracts.`,
+
+            'evidence': `<strong>Evidence Sources</strong>
+                <br><br>
+                Every claim in this CV links to verifiable evidence:
+                <br><br>
+                <strong>GitHub</strong> — Commit history validates technical claims
+                <br>- <a href="https://github.com/canonic-foundation">canonic-foundation</a>
+                <br>- <a href="https://github.com/hadleylab-dexter">hadleylab-dexter</a>
+                <br><br>
+                <strong>Clinical</strong> — Institutional records
+                <br>- PACS (mammography interpretations)
+                <br>- NPI Registry (medical credentials)
+                <br>- AdventHealth (deployment)
+                <br><br>
+                <strong>IP</strong> — Registry verified
+                <br>- USPTO pending applications
+                <br>- Domain registrations
+                <br>- Trademark filings`,
+
+            'default': `I can answer questions about DEXTER's CV.
+                <br><br>
+                Try asking about:
+                <br>- <strong>Clinical experience</strong> — 20K+ patient encounters
+                <br>- <strong>CANONIC</strong> — Constitutional AI governance
+                <br>- <strong>MAMMOCHAT</strong> — Breast oncology AI
+                <br>- <strong>Evidence</strong> — How claims are verified
+                <br><br>
+                Or explore <a href="../">the full CV</a>.`
+        };
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addMessage('You', text, false);
+            input.value = '';
+
+            setTimeout(() => {
+                const response = getResponse(text);
+                addMessage('DEXTER CV', response, true);
+            }, 500);
+        }
+
+        function askQuestion(q) {
+            document.getElementById('userInput').value = q;
+            sendMessage();
+        }
+
+        function addMessage(role, text, isAgent) {
+            const messages = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = 'message';
+            div.innerHTML = `
+                <div class="message-avatar ${isAgent ? 'agent' : ''}">${isAgent ? 'D' : 'U'}</div>
+                <div class="message-content">
+                    <div class="message-role">${role}</div>
+                    <div class="message-text">${text}</div>
+                </div>
+            `;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function getResponse(text) {
+            const lower = text.toLowerCase();
+            if (lower.includes('clinical') || lower.includes('experience') || lower.includes('mammograph') || lower.includes('patient')) return responses.clinical;
+            if (lower.includes('canonic') || lower.includes('detros') || lower.includes('governance')) return responses.canonic;
+            if (lower.includes('mammochat') || lower.includes('adventhealth') || lower.includes('oncology')) return responses.mammochat;
+            if (lower.includes('evidence') || lower.includes('proof') || lower.includes('verify')) return responses.evidence;
+            return responses.default;
+        }
+    </script>
+</body>
+</html>
