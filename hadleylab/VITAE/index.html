@@ -1055,22 +1055,22 @@
                     <h3>TIMELINE</h3>
                     <div class="cv-timeline">
                         <div><span class="year">1995:</span> BA begins (New College of Florida)</div>
-                        <div><span class="year">1999:</span> BA completes, MD begins (Penn)</div>
+                        <div id="evo-1999"><span class="year">1999:</span> BA completes, MD begins (Penn)</div>
                         <div><span class="year">2001:</span> MSE begins (Penn Systems Engineering)</div>
                         <div><span class="year">2003:</span> MSE completes, PhD begins (Penn Genomics)</div>
                         <div><span class="year">2007:</span> PhD completes, Post-doc begins (Penn Ophthalmology)</div>
                         <div><span class="year">2009:</span> MD completes, Intern (Penn General Surgery)</div>
-                        <div><span class="year">2010:</span> CHOP (Lead Clinical Genomics Analyst)</div>
-                        <div><span class="year">2012:</span> Stanford Residency (Clinical Pathology)</div>
+                        <div id="evo-2010"><span class="year">2010:</span> CHOP (Lead Clinical Genomics Analyst)</div>
+                        <div id="evo-2012"><span class="year">2012:</span> Stanford Residency (Clinical Pathology)</div>
                         <div><span class="year">2013:</span> Stanford (Atul Butte lab)</div>
                         <div><span class="year">2015:</span> UCSF (Assistant Professor)</div>
-                        <div><span class="year">2016:</span> UCSF Bakar Institute — HadleyLab founded</div>
+                        <div id="evo-2016"><span class="year">2016:</span> UCSF Bakar Institute — HadleyLab founded</div>
                         <div><span class="year">2017:</span> NIH BD2K Grant → STARGEO.org</div>
-                        <div><span class="year">2019:</span> UCF College of Medicine (Associate Professor)</div>
+                        <div id="evo-2019"><span class="year">2019:</span> UCF College of Medicine (Associate Professor)</div>
                         <div><span class="year">2024:</span> ABPM (Director of AI)</div>
                         <div><span class="year">2025:</span> FCIF $2M Grant → MammoChat</div>
                         <div><span class="year">2025-12:</span> CANONIC Genesis (MACHINE era)</div>
-                        <div><span class="year">2026-01:</span> CANONIC Foundation established</div>
+                        <div id="evo-now"><span class="year">2026-01:</span> CANONIC Foundation established</div>
                     </div>
                 </div>
 
@@ -1082,48 +1082,48 @@
     <footer class="evo-footer">
         <h3 class="evo-title">EVOLUTION</h3>
         <div class="evo-timeline">
-            <div class="evo-node">
+            <a href="?view=full#evo-1999" class="evo-node">
                 <div class="evo-dot"></div>
                 <div class="evo-content">
                     <span class="evo-year">1999</span>
                     <span class="evo-label">PENN</span>
                 </div>
-            </div>
-            <div class="evo-node">
+            </a>
+            <a href="?view=full#evo-2010" class="evo-node">
                 <div class="evo-dot"></div>
                 <div class="evo-content">
                     <span class="evo-year">2010</span>
                     <span class="evo-label">CHOP</span>
                 </div>
-            </div>
-            <div class="evo-node">
+            </a>
+            <a href="?view=full#evo-2012" class="evo-node">
                 <div class="evo-dot"></div>
                 <div class="evo-content">
                     <span class="evo-year">2012</span>
                     <span class="evo-label">STANFORD</span>
                 </div>
-            </div>
-            <div class="evo-node">
+            </a>
+            <a href="?view=full#evo-2016" class="evo-node">
                 <div class="evo-dot"></div>
                 <div class="evo-content">
                     <span class="evo-year">2016</span>
                     <span class="evo-label">UCSF</span>
                 </div>
-            </div>
-            <div class="evo-node">
+            </a>
+            <a href="?view=full#evo-2019" class="evo-node">
                 <div class="evo-dot"></div>
                 <div class="evo-content">
                     <span class="evo-year">2019</span>
                     <span class="evo-label">UCF</span>
                 </div>
-            </div>
-            <div class="evo-node current">
+            </a>
+            <a href="?view=full#evo-now" class="evo-node current">
                 <div class="evo-dot"></div>
                 <div class="evo-content">
                     <span class="evo-year">NOW</span>
                     <span class="evo-label">HADLEYLAB</span>
                 </div>
-            </div>
+            </a>
             <a href="https://github.com/hadleylab-dexter/hadleylab-dexter.github.io/commits/main/hadleylab/VITAE" class="evo-node">
                 <div class="evo-dot"></div>
                 <div class="evo-content">
@@ -1172,12 +1172,19 @@
             content.classList.toggle('collapsed');
         }
 
-        // Handle URL parameter on load
+        // Handle URL parameter and hash on load
         document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
             const view = params.get('view');
             if (view) {
                 showView(view, false);
+            }
+            // Scroll to hash after view switch
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
             }
         });
 
@@ -1186,6 +1193,23 @@
             if (e.state && e.state.view) {
                 showView(e.state.view, false);
             }
+        });
+
+        // Handle EVO link clicks - switch view and scroll
+        document.querySelectorAll('.evo-timeline a[href^="?view="]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = new URL(this.href, window.location);
+                const view = url.searchParams.get('view');
+                const hash = url.hash;
+                showView(view, true);
+                if (hash) {
+                    setTimeout(() => {
+                        const el = document.querySelector(hash);
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            });
         });
     </script>
     <script src="https://canonic-foundation.github.io/assets/nav.js"></script>
