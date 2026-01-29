@@ -1143,14 +1143,27 @@
     <a href="./CHAT/" class="chat-fab" title="Chat with VITAE"><span>∩</span></a>
 
     <script>
-        function showView(view) {
+        function showView(view, updateUrl = true) {
+            // Normalize view names: 'full' → 'cv'
+            const viewMap = { 'full': 'cv', 'resume': 'resume', 'summary': 'summary', 'cv': 'cv' };
+            view = viewMap[view] || 'resume';
+
             // Update buttons
             document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            const activeBtn = document.querySelector(`.view-btn[onclick*="'${view}'"]`);
+            if (activeBtn) activeBtn.classList.add('active');
 
             // Update content
             document.querySelectorAll('.view-content').forEach(el => el.classList.remove('active'));
             document.getElementById(view + '-view').classList.add('active');
+
+            // Update URL without reload
+            if (updateUrl && history.pushState) {
+                const urlView = view === 'cv' ? 'full' : view;
+                const url = new URL(window.location);
+                url.searchParams.set('view', urlView);
+                history.pushState({view: view}, '', url);
+            }
         }
 
         function toggleSection(header) {
@@ -1158,6 +1171,22 @@
             const content = header.nextElementSibling;
             content.classList.toggle('collapsed');
         }
+
+        // Handle URL parameter on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const view = params.get('view');
+            if (view) {
+                showView(view, false);
+            }
+        });
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', function(e) {
+            if (e.state && e.state.view) {
+                showView(e.state.view, false);
+            }
+        });
     </script>
     <script src="https://canonic-foundation.github.io/assets/nav.js"></script>
 </body>
