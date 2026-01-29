@@ -292,17 +292,11 @@
             transform: scale(1.1);
             box-shadow: 0 6px 30px rgba(0, 255, 136, 0.5);
         }
-        .evo-fab span:first-child {
-            font-size: 1.2rem;
+        .evo-fab span {
+            font-size: 0.7rem;
             color: #000;
             font-weight: bold;
-            line-height: 1;
-        }
-        .evo-fab-label {
-            font-size: 0.5rem;
-            color: #000;
             letter-spacing: 0.1em;
-            margin-top: -2px;
         }
         .evo-fab.active {
             background: #111;
@@ -445,8 +439,7 @@
 <body class="has-sticky-nav">
     <!-- EVO FAB - Top left, expands to timeline -->
     <div class="evo-fab" id="evo-fab" onclick="toggleEvo()">
-        <span>∩</span>
-        <span class="evo-fab-label">EVO</span>
+        <span>EVO</span>
     </div>
 
     <!-- EVO INDEX - Expandable timeline -->
