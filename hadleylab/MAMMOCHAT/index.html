@@ -63,9 +63,69 @@
         .chat-fab { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 20px rgba(255, 105, 180, 0.3); transition: transform 0.3s, box-shadow 0.3s; z-index: 1000; }
         .chat-fab:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(255, 105, 180, 0.5); }
         .chat-fab span { font-size: 1.5rem; color: #000; font-weight: bold; }
+        /* EVO FAB - Top left */
+        .evo-fab { position: fixed; top: 4.5rem; left: 1rem; width: 44px; height: 44px; background: #00ff88; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-decoration: none; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3); transition: transform 0.3s, box-shadow 0.3s; z-index: 1000; }
+        .evo-fab:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(0, 255, 136, 0.5); }
+        .evo-fab span { font-size: 0.7rem; color: #000; font-weight: bold; letter-spacing: 0.1em; }
+        .evo-fab.active { background: #111; border: 2px solid var(--accent); }
+        .evo-fab.active span { color: var(--accent); }
+        /* EVO Index - Overlay panel */
+        .evo-index { position: fixed; top: 0; left: 0; right: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); padding: 5rem 2rem 2rem; z-index: 999; border-bottom: 1px solid #222; transition: transform 0.3s ease, opacity 0.3s ease; }
+        .evo-index.collapsed { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+        .evo-index.expanded { transform: translateY(0); opacity: 1; }
+        .evo-title { text-align: center; color: var(--accent); font-size: 0.7rem; letter-spacing: 0.2em; margin-bottom: 1.5rem; }
+        .evo-timeline { display: flex; justify-content: center; gap: 3rem; position: relative; padding: 0 1rem; flex-wrap: wrap; }
+        .evo-node { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: inherit; padding: 0.5rem; position: relative; z-index: 1; transition: transform 0.2s; }
+        .evo-node:hover { transform: translateY(-3px); }
+        .evo-node:hover .evo-dot { box-shadow: 0 0 20px var(--accent); }
+        .evo-dot { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; margin-bottom: 0.5rem; box-shadow: 0 0 10px var(--accent); }
+        .evo-node.origin .evo-dot { width: 20px; height: 20px; animation: pulse 2s infinite; background: #00ff88; box-shadow: 0 0 20px #00ff88; }
+        .evo-node.current .evo-dot { width: 16px; height: 16px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 10px var(--accent); } 50% { box-shadow: 0 0 20px var(--accent), 0 0 30px var(--accent); } }
+        .evo-year { color: var(--accent); font-size: 0.7rem; font-weight: bold; margin-bottom: 0.25rem; }
+        .evo-node.origin .evo-year { color: #00ff88; }
+        .evo-label { color: #888; font-size: 0.6rem; line-height: 1.3; text-align: center; }
+        .evo-node.origin .evo-label, .evo-node.current .evo-label { color: #fff; }
     </style>
 </head>
 <body class="has-sticky-nav">
+    <!-- EVO FAB - Top left, expands to timeline -->
+    <div class="evo-fab" id="evo-fab" onclick="toggleEvo()">
+        <span>EVO</span>
+    </div>
+
+    <!-- EVO INDEX - The Origin Timeline -->
+    <nav class="evo-index collapsed" id="evo-index">
+        <div class="evo-title">MAMMOCHAT EVO — THE ORIGIN OF CANONIC</div>
+        <div class="evo-timeline">
+            <a href="#ch1" class="evo-node origin" onclick="closeEvoAndNavigate(event, 'ch1')">
+                <div class="evo-dot"></div>
+                <div class="evo-year">OCT 2025</div>
+                <div class="evo-label">OPTS-EGO<br>WHITEPAPER</div>
+            </a>
+            <a href="https://canonic-foundation.github.io" class="evo-node">
+                <div class="evo-dot"></div>
+                <div class="evo-year">DEC 2025</div>
+                <div class="evo-label">CANONIC<br>v1.0</div>
+            </a>
+            <a href="https://mammochat.com" class="evo-node">
+                <div class="evo-dot"></div>
+                <div class="evo-year">2026</div>
+                <div class="evo-label">MAMMOCHAT<br>LIVE</div>
+            </a>
+            <a href="https://canonic-foundation.github.io/HOLDINGS/" class="evo-node current">
+                <div class="evo-dot"></div>
+                <div class="evo-year">NOW</div>
+                <div class="evo-label">FOUNDATION<br>HOLDING</div>
+            </a>
+            <a href="https://github.com/canonic-apps/apps/commits/main/STORE/PAPERS/MAMMOCHAT" class="evo-node">
+                <div class="evo-dot"></div>
+                <div class="evo-year">LEDGER</div>
+                <div class="evo-label">Git<br>History</div>
+            </a>
+        </div>
+    </nav>
+
     <nav class="topnav sticky">
         <a href="https://hadleylab-dexter.github.io" class="topnav-brand">D</a>
         <div class="topnav-links">
@@ -400,6 +460,35 @@
         const params = new URLSearchParams(window.location.search);
         if (params.get('view') === 'summary') showView('summary');
         if (params.get('view') === 'full') showView('full');
+
+        // Toggle EVO overlay
+        function toggleEvo() {
+            const evoIndex = document.getElementById('evo-index');
+            const evoFab = document.getElementById('evo-fab');
+            evoIndex.classList.toggle('collapsed');
+            evoIndex.classList.toggle('expanded');
+            evoFab.classList.toggle('active');
+        }
+
+        // Close EVO and navigate
+        function closeEvoAndNavigate(e, targetId) {
+            e.preventDefault();
+            toggleEvo();
+            showView('full');
+            setTimeout(() => {
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+
+        // Close EVO on escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const evoIndex = document.getElementById('evo-index');
+                if (evoIndex.classList.contains('expanded')) {
+                    toggleEvo();
+                }
+            }
+        });
     </script>
 </body>
 </html>
