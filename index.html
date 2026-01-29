@@ -4,83 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEXTER | CANONIC</title>
-    <style>
-        :root { --bg: #0a0a0a; --fg: #fff; --accent: #ff6b35; --dim: #888; --credit: #4ade80; --reserve: #f97316; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: ui-monospace, 'SF Mono', Menlo, monospace; background: var(--bg); color: var(--fg); min-height: 100vh; }
-
-        .hero { text-align: center; padding: 4rem 2rem; border-bottom: 1px solid #333; }
-        .hero h1 { font-size: 3rem; font-weight: 300; letter-spacing: 0.4em; margin-bottom: 0.5rem; }
-        .hero .tagline { color: var(--dim); font-size: 0.9rem; letter-spacing: 0.1em; margin-bottom: 1rem; }
-        .hero .badge { display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--accent); color: var(--accent); font-size: 0.7rem; letter-spacing: 0.1em; }
-
-        .section { padding: 3rem 2rem; border-bottom: 1px solid #333; }
-        .section-title { text-align: center; font-size: 1rem; letter-spacing: 0.3em; margin-bottom: 0.5rem; }
-        .section-subtitle { text-align: center; color: var(--dim); font-size: 0.85rem; margin-bottom: 2rem; }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 900px; margin: 0 auto; }
-        .card { border: 1px solid #333; padding: 1.5rem; text-decoration: none; color: inherit; display: block; }
-        .card:hover { border-color: var(--accent); }
-        .card h3 { font-size: 1rem; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-        .card p { color: var(--dim); font-size: 0.8rem; }
-
-        footer { text-align: center; padding: 2rem; color: var(--dim); font-size: 0.75rem; }
-        footer a { color: var(--dim); }
-        footer a:hover { color: var(--accent); }
-    </style>
+    <link rel="stylesheet" href="https://canonic-foundation.github.io/assets/style.css">
 </head>
 <body>
     <section class="hero">
+        <img src="https://raw.githubusercontent.com/canonic-foundation/canonic/main/LANGUAGE/TIERS/assets/logo-business.svg" alt="CANONIC" style="height: 240px; margin-bottom: 1rem; filter: invert(1);">
         <h1>DEXTER</h1>
         <p class="tagline">CANONIC #0 | First Certified Dev</p>
         <span class="badge">ENTERPRISE</span>
     </section>
 
     <section class="section">
-        <h2 class="section-title">CHAT</h2>
-        <p class="section-subtitle">Auth-gated conversational interface. AGENT-governed.</p>
-        <div class="grid">
-            <a href="/CHAT/" class="card" style="border-color: var(--accent); background: rgba(255, 107, 53, 0.05);">
-                <h3>ENTER CHAT</h3>
-                <p>Onboard. Converse. CANON-based governance.</p>
+        <h2 class="section-title">STORE</h2>
+        <p class="section-subtitle">Publications. Evidence. Distribution.</p>
+                <div class="grid">
+            <a href="/STORE/APPS/" class="card">
+                <h3>APPS</h3>
+                <p>Private applications.</p>
+            </a>
+            <a href="/STORE/BOOKS/" class="card">
+                <h3>BOOKS</h3>
+                <p>Publications. Manuscripts.</p>
+            </a>
+            <a href="/STORE/PAPERS/" class="card">
+                <h3>PAPERS</h3>
+                <p>Research. Whitepapers.</p>
             </a>
         </div>
     </section>
 
     <section class="section">
-        <h2 class="section-title">LIFE = WORK + PLAY</h2>
-        <p class="section-subtitle">Economic identity.</p>
-        <div class="grid">
-            <a href="/LIFE/" class="card">
-                <h3>LIFE</h3>
-                <p>WORK + PLAY aggregator.</p>
+        <h2 class="section-title">HOLDINGS</h2>
+        <p class="section-subtitle">ENTERPRISE assets.</p>
+                <div class="grid">
+            <a href="/HOLDINGS/" class="card">
+                <h3>IP</h3>
+                <p>Patents. Disclosures.</p>
             </a>
-            <a href="/CREDITS/" class="card">
-                <h3>CREDITS</h3>
-                <p>TOKEN from WRITING.</p>
+            <a href="/HOLDINGS/" class="card">
+                <h3>COMPANIES</h3>
+                <p>Corporate structures.</p>
             </a>
-            <a href="/RESERVES/" class="card">
-                <h3>RESERVES</h3>
-                <p>COIN for READING.</p>
-            </a>
-        </div>
-    </section>
-
-    <section class="section">
-        <h2 class="section-title">EVOLUTION</h2>
-        <p class="section-subtitle">Deterministic replay from TRANSCRIPTS.</p>
-        <div class="grid">
-            <a href="/EVOLUTION/" class="card">
-                <h3>EVOLUTION</h3>
-                <p>COVERAGE.md + ROADMAP.md</p>
-            </a>
-            <a href="/STORE/" class="card">
-                <h3>STORE</h3>
-                <p>Apps and tools.</p>
-            </a>
-            <a href="/EVIDENCE/" class="card">
-                <h3>EVIDENCE</h3>
-                <p>Attestation. Proof.</p>
+            <a href="/HOLDINGS/" class="card">
+                <h3>FINANCIALS</h3>
+                <p>Treasury. Tokenomics.</p>
             </a>
         </div>
     </section>
@@ -88,18 +55,18 @@
     <section class="section">
         <h2 class="section-title">THE TEMPLATE</h2>
         <p class="section-subtitle">Every user inherits this structure.</p>
-        <div class="grid">
+                <div class="grid">
             <div class="card">
-                <h3>LIFE/</h3>
-                <p>WORK + PLAY.</p>
+                <h3>STORE/</h3>
+                <p>Required. Distribution channel.</p>
             </div>
             <div class="card">
-                <h3>CREDITS/</h3>
-                <p>VAULT + WRITING.</p>
+                <h3>HOLDINGS/</h3>
+                <p>Optional. Ownership. Assets.</p>
             </div>
             <div class="card">
-                <h3>RESERVES/</h3>
-                <p>WALLET + READING.</p>
+                <h3>EVIDENCE/</h3>
+                <p>Optional. Attestation. Proof.</p>
             </div>
         </div>
     </section>
@@ -107,5 +74,7 @@
     <footer>
         <p><a href="https://canonic-foundation.github.io">Foundation</a> | <a href="https://canonic-apps.github.io">Apps</a> | <a href="https://github.com/hadleylab-dexter">GitHub</a></p>
     </footer>
+
+    <script src="https://canonic-foundation.github.io/assets/nav.js"></script>
 </body>
 </html>
