@@ -133,6 +133,7 @@
             <a href="../">VITAE</a>
             <a href="./" class="active">CHAT</a>
             <a href="../EVO/">EVO</a>
+            <a href="https://github.com/hadleylab/hadleylab-dexter/blob/main/VITAE/VITAE.md">GITHUB</a>
         </div>
     </nav>
 
@@ -150,15 +151,15 @@
                     <div class="message-content">
                         <div class="message-role">DEXTER VITAE</div>
                         <div class="message-text">
-                            Welcome to DEXTER's evidence-linked CV interface. Every answer traces to verifiable evidence.
+                            Hi! I'm here to answer questions about Dr. Dexter Hadley.
                             <br><br>
                             <strong>Quick facts:</strong>
-                            <br>- CANONIC #0 — First certified developer
-                            <br>- 20,000+ patient encounters in breast oncology
-                            <br>- 166+ development episodes building CANONIC
-                            <br>- ENTERPRISE tier with full DETROS compliance
+                            <br>- Physician-scientist with MD/PhD from Penn
+                            <br>- 20,000+ mammograms read for breast cancer screening
+                            <br>- Creator of MAMMOCHAT, an AI assistant for cancer care
+                            <br>- Founder of CANONIC, making AI trustworthy
                             <br><br>
-                            Ask me anything about this CV.
+                            What would you like to know?
                         </div>
                     </div>
                 </div>
@@ -170,10 +171,10 @@
         </div>
 
         <div class="quick-actions">
-            <button class="quick-btn" onclick="askQuestion('What clinical experience does DEXTER have?')">Clinical experience?</button>
-            <button class="quick-btn" onclick="askQuestion('What is CANONIC?')">What is CANONIC?</button>
-            <button class="quick-btn" onclick="askQuestion('What is MAMMOCHAT?')">What is MAMMOCHAT?</button>
-            <button class="quick-btn" onclick="askQuestion('Show evidence for claims')">Show evidence</button>
+            <button class="quick-btn" onclick="askQuestion('Where did he train?')">Education</button>
+            <button class="quick-btn" onclick="askQuestion('What does he do as a doctor?')">Clinical Work</button>
+            <button class="quick-btn" onclick="askQuestion('What is MAMMOCHAT?')">MAMMOCHAT</button>
+            <button class="quick-btn" onclick="askQuestion('What is CANONIC?')">CANONIC</button>
         </div>
     </div>
 
@@ -186,77 +187,107 @@
     </section>
 
     <footer style="margin-top: 3rem;">
-        <p><a href="../">DEXTER VITAE</a> | <a href="../EVO/">EVO</a> | <a href="https://hadleylab-dexter.github.io">DEXTER</a></p>
-        <p>Every answer traces to evidence. Evidence traces to LEDGER.</p>
+        <p><a href="../EVO/">EVO</a> | <a href="https://canonic-foundation.github.io">CANONIC</a></p>
     </footer>
 
     <script>
+        // Source: https://github.com/hadleylab/hadleylab-dexter/blob/main/VITAE/VITAE.md
         const responses = {
-            'clinical': `<strong>Clinical Experience</strong><span class="evidence-tag">PACS</span><span class="evidence-tag">NPI</span>
+            'education': `<strong>Education</strong>
                 <br><br>
-                <strong>20,000+ mammography interpretations</strong>
-                <br>Sub-specialty fellowship trained in breast imaging.
+                Dr. Hadley completed his MD and PhD at the University of Pennsylvania, where he studied how genes and computers can work together to understand diseases. He also earned a Master's in Engineering from Penn.
                 <br><br>
-                <strong>Breast Oncology</strong>
-                <br>Multidisciplinary tumor boards. Cancer staging and treatment planning.
+                Before that, he graduated with honors from New College of Florida, studying natural science and programming.
                 <br><br>
-                <strong>MAMMOCHAT Clinical Lead</strong>
-                <br>Built AI assistant for breast oncology. Enterprise deployment at AdventHealth.
-                <br><br>
-                Evidence: PACS records, NPI verification, institutional employment records.`,
+                He did additional training at Stanford in clinical laboratory medicine.`,
 
-            'canonic': `<strong>CANONIC</strong><span class="evidence-tag">GitHub</span><span class="evidence-tag">Foundation</span>
+            'positions': `<strong>Career</strong>
                 <br><br>
-                Constitutional AI Governance framework. DEXTER is the founder and CANONIC #0.
+                Dr. Hadley currently leads:
+                <br>- <strong>CANONIC Foundation</strong> — Making AI systems safer and more trustworthy
+                <br>- <strong>HadleyLab</strong> — Research in healthcare AI
+                <br>- <strong>American Board of Precision Medicine</strong> — Director of AI
                 <br><br>
-                <strong>Key contributions:</strong>
-                <br>- DETROS dimensional lattice (64-element governance space)
-                <br>- VaaS (Validator as a Service)
-                <br>- 166+ development episodes
-                <br>- Compiler correspondence theorem
-                <br><br>
-                Evidence: <a href="https://github.com/canonic-foundation">github.com/canonic-foundation</a>`,
+                Previously, he was a professor at UCF College of Medicine and UCSF, and worked at Stanford and Children's Hospital of Philadelphia.`,
 
-            'mammochat': `<strong>MAMMOCHAT</strong><span class="evidence-tag">AdventHealth</span><span class="evidence-tag">GitHub</span>
+            'publications': `<strong>Research & Writing</strong>
                 <br><br>
-                AI assistant for breast oncology. Evidence-linked clinical decision support.
+                Dr. Hadley has published research on cancer genetics and AI in medicine in scientific journals.
                 <br><br>
-                <strong>Metrics:</strong>
-                <br>- 20,000+ patient encounters (2017-2026)
-                <br>- Live enterprise deployment
-                <br>- Full DETROS compliance
+                He also wrote a book in 2024 about how AI, blockchain, and cybersecurity can improve healthcare.
                 <br><br>
-                <strong>Status:</strong> ENTERPRISE tier. Reference customer: AdventHealth.
-                <br><br>
-                Evidence: Clinical deployment records, institutional contracts.`,
+                You can find his publications on <a href="https://ncbi.nlm.nih.gov/myncbi/dexter.hadley.1/bibliography/public">PubMed</a> and <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ&hl">Google Scholar</a>.`,
 
-            'evidence': `<strong>Evidence Sources</strong>
+            'grants': `<strong>Research Funding</strong>
                 <br><br>
-                Every claim in this CV links to verifiable evidence:
+                Dr. Hadley's research is supported by major grants:
                 <br><br>
-                <strong>GitHub</strong> — Commit history validates technical claims
-                <br>- <a href="https://github.com/canonic-foundation">canonic-foundation</a>
-                <br>- <a href="https://github.com/hadleylab-dexter">hadleylab-dexter</a>
+                <strong>$1.9 Million</strong> from the Florida Cancer Innovation Fund (2024) to develop and test MAMMOCHAT, an AI assistant for breast cancer care.
                 <br><br>
-                <strong>Clinical</strong> — Institutional records
-                <br>- PACS (mammography interpretations)
-                <br>- NPI Registry (medical credentials)
-                <br>- AdventHealth (deployment)
-                <br><br>
-                <strong>IP</strong> — Registry verified
-                <br>- USPTO pending applications
-                <br>- Domain registrations
-                <br>- Trademark filings`,
+                The project began with support from the Bloomberg Foundation in 2017.`,
 
-            'default': `I can answer questions about DEXTER's CV.
+            'ip': `<strong>Inventions</strong>
+                <br><br>
+                Dr. Hadley has filed patents on new ways to make AI systems trustworthy and accountable.
+                <br><br>
+                His inventions focus on ensuring AI follows rules and can prove it's behaving correctly — important for healthcare where mistakes can have serious consequences.`,
+
+            'mentors': `<strong>Mentors</strong>
+                <br><br>
+                Dr. Hadley trained with leading researchers including:
+                <br><br>
+                - <strong>Dr. Atul Butte</strong> at Stanford and UCSF — a pioneer in using big data for medicine
+                <br>- <strong>Dr. Junhyong Kim</strong> at Penn — his PhD advisor in computational biology
+                <br>- <strong>Dr. Hakon Hakonarson</strong> at CHOP — leader in genomic medicine for children`,
+
+            'coauthors': `<strong>Collaborators</strong>
+                <br><br>
+                Dr. Hadley works with researchers at top institutions including Stanford, UCSF, and UCF on projects related to cancer research, AI in medicine, and healthcare technology.`,
+
+            'clinical': `<strong>Clinical Experience</strong>
+                <br><br>
+                Dr. Hadley is a physician who has read over <strong>20,000 mammograms</strong> to help detect breast cancer.
+                <br><br>
+                He works with cancer care teams to help patients understand their diagnosis and treatment options.
+                <br><br>
+                He created MAMMOCHAT — an AI assistant that helps breast oncology teams provide better care.`,
+
+            'canonic': `<strong>CANONIC</strong>
+                <br><br>
+                CANONIC is a system Dr. Hadley created to make AI trustworthy and accountable.
+                <br><br>
+                Think of it like a constitution for AI — a set of rules that AI systems must follow, with ways to prove they're following them.
+                <br><br>
+                This is especially important in healthcare, where AI decisions can affect patient lives.
+                <br><br>
+                Learn more at <a href="https://canonic-foundation.github.io">canonic-foundation.github.io</a>`,
+
+            'mammochat': `<strong>MAMMOCHAT</strong>
+                <br><br>
+                MAMMOCHAT is an AI assistant that helps doctors and patients with breast cancer care.
+                <br><br>
+                It answers questions, explains test results, and helps coordinate care — all while keeping a clear record of what it says and why.
+                <br><br>
+                It's being tested at AdventHealth and is supported by a $1.9 million grant from Florida.`,
+
+            'evidence': `<strong>How This Works</strong>
+                <br><br>
+                Unlike a traditional CV, every claim here links to real proof.
+                <br><br>
+                Publications link to <a href="https://ncbi.nlm.nih.gov/myncbi/dexter.hadley.1/bibliography/public">PubMed</a>. Code links to <a href="https://github.com/hadleylab">GitHub</a>. Grants link to award letters.
+                <br><br>
+                The full source document with all evidence links is available on <a href="https://github.com/hadleylab/hadleylab-dexter/blob/main/VITAE/VITAE.md">GitHub</a>.`,
+
+            'default': `Welcome! I can answer questions about Dr. Dexter Hadley.
                 <br><br>
                 Try asking about:
-                <br>- <strong>Clinical experience</strong> — 20K+ patient encounters
-                <br>- <strong>CANONIC</strong> — Constitutional AI governance
-                <br>- <strong>MAMMOCHAT</strong> — Breast oncology AI
-                <br>- <strong>Evidence</strong> — How claims are verified
+                <br>- <strong>Background</strong> — Where did he train?
+                <br>- <strong>Clinical work</strong> — What does he do as a doctor?
+                <br>- <strong>MAMMOCHAT</strong> — The breast cancer AI assistant
+                <br>- <strong>CANONIC</strong> — Making AI trustworthy
+                <br>- <strong>Research</strong> — Publications and funding
                 <br><br>
-                Or explore <a href="../">the full CV</a>.`
+                Or view the <a href="../">full CV</a>.`
         };
 
         function sendMessage() {
@@ -295,10 +326,17 @@
 
         function getResponse(text) {
             const lower = text.toLowerCase();
+            if (lower.includes('education') || lower.includes('degree') || lower.includes('phd') || lower.includes('school') || lower.includes('university') || lower.includes('penn') || lower.includes('stanford')) return responses.education;
+            if (lower.includes('position') || lower.includes('job') || lower.includes('work') || lower.includes('employ') || lower.includes('professor') || lower.includes('ucsf') || lower.includes('ucf')) return responses.positions;
+            if (lower.includes('publication') || lower.includes('paper') || lower.includes('journal') || lower.includes('book') || lower.includes('article') || lower.includes('pubmed')) return responses.publications;
+            if (lower.includes('grant') || lower.includes('fund') || lower.includes('bloomberg') || lower.includes('fcif') || lower.includes('1.9')) return responses.grants;
+            if (lower.includes('ip') || lower.includes('patent') || lower.includes('idf') || lower.includes('invention') || lower.includes('disclosure')) return responses.ip;
+            if (lower.includes('mentor') || lower.includes('advisor') || lower.includes('butte') || lower.includes('kim')) return responses.mentors;
+            if (lower.includes('coauthor') || lower.includes('co-author') || lower.includes('collaborat')) return responses.coauthors;
             if (lower.includes('clinical') || lower.includes('experience') || lower.includes('mammograph') || lower.includes('patient')) return responses.clinical;
             if (lower.includes('canonic') || lower.includes('detros') || lower.includes('governance')) return responses.canonic;
             if (lower.includes('mammochat') || lower.includes('adventhealth') || lower.includes('oncology')) return responses.mammochat;
-            if (lower.includes('evidence') || lower.includes('proof') || lower.includes('verify')) return responses.evidence;
+            if (lower.includes('evidence') || lower.includes('proof') || lower.includes('verify') || lower.includes('source')) return responses.evidence;
             return responses.default;
         }
     </script>
