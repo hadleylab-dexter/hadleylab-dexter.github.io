@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFE | DEXTER</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --fg: #fff;
+            --accent: #ff6b35;
+            --dim: #888;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+        }
+        .topnav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #333;
+        }
+        .topnav-brand {
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .topnav-links { display: flex; gap: 2rem; }
+        .topnav-links a {
+            color: var(--dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .topnav-links a:hover { color: var(--accent); }
+        .topnav-links a.active { color: var(--fg); }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            margin-bottom: 0.5rem;
+        }
+        .tagline {
+            color: var(--dim);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+        .axiom-box {
+            color: var(--accent);
+            font-size: 1rem;
+            padding: 1rem 2rem;
+            border: 1px solid var(--accent);
+            margin-top: 1.5rem;
+            display: inline-block;
+        }
+
+        .duality {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .duality-side {
+            border: 1px solid #333;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .duality-side:hover { border-color: var(--accent); }
+        .duality-side h2 {
+            font-size: 1.2rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+        }
+        .duality-side .formula {
+            color: var(--dim);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .duality-side a {
+            color: var(--fg);
+            text-decoration: none;
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--fg);
+            display: inline-block;
+        }
+        .duality-side a:hover {
+            background: var(--fg);
+            color: var(--bg);
+        }
+
+        .section {
+            padding: 2rem;
+            border-top: 1px solid #333;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+            color: var(--dim);
+            margin-bottom: 2rem;
+        }
+        table {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th { color: var(--accent); font-size: 0.75rem; letter-spacing: 0.1em; }
+        td { color: var(--dim); font-size: 0.8rem; }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #333;
+            color: var(--dim);
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="../" class="topnav-brand">DEXTER</a>
+        <div class="topnav-links">
+            <a href="./" class="active">Life</a>
+            <a href="../CREDITS/">Credits</a>
+            <a href="../RESERVES/">Reserves</a>
+            <a href="../STORE/">Store</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>LIFE</h1>
+        <p class="tagline">Economic Identity</p>
+        <div class="axiom-box">LIFE = WORK + PLAY</div>
+    </section>
+
+    <div class="duality">
+        <div class="duality-side">
+            <h2>WORK</h2>
+            <p class="formula">WRITING → TOKEN → VAULT → CREDITS</p>
+            <a href="../CREDITS/">View CREDITS</a>
+        </div>
+        <div class="duality-side">
+            <h2>PLAY</h2>
+            <p class="formula">READING → COIN → WALLET → RESERVES</p>
+            <a href="../RESERVES/">View RESERVES</a>
+        </div>
+    </div>
+
+    <section class="section">
+        <h2 class="section-title">DUALITY</h2>
+        <table>
+            <tr><th>WORK</th><th>PLAY</th></tr>
+            <tr><td>WRITING</td><td>READING</td></tr>
+            <tr><td>TOKEN</td><td>COIN</td></tr>
+            <tr><td>VAULT (internal)</td><td>WALLET (external)</td></tr>
+            <tr><td>CREDITS</td><td>RESERVES</td></tr>
+            <tr><td>EARN</td><td>SPEND</td></tr>
+            <tr><td>PRODUCE</td><td>CONSUME</td></tr>
+        </table>
+    </section>
+
+    <footer>
+        <p>LIFE APP | CANONIC Economic Identity</p>
+    </footer>
+</body>
+</html>
