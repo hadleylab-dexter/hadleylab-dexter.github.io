@@ -47,6 +47,15 @@
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
+        .cv-item .years {
+            color: var(--accent);
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+        .cv-item .meta {
+            color: #666;
+            font-size: 0.8rem;
+        }
         .evidence-tag {
             display: inline-block;
             padding: 0.2rem 0.5rem;
@@ -89,6 +98,77 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 2rem;
+        }
+        .view-btn {
+            background: #111;
+            border: 1px solid #333;
+            padding: 0.6rem 1.5rem;
+            color: #666;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .view-btn:first-child {
+            border-radius: 4px 0 0 4px;
+        }
+        .view-btn:last-child {
+            border-radius: 0 4px 4px 0;
+            border-left: none;
+        }
+        .view-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+        .view-btn:hover:not(.active) {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        /* CV Table */
+        .cv-table {
+            width: 100%;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        .cv-table th {
+            text-align: left;
+            color: #666;
+            font-weight: normal;
+            padding: 0.5rem;
+            border-bottom: 1px solid #333;
+        }
+        .cv-table td {
+            padding: 0.5rem;
+            color: #aaa;
+            border-bottom: 1px solid #222;
+        }
+        .cv-table td:first-child {
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        /* Timeline */
+        .cv-timeline {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.8;
+            font-family: var(--font);
+        }
+        .cv-timeline .year {
+            color: var(--accent);
+            display: inline-block;
+            width: 80px;
+        }
+        /* Hidden views */
+        .view-content { display: none; }
+        .view-content.active { display: block; }
     </style>
 </head>
 <body class="has-sticky-nav">
@@ -111,6 +191,11 @@
         <h2 class="section-title">Dexter Hadley, MD/PhD</h2>
         <p class="section-subtitle">Physician-scientist. AI in healthcare. Every claim linked to proof.</p>
 
+        <div class="view-toggle">
+            <button class="view-btn active" onclick="showView('resume')">RESUME</button>
+            <button class="view-btn" onclick="showView('cv')">FULL CV</button>
+        </div>
+
         <div class="stat-grid">
             <div class="stat-card">
                 <div class="number">MD/PhD</div>
@@ -130,63 +215,222 @@
             </div>
         </div>
 
-        <div class="cv-panel">
-            <div class="cv-section">
-                <h3>CURRENT ROLES</h3>
-                <div class="cv-item">
-                    <h4>Founder, CANONIC Foundation</h4>
-                    <p>Making AI systems trustworthy and accountable through constitutional governance.</p>
-                    <a href="https://canonic-foundation.github.io" class="evidence-tag">Website</a>
+        <!-- RESUME VIEW (Summary) -->
+        <div id="resume-view" class="view-content active">
+            <div class="cv-panel">
+                <div class="cv-section">
+                    <h3>CURRENT ROLES</h3>
+                    <div class="cv-item">
+                        <h4>Founder, CANONIC Foundation</h4>
+                        <p>Making AI systems trustworthy and accountable through constitutional governance.</p>
+                        <a href="https://canonic-foundation.github.io" class="evidence-tag">Website</a>
+                    </div>
+                    <div class="cv-item">
+                        <h4>Director of AI, American Board of Precision Medicine</h4>
+                        <p>Establishing standards for AI in medical practice.</p>
+                    </div>
                 </div>
-                <div class="cv-item">
-                    <h4>Director of AI, American Board of Precision Medicine</h4>
-                    <p>Establishing standards for AI in medical practice.</p>
-                </div>
-            </div>
 
-            <div class="cv-section">
-                <h3>CLINICAL WORK</h3>
-                <div class="cv-item">
-                    <h4>Breast Imaging Specialist</h4>
-                    <p>20,000+ mammograms interpreted for breast cancer screening. Fellowship trained.</p>
+                <div class="cv-section">
+                    <h3>CLINICAL WORK</h3>
+                    <div class="cv-item">
+                        <h4>Breast Imaging Specialist</h4>
+                        <p>20,000+ mammograms interpreted for breast cancer screening. Fellowship trained.</p>
+                    </div>
+                    <div class="cv-item">
+                        <h4>MAMMOCHAT</h4>
+                        <p>Created an AI assistant for breast cancer care. Deployed at AdventHealth. $1.9M Florida grant.</p>
+                    </div>
                 </div>
-                <div class="cv-item">
-                    <h4>MAMMOCHAT</h4>
-                    <p>Created an AI assistant for breast cancer care. Deployed at AdventHealth. $1.9M Florida grant.</p>
-                </div>
-            </div>
 
-            <div class="cv-section">
-                <h3>EDUCATION</h3>
-                <div class="cv-item">
-                    <h4>University of Pennsylvania</h4>
-                    <p>MD (Medicine) + PhD (Genomics & Computational Biology) + MSE (Systems Engineering)</p>
+                <div class="cv-section">
+                    <h3>EDUCATION</h3>
+                    <div class="cv-item">
+                        <h4>University of Pennsylvania</h4>
+                        <p>MD (Medicine) + PhD (Genomics & Computational Biology) + MSE (Systems Engineering)</p>
+                    </div>
+                    <div class="cv-item">
+                        <h4>Stanford University</h4>
+                        <p>Clinical pathology residency. Research with Dr. Atul Butte.</p>
+                    </div>
                 </div>
-                <div class="cv-item">
-                    <h4>Stanford University</h4>
-                    <p>Clinical pathology residency. Research with Dr. Atul Butte.</p>
-                </div>
-            </div>
 
-            <div class="cv-section">
-                <h3>RESEARCH</h3>
-                <div class="cv-item">
-                    <h4>Publications</h4>
-                    <p>Peer-reviewed papers on cancer genetics and AI. Author of "AI, Blockchain, and Cybersecurity for Healthcare" (2024).</p>
-                    <a href="https://ncbi.nlm.nih.gov/myncbi/dexter.hadley.1/bibliography/public" class="evidence-tag">PubMed</a>
-                    <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ&hl" class="evidence-tag">Scholar</a>
+                <div class="cv-section">
+                    <h3>RESEARCH</h3>
+                    <div class="cv-item">
+                        <h4>Publications</h4>
+                        <p>Peer-reviewed papers on cancer genetics and AI. Author of "AI, Blockchain, and Cybersecurity for Healthcare" (2024).</p>
+                        <a href="https://ncbi.nlm.nih.gov/myncbi/dexter.hadley.1/bibliography/public" class="evidence-tag">PubMed</a>
+                        <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ&hl" class="evidence-tag">Scholar</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="cv-section">
-                <h3>INVENTIONS</h3>
-                <div class="cv-item">
-                    <h4>Patents</h4>
-                    <p>Methods for making AI systems provably safe and accountable. 38 invention disclosures filed.</p>
-                    <span class="evidence-tag">USPTO Pending</span>
+                <div class="cv-section">
+                    <h3>INVENTIONS</h3>
+                    <div class="cv-item">
+                        <h4>Patents</h4>
+                        <p>Methods for making AI systems provably safe and accountable. 38 invention disclosures filed.</p>
+                        <span class="evidence-tag">USPTO Pending</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- FULL CV VIEW (Academic Detail) -->
+        <div id="cv-view" class="view-content">
+            <div class="cv-panel">
+
+                <div class="cv-section">
+                    <h3>EDUCATION</h3>
+                    <table class="cv-table">
+                        <tr><th>Years</th><th>Institution</th><th>Degree</th><th>Field</th></tr>
+                        <tr><td>1995-1999</td><td>New College of Florida (Honors)</td><td>B.A.</td><td>Natural Science & Comp. Programming</td></tr>
+                        <tr><td>2001-2003</td><td>University of Pennsylvania</td><td>M.S.E.</td><td>Systems Engineering</td></tr>
+                        <tr><td>2003-2007</td><td>University of Pennsylvania</td><td>Ph.D.</td><td>Genomics & Computational Biology</td></tr>
+                        <tr><td>2007-2009</td><td>University of Pennsylvania</td><td>Post-doc</td><td>Molecular Ophthalmology</td></tr>
+                        <tr><td>1999-2009</td><td>University of Pennsylvania</td><td>M.D.</td><td>Precision Medicine</td></tr>
+                        <tr><td>2009-2010</td><td>University of Pennsylvania</td><td>Intern</td><td>General Surgery</td></tr>
+                        <tr><td>2012-2013</td><td>Stanford University</td><td>Resident</td><td>Clinical Pathology</td></tr>
+                    </table>
+                </div>
+
+                <div class="cv-section">
+                    <h3>POSITIONS</h3>
+                    <table class="cv-table">
+                        <tr><th>Years</th><th>Institution</th><th>Title</th><th>Department</th></tr>
+                        <tr><td>2010-2012</td><td>CHOP, Philadelphia</td><td>Lead Clinical Genomics Analyst</td><td>Pediatrics</td></tr>
+                        <tr><td>2013-2015</td><td>Stanford University</td><td>Engineering Research Associate</td><td>Pediatrics</td></tr>
+                        <tr><td>2015-2016</td><td>UCSF</td><td>Assistant Professor</td><td>Pediatrics</td></tr>
+                        <tr><td>2016-2019</td><td>UCSF Bakar Institute</td><td>Assistant Professor</td><td>Pediatrics, Pathology, Lab Med</td></tr>
+                        <tr><td>2019-2025</td><td>UCF College of Medicine</td><td>Associate Professor of Pathology</td><td>Clinical Sciences</td></tr>
+                        <tr><td>2024-present</td><td>American Board of Precision Medicine</td><td>Director of AI</td><td>Precision Medicine</td></tr>
+                        <tr><td>2025-present</td><td>HadleyLab</td><td>Founder, PI</td><td>CANONIC Governance</td></tr>
+                        <tr><td>2026-present</td><td>CANONIC Foundation</td><td>Founder</td><td>Governance Systems</td></tr>
+                    </table>
+                </div>
+
+                <div class="cv-section">
+                    <h3>PUBLICATIONS</h3>
+                    <div class="cv-item">
+                        <div class="years">2016</div>
+                        <h4>Precision annotation of digital samples in NCBI's gene expression omnibus</h4>
+                        <p class="meta">Oncotarget 7(14):17562-17571</p>
+                    </div>
+                    <div class="cv-item">
+                        <div class="years">2017</div>
+                        <h4>Cis-eQTL-based trans-ethnic meta-analysis reveals novel genes associated with breast cancer risk</h4>
+                        <p class="meta">PLoS Genetics 13(3):e1006690 | PMID: 28362817</p>
+                    </div>
+                    <div class="cv-item">
+                        <div class="years">2019</div>
+                        <h4>Tumorigenesis Related Gene Identification in Dermatomyositis Using Meta-Analysis</h4>
+                        <p class="meta">Arthritis & Rheumatology</p>
+                    </div>
+                    <div class="cv-item">
+                        <div class="years">2020</div>
+                        <h4>Novel therapeutic avenues for cholangiocarcinoma treatment</h4>
+                        <p class="meta">J Clin Oncol 38(4_suppl):584 | DOI: 10.1200/jco.2020.38.4_suppl.584</p>
+                    </div>
+                    <div class="cv-item">
+                        <div class="years">2024</div>
+                        <h4>ABC: AI, Blockchain, and Cybersecurity for Healthcare</h4>
+                        <p class="meta">Productivity Press (Book)</p>
+                    </div>
+                    <a href="https://ncbi.nlm.nih.gov/myncbi/dexter.hadley.1/bibliography/public" class="evidence-tag">PubMed</a>
+                    <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ&hl" class="evidence-tag">Google Scholar</a>
+                </div>
+
+                <div class="cv-section">
+                    <h3>GRANTS</h3>
+                    <div class="cv-item">
+                        <div class="years">2017</div>
+                        <h4>Bloomberg Foundation</h4>
+                        <p>"Breast We Can!" (MAMMOCHAT origins)</p>
+                    </div>
+                    <div class="cv-item">
+                        <div class="years">2024</div>
+                        <h4>Florida Cancer Innovation Fund — $1.9M</h4>
+                        <p>Grant #354: MAMMOCHAT clinical validation</p>
+                        <span class="evidence-tag">Award Letter</span>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h3>INTELLECTUAL PROPERTY</h3>
+                    <div class="cv-item">
+                        <h4>38 Invention Disclosure Forms (IDFs) Filed</h4>
+                        <p>70+ disclosures documented. 4 provisional patents pending.</p>
+                    </div>
+                    <div class="cv-item">
+                        <h4>Core Inventions (Tier 1)</h4>
+                        <p>IDF-001: Constitutional Governance Framework<br>
+                        IDF-002: Multi-Model Compliance Differentiation<br>
+                        IDF-003: Compliance Proof Chaining<br>
+                        IDF-004: Producer-Consumer Bifurcation<br>
+                        IDF-005: Episodic Drift Detection<br>
+                        IDF-006: Literal Introspection</p>
+                        <span class="evidence-tag">USPTO Pending</span>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h3>MENTORS & ADVISORS</h3>
+                    <table class="cv-table">
+                        <tr><th>Name</th><th>Institution</th><th>Years</th><th>Role</th></tr>
+                        <tr><td>Junhyong Kim, Ph.D.</td><td>University of Pennsylvania</td><td>2003-2007</td><td>PhD Advisor</td></tr>
+                        <tr><td>Dwight Stambolian, M.D., Ph.D.</td><td>University of Pennsylvania</td><td>2007-2009</td><td>Post-doc Advisor</td></tr>
+                        <tr><td>Hakon Hakonarson, MD, PhD</td><td>CHOP</td><td>2010-2012</td><td>Supervisor</td></tr>
+                        <tr><td>Benjamin Pinsky, M.D., Ph.D.</td><td>Stanford</td><td>2012-2013</td><td>Residency Advisor</td></tr>
+                        <tr><td>Atul Butte, MD, PhD</td><td>Stanford/UCSF</td><td>2013-2019</td><td>Research Advisor</td></tr>
+                    </table>
+                </div>
+
+                <div class="cv-section">
+                    <h3>CO-AUTHORS</h3>
+                    <p style="color: #888; font-size: 0.85rem; line-height: 1.8;">
+                        Atul Butte (UCSF) · James Pan (Stanford) · Osama El-Sayed · Jihad Aljabban ·
+                        Tej D. Azad (Stanford) · Bin Chen · Marina Sirota (UCSF) · Mark A. Musen (Stanford) ·
+                        Joshua D. Hoffman · John S. Witte · David Metcalf (UCF) · Vikram Dhillon
+                    </p>
+                </div>
+
+                <div class="cv-section">
+                    <h3>ORGANIZATIONS</h3>
+                    <table class="cv-table">
+                        <tr><th>Organization</th><th>Role</th><th>Tier</th></tr>
+                        <tr><td>hadleylab</td><td>Owner, PI</td><td>ENTERPRISE</td></tr>
+                        <tr><td>canonic-foundation</td><td>Founder</td><td>ROOT</td></tr>
+                        <tr><td>canonic-apps</td><td>Owner</td><td>BUSINESS</td></tr>
+                        <tr><td>canonic-domains</td><td>Owner</td><td>BUSINESS</td></tr>
+                        <tr><td>canonic-adventhealth</td><td>Owner</td><td>ENTERPRISE</td></tr>
+                    </table>
+                </div>
+
+                <div class="cv-section">
+                    <h3>TIMELINE</h3>
+                    <div class="cv-timeline">
+                        <div><span class="year">1995:</span> BA begins (New College of Florida)</div>
+                        <div><span class="year">1999:</span> BA completes, MD begins (Penn)</div>
+                        <div><span class="year">2001:</span> MSE begins (Penn Systems Engineering)</div>
+                        <div><span class="year">2003:</span> MSE completes, PhD begins (Penn Genomics)</div>
+                        <div><span class="year">2007:</span> PhD completes, Post-doc begins (Penn Ophthalmology)</div>
+                        <div><span class="year">2009:</span> MD completes, Intern (Penn General Surgery)</div>
+                        <div><span class="year">2010:</span> CHOP (Lead Clinical Genomics Analyst)</div>
+                        <div><span class="year">2012:</span> Stanford Residency (Clinical Pathology)</div>
+                        <div><span class="year">2013:</span> Stanford (Atul Butte lab)</div>
+                        <div><span class="year">2015:</span> UCSF (Assistant Professor)</div>
+                        <div><span class="year">2016:</span> UCSF Bakar Institute</div>
+                        <div><span class="year">2017:</span> Bloomberg Grant → "Breast We Can!"</div>
+                        <div><span class="year">2019:</span> UCF College of Medicine (Associate Professor)</div>
+                        <div><span class="year">2024:</span> ABPM (Director of AI), FCIF Grant 354</div>
+                        <div><span class="year">2025-12:</span> CANONIC Genesis (MACHINE era)</div>
+                        <div><span class="year">2026-01:</span> CANONIC Foundation established</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </section>
 
     <footer>
@@ -195,6 +439,17 @@
 
     <a href="./CHAT/" class="chat-fab" title="Chat with VITAE"><span>∩</span></a>
 
+    <script>
+        function showView(view) {
+            // Update buttons
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.view-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(view + '-view').classList.add('active');
+        }
+    </script>
     <script src="https://canonic-foundation.github.io/assets/nav.js"></script>
 </body>
 </html>
