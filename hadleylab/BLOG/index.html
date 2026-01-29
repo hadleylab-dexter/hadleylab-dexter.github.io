@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOG | HADLEYLAB</title>
+    <link rel="stylesheet" href="https://canonic-foundation.github.io/assets/style.css">
+    <style>
+        :root {
+            --bg: #000;
+            --fg: #fff;
+            --accent: #00ff88;
+            --dim: #888;
+        }
+        body {
+            font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+            background: var(--bg);
+            color: var(--fg);
+            margin: 0;
+            padding: 0;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid #222;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+        }
+        .hero .tagline {
+            color: var(--dim);
+            font-size: 1rem;
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+        .formula {
+            background: #111;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 2rem 0;
+        }
+        .formula code {
+            color: var(--accent);
+        }
+        .post-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+        .post-list li {
+            border-bottom: 1px solid #222;
+            padding: 1.5rem 0;
+        }
+        .post-list li:last-child {
+            border-bottom: none;
+        }
+        .post-list a {
+            text-decoration: none;
+            color: var(--fg);
+            display: block;
+        }
+        .post-list a:hover h3 {
+            color: var(--accent);
+        }
+        .post-list h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+        .post-list .meta {
+            color: var(--dim);
+            font-size: 0.85rem;
+        }
+        .post-list .number {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        .post-list .excerpt {
+            margin-top: 0.5rem;
+            color: var(--dim);
+        }
+        .chat-fab {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 56px;
+            height: 56px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 1000;
+        }
+        .chat-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(0, 255, 136, 0.5);
+        }
+        .chat-fab span {
+            font-size: 1.5rem;
+            color: #000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="has-sticky-nav">
+    <nav class="topnav sticky">
+        <a href="https://hadleylab-dexter.github.io" class="topnav-brand">D</a>
+        <div class="topnav-links">
+            <a href="../VITAE/">VITAE</a>
+            <a href="../BOOK/">BOOK</a>
+            <a href="../PAPER/">PAPER</a>
+            <a href="./" class="active">BLOG</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>BLOG</h1>
+        <p class="tagline">Public narrative. Traces to evidence.</p>
+    </div>
+
+    <div class="content">
+        <div class="formula">
+            <code>BLOG = POSTS + INDEX + LEDGER + CHAT</code>
+        </div>
+
+        <ul class="post-list">
+            <li>
+                <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/BLOGS/ORIGIN/00-how-a-book-became-a-language.md">
+                    <h3><span class="number">00</span> How a Book Became a Language</h3>
+                    <div class="meta">ORIGIN</div>
+                    <div class="excerpt">The genesis story. From GenomicPython to CANONIC.</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/BLOGS/STAGING/01-constitutional-catastrophe.md">
+                    <h3><span class="number">01</span> The Constitutional Catastrophe</h3>
+                    <div class="meta">STAGING</div>
+                    <div class="excerpt">Why AI output needs compilation.</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/BLOGS/STAGING/02-governance-miners.md">
+                    <h3><span class="number">02</span> Governance Miners</h3>
+                    <div class="meta">STAGING</div>
+                    <div class="excerpt">WORK = COIN. The economic extraction.</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/BLOGS/STAGING/03-writing-is-validation.md">
+                    <h3><span class="number">03</span> Writing is Validation</h3>
+                    <div class="meta">STAGING</div>
+                    <div class="excerpt">The system that validates itself.</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <a href="./CHAT/" class="chat-fab" title="Chat about BLOG"><span>∩</span></a>
+
+    <script src="https://canonic-foundation.github.io/assets/nav.js"></script>
+</body>
+</html>

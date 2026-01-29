@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAPER CHAT | HADLEYLAB</title>
+    <link rel="stylesheet" href="https://canonic-foundation.github.io/assets/style.css">
+    <style>
+        .chat-container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+        .chat-window { background: #0a0a0a; border: 1px solid #222; border-radius: 8px; min-height: 400px; display: flex; flex-direction: column; }
+        .chat-messages { flex: 1; padding: 1.5rem; overflow-y: auto; }
+        .message { margin-bottom: 1.5rem; display: flex; gap: 1rem; }
+        .message-avatar { width: 36px; height: 36px; border-radius: 4px; background: var(--accent); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .message-content { flex: 1; }
+        .message-text { background: #111; padding: 1rem; border-radius: 8px; line-height: 1.6; }
+        .chat-input-area { padding: 1rem; border-top: 1px solid #222; display: flex; gap: 0.5rem; }
+        .chat-input { flex: 1; background: #111; border: 1px solid #333; border-radius: 8px; padding: 1rem; color: #fff; font-family: inherit; resize: none; }
+        .chat-input:focus { outline: none; border-color: var(--accent); }
+        .chat-send { background: var(--accent); color: #000; border: none; border-radius: 8px; padding: 1rem 1.5rem; font-weight: bold; cursor: pointer; }
+        .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+        .quick-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .quick-action { background: #222; border: none; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+        .quick-action:hover { background: #333; }
+    </style>
+</head>
+<body class="has-sticky-nav">
+    <nav class="topnav sticky">
+        <a href="https://hadleylab-dexter.github.io" class="topnav-brand">D</a>
+        <div class="topnav-links">
+            <a href="../../VITAE/">VITAE</a>
+            <a href="../../BOOK/">BOOK</a>
+            <a href="../" class="active">PAPER</a>
+            <a href="../../BLOG/">BLOG</a>
+        </div>
+    </nav>
+
+    <div class="chat-container">
+        <h2 style="text-align: center; margin-bottom: 2rem;">∩ Chat with PAPERS</h2>
+        <div class="chat-window">
+            <div class="chat-messages" id="messages">
+                <div class="message">
+                    <div class="message-avatar">∩</div>
+                    <div class="message-content">
+                        <div class="message-text">
+                            Welcome to PAPER Chat. Ask me about the CANONIC paper, the compiler correspondence, or the evidence archive.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <textarea class="chat-input" placeholder="Ask about the research..." rows="1"></textarea>
+                <button class="chat-send">Send</button>
+            </div>
+        </div>
+        <div class="quick-actions">
+            <button class="quick-action">Explain the three axioms</button>
+            <button class="quick-action">What is the compiler correspondence?</button>
+            <button class="quick-action">Show the evidence metrics</button>
+        </div>
+    </div>
+
+    <script src="https://canonic-foundation.github.io/assets/nav.js"></script>
+</body>
+</html>

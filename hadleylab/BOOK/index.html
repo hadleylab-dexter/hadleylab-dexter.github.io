@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOOK | HADLEYLAB</title>
+    <link rel="stylesheet" href="https://canonic-foundation.github.io/assets/style.css">
+    <style>
+        :root {
+            --bg: #000;
+            --fg: #fff;
+            --accent: #00ff88;
+            --dim: #888;
+        }
+        body {
+            font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+            background: var(--bg);
+            color: var(--fg);
+            margin: 0;
+            padding: 0;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-bottom: 1px solid #222;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+        }
+        .hero .tagline {
+            color: var(--dim);
+            font-size: 1rem;
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+        .coming-soon {
+            text-align: center;
+            padding: 4rem;
+            border: 1px dashed var(--dim);
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        .coming-soon h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .formula {
+            background: #111;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 2rem 0;
+        }
+        .formula code {
+            color: var(--accent);
+        }
+        .chat-fab {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 56px;
+            height: 56px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 1000;
+        }
+        .chat-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(0, 255, 136, 0.5);
+        }
+        .chat-fab span {
+            font-size: 1.5rem;
+            color: #000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="has-sticky-nav">
+    <nav class="topnav sticky">
+        <a href="https://hadleylab-dexter.github.io" class="topnav-brand">D</a>
+        <div class="topnav-links">
+            <a href="../VITAE/">VITAE</a>
+            <a href="./" class="active">BOOK</a>
+            <a href="../PAPER/">PAPER</a>
+            <a href="../BLOG/">BLOG</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>BOOK</h1>
+        <p class="tagline">Long-form canonical artifact</p>
+    </div>
+
+    <div class="content">
+        <div class="formula">
+            <code>BOOK = CHAPTERS + TOC + LEDGER + CHAT</code>
+        </div>
+
+        <div class="coming-soon">
+            <h2>Coming Soon</h2>
+            <p>The CANONIC book is being written.</p>
+            <p style="color: var(--dim); margin-top: 1rem;">Every chapter traces to evidence.</p>
+        </div>
+    </div>
+
+    <a href="./CHAT/" class="chat-fab" title="Chat about BOOK"><span>∩</span></a>
+
+    <script src="https://canonic-foundation.github.io/assets/nav.js"></script>
+</body>
+</html>
