@@ -5,227 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAMMOCHAT PAPER | HADLEYLAB</title>
     <link rel="stylesheet" href="https://canonic-foundation.github.io/assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
-        :root {
-            --bg: #000;
-            --fg: #fff;
-            --accent: #ff69b4;
-            --dim: #888;
-        }
-        body {
-            font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
-            background: var(--bg);
-            color: var(--fg);
-            margin: 0;
-            padding: 0;
-        }
-        .hero {
-            text-align: center;
-            padding: 4rem 1rem;
-            border-bottom: 1px solid #222;
-            background: linear-gradient(180deg, rgba(255,105,180,0.08) 0%, transparent 100%);
-        }
-        .hero .paper-badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            background: rgba(255, 105, 180, 0.15);
-            border: 1px solid var(--accent);
-            border-radius: 4px;
-            font-size: 0.7rem;
-            color: var(--accent);
-            letter-spacing: 0.15em;
-            margin-bottom: 1.5rem;
-        }
-        .hero h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: var(--fg);
-            line-height: 1.3;
-        }
-        .hero h1 span {
-            color: var(--accent);
-        }
-        .hero .subtitle {
-            color: var(--dim);
-            font-size: 1.1rem;
-            font-style: italic;
-            margin-bottom: 0.5rem;
-        }
-        .hero .date {
-            color: #555;
-            font-size: 0.85rem;
-        }
-        .hero .author {
-            margin-top: 1.5rem;
-            color: var(--fg);
-        }
-        .hero .affiliation {
-            color: var(--dim);
-            font-size: 0.85rem;
-        }
-        .content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 3rem 1rem;
-        }
-        .abstract {
-            background: #0a0a0a;
-            border: 1px solid #222;
-            border-left: 3px solid var(--accent);
-            padding: 2rem;
-            border-radius: 0 8px 8px 0;
-            margin: 2rem 0;
-        }
-        .abstract h3 {
-            color: var(--accent);
-            font-size: 0.8rem;
-            letter-spacing: 0.15em;
-            margin-bottom: 1rem;
-        }
-        .abstract p {
-            line-height: 1.8;
-            color: #ccc;
-            text-align: justify;
-        }
-        .toc {
-            margin: 3rem 0;
-        }
-        .toc h3 {
-            color: var(--accent);
-            font-size: 0.8rem;
-            letter-spacing: 0.15em;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .toc-list li {
-            border-bottom: 1px solid #222;
-        }
-        .toc-list li:last-child {
-            border-bottom: none;
-        }
-        .toc-list a {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            text-decoration: none;
-            color: var(--fg);
-            transition: all 0.2s;
-        }
-        .toc-list a:hover {
-            color: var(--accent);
-            padding-left: 0.5rem;
-        }
-        .toc-list .chapter-num {
-            color: var(--accent);
-            font-weight: bold;
-            margin-right: 1rem;
-        }
-        .toc-list .chapter-title {
-            flex: 1;
-        }
-        .toc-list .chapter-arrow {
-            color: #444;
-        }
-        .evidence-section {
-            margin: 3rem 0;
-        }
-        .evidence-section h3 {
-            color: var(--accent);
-            font-size: 0.8rem;
-            letter-spacing: 0.15em;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .evidence-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-        .evidence-card {
-            background: #0a0a0a;
-            border: 1px solid #222;
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s;
-        }
-        .evidence-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-        .evidence-card .label {
-            color: var(--accent);
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.5rem;
-        }
-        .evidence-card .value {
-            font-size: 1.1rem;
-            color: var(--fg);
-        }
-        .evidence-card .meta {
-            color: #555;
-            font-size: 0.75rem;
-            margin-top: 0.5rem;
-        }
-        .cta-section {
-            text-align: center;
-            margin: 3rem 0;
-            padding: 2rem;
-            background: #0a0a0a;
-            border-radius: 8px;
-        }
-        .cta-button {
-            display: inline-block;
-            background: var(--accent);
-            color: #000;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin: 0.5rem;
-            transition: all 0.3s;
-        }
-        .cta-button:hover {
-            transform: scale(1.05);
-        }
-        .cta-button.secondary {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-        }
-        .chat-fab {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            width: 56px;
-            height: 56px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 4px 20px rgba(255, 105, 180, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
-            z-index: 1000;
-        }
-        .chat-fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(255, 105, 180, 0.5);
-        }
-        .chat-fab span {
-            font-size: 1.5rem;
-            color: #000;
-            font-weight: bold;
-        }
+        :root { --bg: #000; --fg: #fff; --accent: #ff69b4; --dim: #888; }
+        body { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace; background: var(--bg); color: var(--fg); margin: 0; padding: 0; }
+        .hero { text-align: center; padding: 4rem 1rem 2rem; border-bottom: 1px solid #222; background: linear-gradient(180deg, rgba(255,105,180,0.08) 0%, transparent 100%); }
+        .hero .paper-badge { display: inline-block; padding: 0.3rem 0.8rem; background: rgba(255, 105, 180, 0.15); border: 1px solid var(--accent); border-radius: 4px; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 1.5rem; }
+        .hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--fg); line-height: 1.3; }
+        .hero h1 span { color: var(--accent); }
+        .hero .subtitle { color: var(--dim); font-size: 1.1rem; font-style: italic; margin-bottom: 0.5rem; }
+        .hero .date { color: #555; font-size: 0.85rem; }
+        .hero .author { margin-top: 1rem; color: var(--fg); }
+        .hero .affiliation { color: var(--dim); font-size: 0.85rem; }
+        .hero .token-def { margin-top: 1rem; color: var(--accent); font-size: 0.8rem; letter-spacing: 0.1em; }
+        .view-toggle { display: flex; justify-content: center; gap: 0; margin: 2rem auto; max-width: 400px; }
+        .view-btn { background: #111; border: 1px solid #333; padding: 0.6rem 1.5rem; color: #666; font-size: 0.8rem; letter-spacing: 0.1em; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+        .view-btn:first-child { border-radius: 4px 0 0 4px; }
+        .view-btn:nth-child(2) { border-left: none; border-right: none; }
+        .view-btn:last-child { border-radius: 0 4px 4px 0; }
+        .view-btn.active { background: var(--accent); border-color: var(--accent); color: #000; }
+        .view-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+        .view-content { display: none; }
+        .view-content.active { display: block; }
+        .content { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+        .abstract-box { background: #0a0a0a; border: 1px solid #222; border-left: 3px solid var(--accent); padding: 2rem; border-radius: 0 8px 8px 0; margin: 2rem 0; }
+        .abstract-box h3 { color: var(--accent); font-size: 0.8rem; letter-spacing: 0.15em; margin-bottom: 1rem; }
+        .abstract-box p { line-height: 1.8; color: #ccc; text-align: justify; }
+        .section-title { color: var(--accent); font-size: 0.8rem; letter-spacing: 0.15em; margin: 3rem 0 1.5rem; text-align: center; }
+        .toc-list { list-style: none; padding: 0; margin: 0; }
+        .toc-list li { border-bottom: 1px solid #222; }
+        .toc-list li:last-child { border-bottom: none; }
+        .toc-list a { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; text-decoration: none; color: var(--fg); transition: all 0.2s; }
+        .toc-list a:hover { color: var(--accent); padding-left: 0.5rem; }
+        .toc-list .chapter-num { color: var(--accent); font-weight: bold; margin-right: 1rem; min-width: 2rem; }
+        .toc-list .chapter-title { flex: 1; }
+        .toc-list .chapter-arrow { color: #444; }
+        .evidence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .evidence-card { background: #0a0a0a; border: 1px solid #222; border-radius: 8px; padding: 1.25rem; text-decoration: none; color: inherit; transition: all 0.3s; }
+        .evidence-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .evidence-card .label { color: var(--accent); font-size: 0.65rem; letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+        .evidence-card .value { font-size: 1rem; color: var(--fg); }
+        .evidence-card .meta { color: #555; font-size: 0.7rem; margin-top: 0.3rem; }
+        .cta-section { text-align: center; margin: 2rem 0; padding: 1.5rem; background: #0a0a0a; border-radius: 8px; }
+        .cta-button { display: inline-block; background: var(--accent); color: #000; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 0.3rem; transition: all 0.3s; font-size: 0.9rem; }
+        .cta-button:hover { transform: scale(1.05); }
+        .cta-button.secondary { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+        .chapter { margin: 3rem 0; padding: 2rem; background: #0a0a0a; border-radius: 8px; border: 1px solid #222; }
+        .chapter h2 { color: var(--accent); font-size: 1.2rem; margin-bottom: 1.5rem; }
+        .chapter h3 { color: var(--fg); font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+        .chapter p { line-height: 1.8; color: #ccc; margin-bottom: 1rem; }
+        .chapter blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: var(--accent); }
+        .chapter ul { margin: 1rem 0; padding-left: 1.5rem; color: #ccc; }
+        .chapter li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .mermaid { background: #111; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; text-align: center; }
+        .vignette { background: #111; border-left: 3px solid var(--accent); padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+        .vignette-name { color: var(--accent); font-weight: bold; margin-bottom: 0.5rem; }
+        .chat-fab { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 20px rgba(255, 105, 180, 0.3); transition: transform 0.3s, box-shadow 0.3s; z-index: 1000; }
+        .chat-fab:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(255, 105, 180, 0.5); }
+        .chat-fab span { font-size: 1.5rem; color: #000; font-weight: bold; }
     </style>
 </head>
 <body class="has-sticky-nav">
@@ -241,122 +78,325 @@
     </nav>
 
     <div class="hero">
-        <span class="paper-badge">WHITEPAPER — CANONIC ORIGIN</span>
+        <div style="background: rgba(255,105,180,0.1); border: 1px solid var(--accent); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.85rem;">
+            <strong style="color: var(--accent);">POST-CANONIC NOTICE:</strong> This whitepaper (October 2025) predates CANONIC v1.0 (December 2025). The <strong>OPTS-EGO Ledger</strong> described here became the foundational architecture for the CANONIC Programming Paradigm. Read this as the origin document—the "Satoshi paper" of constitutional AI governance—where empathy, provenance, and consent first converged into a unified token system.
+        </div>
+        <span class="paper-badge">WHITEPAPER — PRE-CANONIC ORIGIN</span>
         <h1><span>MammoChat</span> OPTS-EGO Ledger</h1>
         <p class="subtitle">Closing Breast Cancer Awareness Month with Open Data</p>
         <p class="date">October 31, 2025</p>
         <p class="author">Dexter Hadley, MD/PhD</p>
         <p class="affiliation">Founder & CEO, MammoChat | Lake Nona Medical City, Florida</p>
-        <p style="margin-top: 1.5rem; color: var(--accent); font-size: 0.85rem; letter-spacing: 0.1em;">OPTS = Open Provenance Token Standard | EGO = Ethical Governance Operators</p>
+        <p class="token-def">OPTS = Open Provenance Token Standard | EGO = Ethical Governance Operators</p>
     </div>
 
-    <div class="content">
-        <div class="abstract">
-            <h3>ABSTRACT</h3>
-            <p>MammoChat is a patient-centered AI platform that unites compassion, compliance, and computation to create a provenance-driven network for women's health. At its core, the <strong>OPTS-EGO Ledger</strong> transforms each mammogram, biopsy, and clinical note into a verifiable, patient-consented data token. Using <strong>mCODE</strong> (Minimal Common Oncology Data Elements), records are standardized, cryptographically notarized, and shareable under transparent consent—turning regulatory rights into real patient agency. Through a multilingual interface and community matching, the platform connects women to culturally concordant support and clinical trials. We are raising a $12M Series A to demonstrate commercial scalability of MammoChat to validate expected improvements in anxiety, depression, and trial participation. Public deliverables, including those seeded by Florida's <strong>$2M Casey DeSantis Cancer Innovation Grant</strong>, are registered as <strong>OPTS-Grant Tokens</strong>, linking taxpayer investment to open-source innovation and measurable patient benefit.</p>
-        </div>
+    <div class="view-toggle">
+        <button class="view-btn active" onclick="showView('abstract')">ABSTRACT</button>
+        <button class="view-btn" onclick="showView('summary')">SUMMARY</button>
+        <button class="view-btn" onclick="showView('full')">FULL PAPER</button>
+    </div>
 
-        <div class="toc">
-            <h3>TABLE OF CONTENTS</h3>
+    <!-- ABSTRACT VIEW -->
+    <div id="abstract-view" class="view-content active">
+        <div class="content">
+            <div class="abstract-box">
+                <h3>ABSTRACT</h3>
+                <p>MammoChat is a patient-centered AI platform that unites compassion, compliance, and computation to create a provenance-driven network for women's health. At its core, the <strong>OPTS-EGO Ledger</strong> transforms each mammogram, biopsy, and clinical note into a verifiable, patient-consented data token. Using <strong>mCODE</strong> (Minimal Common Oncology Data Elements), records are standardized, cryptographically notarized, and shareable under transparent consent—turning regulatory rights into real patient agency. Through a multilingual interface and community matching, the platform connects women to culturally concordant support and clinical trials. We are raising a $12M Series A to demonstrate commercial scalability of MammoChat to validate expected improvements in anxiety, depression, and trial participation. Public deliverables, including those seeded by Florida's <strong>$2M Casey DeSantis Cancer Innovation Grant</strong>, are registered as <strong>OPTS-Grant Tokens</strong>, linking taxpayer investment to open-source innovation and measurable patient benefit.</p>
+            </div>
+            <div class="cta-section">
+                <a href="https://github.com/canonic-apps/canonic/raw/main/STORE/PAPERS/MAMMOCHAT/arxiv/mammochat-arxiv.zip" class="cta-button">Download Paper</a>
+                <a href="./CHAT/" class="cta-button secondary">Chat with Paper</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUMMARY VIEW -->
+    <div id="summary-view" class="view-content">
+        <div class="content">
+            <div class="abstract-box">
+                <h3>ABSTRACT</h3>
+                <p>MammoChat is a patient-centered AI platform that unites compassion, compliance, and computation to create a provenance-driven network for women's health. At its core, the <strong>OPTS-EGO Ledger</strong> transforms each mammogram, biopsy, and clinical note into a verifiable, patient-consented data token.</p>
+            </div>
+
+            <h3 class="section-title">TABLE OF CONTENTS</h3>
             <ul class="toc-list">
-                <li>
-                    <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/PAPERS/MAMMOCHAT/tex/01_founders_preface.tex">
-                        <span class="chapter-num">01</span>
-                        <span class="chapter-title">Founder's Preface: From Awareness to Agency</span>
-                        <span class="chapter-arrow">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/PAPERS/MAMMOCHAT/tex/02_policy_landscape.tex">
-                        <span class="chapter-num">02</span>
-                        <span class="chapter-title">The National Policy Landscape: From Compliance to Connection</span>
-                        <span class="chapter-arrow">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/PAPERS/MAMMOCHAT/tex/03_mcode_provenance.tex">
-                        <span class="chapter-num">03</span>
-                        <span class="chapter-title">mCODE and Oncology Data Provenance</span>
-                        <span class="chapter-arrow">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/PAPERS/MAMMOCHAT/tex/04_public_funding_innovation.tex">
-                        <span class="chapter-num">04</span>
-                        <span class="chapter-title">Public Funding & Innovation</span>
-                        <span class="chapter-arrow">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/PAPERS/MAMMOCHAT/tex/05_icorps_market.tex">
-                        <span class="chapter-num">05</span>
-                        <span class="chapter-title">I-Corps Market Validation</span>
-                        <span class="chapter-arrow">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/PAPERS/MAMMOCHAT/tex/06_empathy_architecture.tex">
-                        <span class="chapter-num">06</span>
-                        <span class="chapter-title">The Empathy Architecture</span>
-                        <span class="chapter-arrow">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/PAPERS/MAMMOCHAT/tex/07_precision_medicine_economy.tex">
-                        <span class="chapter-num">07</span>
-                        <span class="chapter-title">The Precision Medicine Economy</span>
-                        <span class="chapter-arrow">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/PAPERS/MAMMOCHAT/tex/08_roadmap.tex">
-                        <span class="chapter-num">08</span>
-                        <span class="chapter-title">Roadmap</span>
-                        <span class="chapter-arrow">→</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/canonic-apps/canonic/blob/main/STORE/PAPERS/MAMMOCHAT/tex/09_appendix.tex">
-                        <span class="chapter-num">09</span>
-                        <span class="chapter-title">Appendix</span>
-                        <span class="chapter-arrow">→</span>
-                    </a>
-                </li>
+                <li><a href="#ch1"><span class="chapter-num">01</span><span class="chapter-title">Founder's Preface: From Awareness to Agency</span><span class="chapter-arrow">→</span></a></li>
+                <li><a href="#ch2"><span class="chapter-num">02</span><span class="chapter-title">The National Policy Landscape</span><span class="chapter-arrow">→</span></a></li>
+                <li><a href="#ch3"><span class="chapter-num">03</span><span class="chapter-title">mCODE and Oncology Data Provenance</span><span class="chapter-arrow">→</span></a></li>
+                <li><a href="#ch4"><span class="chapter-num">04</span><span class="chapter-title">Public Funding & Innovation</span><span class="chapter-arrow">→</span></a></li>
+                <li><a href="#ch5"><span class="chapter-num">05</span><span class="chapter-title">I-Corps Market Validation</span><span class="chapter-arrow">→</span></a></li>
+                <li><a href="#ch6"><span class="chapter-num">06</span><span class="chapter-title">The Empathy Architecture</span><span class="chapter-arrow">→</span></a></li>
+                <li><a href="#ch7"><span class="chapter-num">07</span><span class="chapter-title">The Precision Medicine Economy</span><span class="chapter-arrow">→</span></a></li>
+                <li><a href="#ch8"><span class="chapter-num">08</span><span class="chapter-title">Implementation Roadmap (2025-2030)</span><span class="chapter-arrow">→</span></a></li>
             </ul>
-        </div>
 
-        <div class="evidence-section">
-            <h3>EVIDENCE TRAIL</h3>
+            <h3 class="section-title">EVIDENCE TRAIL</h3>
             <div class="evidence-grid">
                 <a href="https://clinicaltrials.gov/study/NCT06604078" class="evidence-card">
                     <div class="label">CLINICAL TRIAL</div>
                     <div class="value">NCT06604078</div>
-                    <div class="meta">ClinicalTrials.gov | Active</div>
+                    <div class="meta">Active</div>
                 </a>
                 <a href="../VITAE/?view=full#grants" class="evidence-card">
                     <div class="label">GRANT</div>
                     <div class="value">$2M FCIF</div>
-                    <div class="meta">Casey DeSantis Cancer Innovation Fund</div>
+                    <div class="meta">Casey DeSantis</div>
                 </a>
                 <a href="https://mammochat.com" class="evidence-card">
                     <div class="label">PRODUCT</div>
                     <div class="value">MammoChat.com</div>
-                    <div class="meta">Live Platform | Waitlist Open</div>
+                    <div class="meta">Live</div>
                 </a>
                 <a href="https://github.com/canonic-apps/canonic/tree/main/STORE/PAPERS/MAMMOCHAT" class="evidence-card">
                     <div class="label">SOURCE</div>
-                    <div class="value">LaTeX + BibTeX</div>
-                    <div class="meta">Full Paper Repository</div>
+                    <div class="value">LaTeX</div>
+                    <div class="meta">GitHub</div>
                 </a>
             </div>
-        </div>
 
-        <div class="cta-section">
-            <a href="https://github.com/canonic-apps/canonic/raw/main/STORE/PAPERS/MAMMOCHAT/arxiv/mammochat-arxiv.zip" class="cta-button">Download Paper (arXiv)</a>
-            <a href="./CHAT/" class="cta-button secondary">Chat with Paper</a>
+            <div class="cta-section">
+                <a href="https://github.com/canonic-apps/canonic/raw/main/STORE/PAPERS/MAMMOCHAT/arxiv/mammochat-arxiv.zip" class="cta-button">Download Paper</a>
+                <button class="cta-button secondary" onclick="showView('full')">Read Full Paper</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULL PAPER VIEW -->
+    <div id="full-view" class="view-content">
+        <div class="content">
+            <!-- Chapter 1: Founder's Preface -->
+            <div class="chapter" id="ch1">
+                <h2>01. Founder's Preface: From Awareness to Agency</h2>
+
+                <div class="vignette">
+                    <div class="vignette-name">Maria - 47-year-old woman</div>
+                    <p>Maria is a 47-year-old Catholic schoolteacher from Colombia who presented after a screening mammogram revealed a unilateral asymmetry. Biopsy confirmed <strong>stage I luminal A breast cancer</strong>. After her divorce, she relocated to Florida but reported feeling <strong>isolated, anxious, and fearful</strong>. Her portals were English-only, and fragmented communication added to her distress.</p>
+                </div>
+
+                <div class="vignette">
+                    <div class="vignette-name">Zaida - 52-year-old woman</div>
+                    <p>Zaida is a 52-year-old software engineer of Pakistani heritage. Her biopsy revealed <strong>node-positive, HER2-positive invasive ductal carcinoma</strong>. Although her treatment was technologically advanced, Zaida described feeling <strong>"watched but not understood."</strong> Frequent alerts disrupted her work and prayer routines.</p>
+                </div>
+
+                <p><strong>The Problem.</strong> Maria's silence came from language—a maze of English-only portals. Zaida's noise came from automation—constant alerts that left her unheard. Both experienced fear and isolation within systems built to measure but not to understand.</p>
+
+                <p><strong>The Vision.</strong> MammoChat fuses <strong>clinical medicine, artificial intelligence, and empathy by design.</strong> Every feature follows one organizing principle: <em>listen first, explain clearly, act last.</em></p>
+
+                <div class="mermaid">
+                    flowchart LR
+                        A[Listen] --> B[Explain]
+                        B --> C[Act]
+                        C --> D[Trust]
+                        D --> A
+                </div>
+
+                <p><strong>From Compliance to Capability.</strong> The <strong>OPTS-EGO Ledger</strong> records every mammogram, biopsy, and lab note as a verified, patient-owned contribution to science. OPTS ensures traceable data lineage; EGO secures integrity and consent validation.</p>
+
+                <blockquote>"We don't build empathy on top of technology. We build technology on top of empathy."</blockquote>
+            </div>
+
+            <!-- Chapter 2: Policy Landscape -->
+            <div class="chapter" id="ch2">
+                <h2>02. The National Policy Landscape</h2>
+
+                <p>Over the last three decades, the United States has built one of the most intricate frameworks for digital health data. MammoChat exists to operationalize those rights, converting compliance into connection.</p>
+
+                <div class="mermaid">
+                    flowchart LR
+                        HIPAA --> HITECH
+                        HITECH --> CURES["21st Cures"]
+                        CURES --> NIH["NIH DMS"]
+                        NIH --> FHIR["FHIR/mCODE"]
+                        FHIR --> TEFCA["TEFCA/USCDI"]
+                </div>
+
+                <h3>Key Policy Milestones</h3>
+                <ul>
+                    <li><strong>HIPAA (1996)</strong> - Privacy Rule established access rights for PHI</li>
+                    <li><strong>HITECH (2009)</strong> - Breach notification, EHR incentives</li>
+                    <li><strong>21st Century Cures Act (2016)</strong> - Information blocking became punishable</li>
+                    <li><strong>NIH DMS Policy (2023)</strong> - Dataset-based accountability</li>
+                    <li><strong>America's AI Action Plan (2025)</strong> - Trustworthy AI development</li>
+                </ul>
+
+                <blockquote>"Compliance protects privacy; capability protects people."</blockquote>
+            </div>
+
+            <!-- Chapter 3: mCODE and Provenance -->
+            <div class="chapter" id="ch3">
+                <h2>03. mCODE and Oncology Data Provenance</h2>
+
+                <p>Every language has grammar. In cancer care, that grammar is <strong>mCODE</strong>—the Minimal Common Oncology Data Elements. It defines how tumors, treatments, and outcomes are described in digital form.</p>
+
+                <div class="mermaid">
+                    flowchart LR
+                        A["mCODE Object"] -->|"hash & sign"| B["OPTS Token"]
+                        B -->|"record & verify"| C["EGO Ledger"]
+                </div>
+
+                <p>For each record, we define an <strong>Open Provenance Token Standard (OPTS)</strong> object:</p>
+                <p style="text-align: center; font-family: monospace; color: var(--accent);">OPTS<sub>i</sub> = (D<sub>i</sub>, M<sub>i</sub>, σ<sub>i</sub>, τ<sub>i</sub>)</p>
+                <p>where D is the content-addressed hash, M is mCODE metadata, σ is the patient's signature, and τ is the consent timestamp.</p>
+
+                <blockquote>"Structure without provenance is information; provenance with consent is power."</blockquote>
+            </div>
+
+            <!-- Chapter 4: Public Funding -->
+            <div class="chapter" id="ch4">
+                <h2>04. Public Funding Provenance Innovation</h2>
+
+                <p>Public investment in science is society's boldest act of faith. The <strong>OPTS-Grant Registry</strong> transforms this expectation into a measurable framework.</p>
+
+                <div class="mermaid">
+                    flowchart LR
+                        A["Public Funding"] -->|"Award"| B["Research Output"]
+                        B -->|"Hash & Sign"| C["OPTS-Grant Token"]
+                        C -->|"Register"| D["Innovation Reuse"]
+                        D -->|"Deploy"| E["Patient Benefit"]
+                </div>
+
+                <h3>MammoChat Deliverables</h3>
+                <ul>
+                    <li><strong>D1 - mCODE Translator:</strong> Converts clinical text into mCODE-compliant JSON</li>
+                    <li><strong>D2 - Community Empathy Model:</strong> Multilingual conversational agent</li>
+                    <li><strong>D3 - OPTS-EGO Prototype Ledger:</strong> Open-source blockchain module</li>
+                </ul>
+
+                <blockquote>"Public trust is the ultimate currency of healthcare. Provenance is how we earn it back."</blockquote>
+            </div>
+
+            <!-- Chapter 5: I-Corps Market -->
+            <div class="chapter" id="ch5">
+                <h2>05. I-Corps Market Validation</h2>
+
+                <p>MammoChat's market strategy was born in conversation—more than <strong>80 structured interviews</strong> under the NSF I-Corps program. One truth spanned every segment: <em>trust is the scarcest commodity in medicine.</em></p>
+
+                <h3>Market Segments</h3>
+                <ul>
+                    <li><strong>Patients:</strong> Trust, language, and belonging</li>
+                    <li><strong>Providers:</strong> Efficiency and liability reduction</li>
+                    <li><strong>Payors:</strong> Transparency and outcome metrics</li>
+                    <li><strong>Pharma:</strong> Recruitment and real-world data</li>
+                    <li><strong>Developers:</strong> Standardization and open APIs</li>
+                    <li><strong>Regulators:</strong> Enforcement and verification</li>
+                </ul>
+
+                <p><strong>TAM:</strong> $12B+ in the US, $50B+ globally by 2030</p>
+
+                <blockquote>"Trust is the product. AI is the interface. Provenance is the proof."</blockquote>
+            </div>
+
+            <!-- Chapter 6: Empathy Architecture -->
+            <div class="chapter" id="ch6">
+                <h2>06. The Empathy Architecture</h2>
+
+                <p>Medicine begins with listening. Technology, for too long, has not. MammoChat was designed to deliver information <em>kindly</em>.</p>
+
+                <h3>Core Principles</h3>
+                <ul>
+                    <li><strong>Acknowledge Before Advise</strong> - Emotional validation first</li>
+                    <li><strong>Listen in Language</strong> - Seamless bilingual switching</li>
+                    <li><strong>Transparency in Data</strong> - Explain where information comes from</li>
+                    <li><strong>Cultural Neutrality</strong> - Reviewed for inclusivity</li>
+                    <li><strong>Empower, Don't Prescribe</strong> - Preserve patient autonomy</li>
+                </ul>
+
+                <div class="mermaid">
+                    flowchart LR
+                        A["Acknowledge"] --> B["Clarify"]
+                        B --> C["Empower"]
+                        C --> D["Reinforce"]
+                        D -->|"feedback loop"| A
+                </div>
+
+                <blockquote>"We don't build empathy on top of technology. We build technology on top of empathy."</blockquote>
+            </div>
+
+            <!-- Chapter 7: Precision Medicine Economy -->
+            <div class="chapter" id="ch7">
+                <h2>07. The Precision Medicine Economy</h2>
+
+                <p>In the 21st century, wealth will be built on <strong>data and trust</strong>. MammoChat defines a new class of asset: the <em>verified, patient-consented data token</em>.</p>
+
+                <div class="mermaid">
+                    flowchart TB
+                        A["Patients"] -->|"consent & data"| B["Researchers"]
+                        B -->|"discoveries"| C["Pharma"]
+                        C -->|"innovation"| D["Funders"]
+                        D -->|"grants & equity"| A
+                </div>
+
+                <p><strong>Patient Return Formula:</strong></p>
+                <p style="text-align: center; font-family: monospace; color: var(--accent);">R<sub>p</sub> = αI + βS + γD</p>
+                <p>where I = intangible impact, S = social value, D = data-derived royalty</p>
+
+                <blockquote>"Data built the 21st century. Empathy will own it."</blockquote>
+            </div>
+
+            <!-- Chapter 8: Roadmap -->
+            <div class="chapter" id="ch8">
+                <h2>08. Implementation Roadmap (2025-2030)</h2>
+
+                <div class="mermaid">
+                    timeline
+                        title MammoChat Roadmap
+                        2025 Q4 : Public Launch
+                               : MammoChat.com
+                               : OPTS-EGO v1.0
+                        2026 : Clinical Demo
+                             : $12M Series A
+                             : Hospital Pilots
+                        2027 : National Expansion
+                             : NIH Integration
+                             : AI Trust Audit
+                        2028 : Global Partnerships
+                             : WHO Network
+                             : GDPR Compliance
+                        2029 : Series B
+                             : 1M Users
+                             : Developer SDK
+                        2030 : Global DAO
+                             : Patient-Owned AI
+                             : MammoChat Foundation
+                </div>
+
+                <h3>Key Milestones</h3>
+                <ul>
+                    <li><strong>2025 Q4:</strong> Public launch on Halloween - MammoChat.com + OPTS-EGO v1.0</li>
+                    <li><strong>2026:</strong> $12M Series A, hospital pilots in FL/CA</li>
+                    <li><strong>2027:</strong> National expansion, NIH/ONC integration</li>
+                    <li><strong>2028:</strong> Global partnerships via WHO Digital Health Ethics Network</li>
+                    <li><strong>2029:</strong> Series B, 1M verified users, Developer SDK</li>
+                    <li><strong>2030:</strong> Transition to patient-owned DAO with tokenized attribution</li>
+                </ul>
+            </div>
+
+            <div class="cta-section">
+                <a href="https://github.com/canonic-apps/canonic/raw/main/STORE/PAPERS/MAMMOCHAT/arxiv/mammochat-arxiv.zip" class="cta-button">Download Full Paper (arXiv)</a>
+                <a href="./CHAT/" class="cta-button secondary">Chat with Paper</a>
+            </div>
         </div>
     </div>
 
     <a href="./CHAT/" class="chat-fab" title="Chat about MAMMOCHAT"><span>M</span></a>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#ff69b4', primaryTextColor: '#fff', primaryBorderColor: '#ff69b4', lineColor: '#ff69b4', secondaryColor: '#111', tertiaryColor: '#222' }});
+
+        function showView(view) {
+            document.querySelectorAll('.view-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(view + '-view').classList.add('active');
+            event.target.classList.add('active');
+            if (view === 'full') {
+                setTimeout(() => mermaid.init(undefined, document.querySelectorAll('.mermaid')), 100);
+            }
+        }
+
+        // Handle URL params
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('view') === 'summary') showView('summary');
+        if (params.get('view') === 'full') showView('full');
+    </script>
 </body>
 </html>
