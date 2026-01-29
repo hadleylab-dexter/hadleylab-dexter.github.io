@@ -173,6 +173,7 @@
         <div class="quick-actions">
             <button class="quick-btn" onclick="askQuestion('Where did he train?')">Education</button>
             <button class="quick-btn" onclick="askQuestion('What does he do as a doctor?')">Clinical Work</button>
+            <button class="quick-btn" onclick="askQuestion('What papers has he published?')">Publications</button>
             <button class="quick-btn" onclick="askQuestion('What is MAMMOCHAT?')">MAMMOCHAT</button>
             <button class="quick-btn" onclick="askQuestion('What is CANONIC?')">CANONIC</button>
         </div>
@@ -190,8 +191,94 @@
         <p><a href="../EVO/">EVO</a> | <a href="https://canonic-foundation.github.io">CANONIC</a></p>
     </footer>
 
+    <a href="../" class="chat-fab" title="Back to VITAE"><span>←</span></a>
+
     <script>
         // Source: https://github.com/hadleylab/hadleylab-dexter/blob/main/VITAE/VITAE.md
+
+        // PUBLICATION INDEX
+        const publications = [
+            {
+                id: 'hadley2016',
+                year: 2016,
+                title: 'Precision annotation of digital samples in NCBI\'s gene expression omnibus',
+                journal: 'Oncotarget',
+                citation: 'Oncotarget 7(14):17562-17571',
+                topic: 'bioinformatics',
+                keywords: ['gene expression', 'ncbi', 'geo', 'annotation', 'samples', 'digital', 'oncotarget'],
+                coauthors: ['Atul Butte', 'James Pan', 'Osama El-Sayed', 'Jihad Aljabban', 'Tej D. Azad', 'Bin Chen', 'Marina Sirota', 'Mark A. Musen'],
+                summary: 'This paper describes methods for automatically annotating biological samples in large public databases like NCBI GEO, making it easier for researchers to find and use existing data.'
+            },
+            {
+                id: 'hoffman2017',
+                year: 2017,
+                title: 'Cis-eQTL-based trans-ethnic meta-analysis reveals novel genes associated with breast cancer risk',
+                journal: 'PLoS Genetics',
+                citation: 'PLoS Genetics 13(3):e1006690',
+                pmid: '28362817',
+                topic: 'breast cancer genetics',
+                keywords: ['breast cancer', 'eqtl', 'genetics', 'trans-ethnic', 'meta-analysis', 'risk', 'genes', 'plos'],
+                coauthors: ['Joshua D. Hoffman', 'John S. Witte'],
+                summary: 'This study identified new genes linked to breast cancer risk by analyzing genetic data across different ethnic populations. It helps explain why some people are more likely to develop breast cancer.'
+            },
+            {
+                id: 'aljabban2019',
+                year: 2019,
+                title: 'Tumorigenesis Related Gene Identification in Dermatomyositis Using Meta-Analysis',
+                journal: 'Arthritis & Rheumatology',
+                citation: 'Arthritis & Rheumatology',
+                topic: 'autoimmune disease',
+                keywords: ['dermatomyositis', 'autoimmune', 'tumorigenesis', 'cancer', 'arthritis', 'meta-analysis', 'genes'],
+                coauthors: ['Jihad Aljabban'],
+                summary: 'This research identified genes that might explain the connection between dermatomyositis (an autoimmune disease) and increased cancer risk. It could help doctors better monitor patients with this condition.'
+            },
+            {
+                id: 'aljabban2020',
+                year: 2020,
+                title: 'Novel therapeutic avenues for cholangiocarcinoma treatment',
+                journal: 'Journal of Clinical Oncology',
+                citation: 'J Clin Oncol 38(4_suppl):584',
+                doi: '10.1200/jco.2020.38.4_suppl.584',
+                topic: 'bile duct cancer',
+                keywords: ['cholangiocarcinoma', 'bile duct', 'cancer', 'therapy', 'treatment', 'jco', 'oncology'],
+                coauthors: ['Jihad Aljabban'],
+                summary: 'This paper explores new treatment options for cholangiocarcinoma (bile duct cancer), a rare but aggressive cancer with limited treatment options.'
+            },
+            {
+                id: 'metcalf2024',
+                year: 2024,
+                title: 'ABC: AI, Blockchain, and Cybersecurity for Healthcare',
+                journal: 'Productivity Press',
+                citation: 'Productivity Press (Book)',
+                topic: 'healthcare technology',
+                keywords: ['ai', 'blockchain', 'cybersecurity', 'healthcare', 'book', 'technology', 'security', 'abc'],
+                coauthors: ['David Metcalf', 'Vikram Dhillon'],
+                summary: 'A comprehensive book explaining how artificial intelligence, blockchain technology, and cybersecurity can work together to improve healthcare. Written for both technical and non-technical readers.'
+            }
+        ];
+
+        // In preparation
+        const manuscripts = [
+            {
+                id: 'canonic2026',
+                year: 2026,
+                title: 'CANONIC: Constitutional Governance for Human-AI Collaborative Systems',
+                status: 'Ready',
+                topic: 'AI governance',
+                keywords: ['canonic', 'constitutional', 'governance', 'ai', 'collaboration', 'systems'],
+                summary: 'This upcoming paper describes CANONIC, a new framework for making AI systems trustworthy through constitutional governance principles.'
+            },
+            {
+                id: 'mammochat2026',
+                year: 2026,
+                title: 'MAMMOCHAT: Clinical Breast Imaging AI',
+                status: 'Ready',
+                topic: 'clinical AI',
+                keywords: ['mammochat', 'breast', 'imaging', 'ai', 'clinical', 'mammography'],
+                summary: 'This paper describes MAMMOCHAT, an AI assistant designed to help breast cancer care teams communicate with patients and coordinate care.'
+            }
+        ];
+
         const responses = {
             'education': `<strong>Education</strong>
                 <br><br>
@@ -210,13 +297,22 @@
                 <br><br>
                 Previously, he was a professor at UCF College of Medicine and UCSF, and worked at Stanford and Children's Hospital of Philadelphia.`,
 
-            'publications': `<strong>Research & Writing</strong>
+            'publications': `<strong>Publications</strong>
                 <br><br>
-                Dr. Hadley has published research on cancer genetics and AI in medicine in scientific journals.
+                Dr. Hadley has published research on cancer genetics, bioinformatics, and AI in healthcare:
                 <br><br>
-                He also wrote a book in 2024 about how AI, blockchain, and cybersecurity can improve healthcare.
+                <strong>Peer-Reviewed Papers:</strong>
+                <br>• <em>Precision annotation of digital samples in NCBI's GEO</em> (2016) — Oncotarget
+                <br>• <em>Breast cancer risk genes via trans-ethnic meta-analysis</em> (2017) — PLoS Genetics
+                <br>• <em>Tumorigenesis genes in dermatomyositis</em> (2019) — Arthritis & Rheumatology
+                <br>• <em>Novel therapies for cholangiocarcinoma</em> (2020) — J Clin Oncol
                 <br><br>
-                You can find his publications on <a href="https://ncbi.nlm.nih.gov/myncbi/dexter.hadley.1/bibliography/public">PubMed</a> and <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ&hl">Google Scholar</a>.`,
+                <strong>Book:</strong>
+                <br>• <em>AI, Blockchain, and Cybersecurity for Healthcare</em> (2024) — Productivity Press
+                <br><br>
+                Ask me about any specific paper for more details!
+                <br><br>
+                <a href="https://ncbi.nlm.nih.gov/myncbi/dexter.hadley.1/bibliography/public">PubMed</a> · <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ&hl">Google Scholar</a>`,
 
             'grants': `<strong>Research Funding</strong>
                 <br><br>
@@ -242,7 +338,14 @@
 
             'coauthors': `<strong>Collaborators</strong>
                 <br><br>
-                Dr. Hadley works with researchers at top institutions including Stanford, UCSF, and UCF on projects related to cancer research, AI in medicine, and healthcare technology.`,
+                Dr. Hadley works with researchers at top institutions including Stanford, UCSF, and UCF on projects related to cancer research, AI in medicine, and healthcare technology.
+                <br><br>
+                Key collaborators include:
+                <br>• <strong>Atul Butte</strong> (UCSF) — big data in medicine
+                <br>• <strong>James Pan</strong> (Stanford) — bioinformatics
+                <br>• <strong>Marina Sirota</strong> (UCSF) — computational biology
+                <br>• <strong>Mark Musen</strong> (Stanford) — medical informatics
+                <br>• <strong>David Metcalf</strong> (UCF) — healthcare technology`,
 
             'clinical': `<strong>Clinical Experience</strong>
                 <br><br>
@@ -283,12 +386,94 @@
                 Try asking about:
                 <br>- <strong>Background</strong> — Where did he train?
                 <br>- <strong>Clinical work</strong> — What does he do as a doctor?
+                <br>- <strong>Publications</strong> — Research papers and book
                 <br>- <strong>MAMMOCHAT</strong> — The breast cancer AI assistant
                 <br>- <strong>CANONIC</strong> — Making AI trustworthy
-                <br>- <strong>Research</strong> — Publications and funding
                 <br><br>
                 Or view the <a href="../">full CV</a>.`
         };
+
+        function formatPublication(pub) {
+            let response = `<strong>${pub.title}</strong>
+                <br><br>
+                <em>${pub.journal}</em> (${pub.year})
+                <br><br>
+                ${pub.summary}`;
+
+            if (pub.coauthors && pub.coauthors.length > 0) {
+                response += `<br><br><strong>Co-authors:</strong> ${pub.coauthors.join(', ')}`;
+            }
+
+            if (pub.pmid) {
+                response += `<br><br><a href="https://pubmed.ncbi.nlm.nih.gov/${pub.pmid}">View on PubMed</a>`;
+            } else if (pub.doi) {
+                response += `<br><br><a href="https://doi.org/${pub.doi}">View Paper</a>`;
+            }
+
+            return response;
+        }
+
+        function formatManuscript(ms) {
+            return `<strong>${ms.title}</strong>
+                <br><br>
+                <em>Status: ${ms.status}</em> (${ms.year})
+                <br><br>
+                ${ms.summary}`;
+        }
+
+        function findPublication(text) {
+            const lower = text.toLowerCase();
+
+            // Check each publication
+            for (const pub of publications) {
+                // Check title words
+                const titleWords = pub.title.toLowerCase().split(/\s+/);
+                for (const word of titleWords) {
+                    if (word.length > 4 && lower.includes(word)) {
+                        return pub;
+                    }
+                }
+
+                // Check keywords
+                for (const kw of pub.keywords) {
+                    if (lower.includes(kw)) {
+                        return pub;
+                    }
+                }
+
+                // Check journal
+                if (lower.includes(pub.journal.toLowerCase())) {
+                    return pub;
+                }
+
+                // Check year
+                if (lower.includes(pub.year.toString())) {
+                    // Need more context than just year
+                    if (lower.includes('paper') || lower.includes('publication') || lower.includes('article')) {
+                        return pub;
+                    }
+                }
+
+                // Check co-authors
+                for (const author of pub.coauthors) {
+                    const lastName = author.split(' ').pop().toLowerCase();
+                    if (lower.includes(lastName) && lastName.length > 3) {
+                        return pub;
+                    }
+                }
+            }
+
+            // Check manuscripts
+            for (const ms of manuscripts) {
+                for (const kw of ms.keywords) {
+                    if (lower.includes(kw) && lower.includes('paper')) {
+                        return ms;
+                    }
+                }
+            }
+
+            return null;
+        }
 
         function sendMessage() {
             const input = document.getElementById('userInput');
@@ -326,17 +511,29 @@
 
         function getResponse(text) {
             const lower = text.toLowerCase();
-            if (lower.includes('education') || lower.includes('degree') || lower.includes('phd') || lower.includes('school') || lower.includes('university') || lower.includes('penn') || lower.includes('stanford')) return responses.education;
-            if (lower.includes('position') || lower.includes('job') || lower.includes('work') || lower.includes('employ') || lower.includes('professor') || lower.includes('ucsf') || lower.includes('ucf')) return responses.positions;
-            if (lower.includes('publication') || lower.includes('paper') || lower.includes('journal') || lower.includes('book') || lower.includes('article') || lower.includes('pubmed')) return responses.publications;
+
+            // Check for specific publication queries first
+            const pub = findPublication(text);
+            if (pub) {
+                if (pub.status) {
+                    return formatManuscript(pub);
+                }
+                return formatPublication(pub);
+            }
+
+            // General topic responses
+            if (lower.includes('education') || lower.includes('degree') || lower.includes('phd') || lower.includes('school') || lower.includes('train')) return responses.education;
+            if (lower.includes('position') || lower.includes('job') || lower.includes('employ') || lower.includes('professor')) return responses.positions;
+            if (lower.includes('publication') || lower.includes('paper') || lower.includes('journal') || lower.includes('article') || lower.includes('pubmed') || lower.includes('research')) return responses.publications;
             if (lower.includes('grant') || lower.includes('fund') || lower.includes('bloomberg') || lower.includes('fcif') || lower.includes('1.9')) return responses.grants;
             if (lower.includes('ip') || lower.includes('patent') || lower.includes('idf') || lower.includes('invention') || lower.includes('disclosure')) return responses.ip;
-            if (lower.includes('mentor') || lower.includes('advisor') || lower.includes('butte') || lower.includes('kim')) return responses.mentors;
+            if (lower.includes('mentor') || lower.includes('advisor')) return responses.mentors;
             if (lower.includes('coauthor') || lower.includes('co-author') || lower.includes('collaborat')) return responses.coauthors;
-            if (lower.includes('clinical') || lower.includes('experience') || lower.includes('mammograph') || lower.includes('patient')) return responses.clinical;
-            if (lower.includes('canonic') || lower.includes('detros') || lower.includes('governance')) return responses.canonic;
+            if (lower.includes('clinical') || lower.includes('experience') || lower.includes('mammograph') || lower.includes('patient') || lower.includes('doctor')) return responses.clinical;
+            if (lower.includes('canonic') || lower.includes('detros') || lower.includes('governance') || lower.includes('constitutional')) return responses.canonic;
             if (lower.includes('mammochat') || lower.includes('adventhealth') || lower.includes('oncology')) return responses.mammochat;
             if (lower.includes('evidence') || lower.includes('proof') || lower.includes('verify') || lower.includes('source')) return responses.evidence;
+
             return responses.default;
         }
     </script>
