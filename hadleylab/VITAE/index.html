@@ -270,26 +270,67 @@
         .identity-badges a:hover img {
             filter: grayscale(0%);
         }
-        /* EVO Index at very top */
-        .evo-index {
-            background: rgba(0, 0, 0, 0.95);
-            border-bottom: 1px solid #222;
-            padding: 0.75rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: transform 0.3s, opacity 0.3s;
+        /* EVO FAB - Top left */
+        .evo-fab {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .evo-index.hidden {
+        .evo-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(0, 255, 136, 0.5);
+        }
+        .evo-fab span:first-child {
+            font-size: 1.2rem;
+            color: #000;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .evo-fab-label {
+            font-size: 0.5rem;
+            color: #000;
+            letter-spacing: 0.1em;
+            margin-top: -2px;
+        }
+        .evo-fab.active {
+            background: #111;
+            border: 2px solid var(--accent);
+        }
+        .evo-fab.active span {
+            color: var(--accent);
+        }
+        /* EVO Index - Overlay panel */
+        .evo-index {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid var(--accent);
+            padding: 4rem 1rem 1.5rem;
+            z-index: 999;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .evo-index.collapsed {
             transform: translateY(-100%);
             opacity: 0;
             pointer-events: none;
         }
-        .topnav.sticky {
-            top: 56px; /* Below EVO index */
-        }
-        .evo-index.hidden + .topnav.sticky {
-            top: 0;
+        .evo-index.expanded {
+            transform: translateY(0);
+            opacity: 1;
         }
         .evo-title {
             text-align: center;
@@ -402,8 +443,14 @@
     </style>
 </head>
 <body class="has-sticky-nav">
-    <!-- EVO INDEX - THE VERY TOP -->
-    <nav class="evo-index" id="evo-index">
+    <!-- EVO FAB - Top left, expands to timeline -->
+    <div class="evo-fab" id="evo-fab" onclick="toggleEvo()">
+        <span>∩</span>
+        <span class="evo-fab-label">EVO</span>
+    </div>
+
+    <!-- EVO INDEX - Expandable timeline -->
+    <nav class="evo-index collapsed" id="evo-index">
         <div class="evo-timeline">
             <a href="?view=full#evo-1999" class="evo-node">
                 <div class="evo-dot"></div>
@@ -1236,17 +1283,23 @@
             });
         });
 
-        // Auto-hide EVO on scroll down, show on scroll up
-        let lastScroll = 0;
-        const evoIndex = document.getElementById('evo-index');
-        window.addEventListener('scroll', function() {
-            const currentScroll = window.scrollY;
-            if (currentScroll > 100 && currentScroll > lastScroll) {
-                evoIndex.classList.add('hidden');
-            } else {
-                evoIndex.classList.remove('hidden');
+        // Toggle EVO overlay
+        function toggleEvo() {
+            const evoIndex = document.getElementById('evo-index');
+            const evoFab = document.getElementById('evo-fab');
+            evoIndex.classList.toggle('collapsed');
+            evoIndex.classList.toggle('expanded');
+            evoFab.classList.toggle('active');
+        }
+
+        // Close EVO on escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const evoIndex = document.getElementById('evo-index');
+                if (evoIndex.classList.contains('expanded')) {
+                    toggleEvo();
+                }
             }
-            lastScroll = currentScroll;
         });
     </script>
     <script src="https://canonic-foundation.github.io/assets/nav.js"></script>
