@@ -18,8 +18,6 @@
             background: var(--bg);
             color: var(--fg);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
         .topnav {
             display: flex;
@@ -34,15 +32,11 @@
             color: var(--private);
             text-decoration: none;
         }
-        .topnav-links {
-            display: flex;
-            gap: 2rem;
-        }
+        .topnav-links { display: flex; gap: 2rem; }
         .topnav-links a {
             color: var(--dim);
             text-decoration: none;
             font-size: 0.85rem;
-            transition: color 0.2s;
         }
         .topnav-links a:hover { color: var(--accent); }
         .topnav-links a.active { color: var(--fg); }
@@ -55,19 +49,9 @@
             margin-left: 0.5rem;
         }
 
-        .auth-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
+        .hero {
             text-align: center;
-        }
-        .lock-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--accent);
+            padding: 3rem 2rem;
         }
         h1 {
             font-size: 2rem;
@@ -79,67 +63,23 @@
             color: var(--dim);
             font-size: 0.9rem;
             letter-spacing: 0.1em;
-            margin-bottom: 2rem;
         }
-        .auth-message {
-            color: var(--dim);
-            font-size: 0.8rem;
-            line-height: 1.6;
-            max-width: 400px;
-            margin-bottom: 2rem;
-        }
-        .auth-btn {
-            color: var(--fg);
-            text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 0.15em;
-            padding: 0.8rem 2rem;
-            border: 1px solid var(--accent);
-            display: inline-block;
-            transition: all 0.2s;
-        }
-        .auth-btn:hover {
-            background: var(--accent);
-            color: var(--bg);
-        }
-        .auth-status {
-            margin-top: 1rem;
-            font-size: 0.7rem;
-            color: var(--dim);
-        }
-        .auth-status.authenticated {
-            color: var(--accent);
-        }
-
-        /* Holdings content (shown when authenticated) */
-        .holdings-content {
-            display: none;
-            flex: 1;
-        }
-        .holdings-content.visible {
-            display: block;
-        }
-        .hero {
-            text-align: center;
-            padding: 3rem 2rem;
-        }
-        .formula {
+        .axiom-box {
             color: var(--accent);
             font-size: 0.85rem;
-            letter-spacing: 0.1em;
             padding: 1rem;
             border: 1px solid var(--accent);
             margin-top: 1rem;
             display: inline-block;
+            max-width: 600px;
         }
 
-        /* Stats */
         .stats {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             gap: 1rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
             padding: 0 2rem;
         }
         .stat {
@@ -150,7 +90,6 @@
         .stat-value {
             font-size: 1.5rem;
             color: var(--accent);
-            margin-bottom: 0.25rem;
         }
         .stat-label {
             font-size: 0.65rem;
@@ -169,57 +108,64 @@
             color: var(--dim);
             margin-bottom: 2rem;
         }
-        .holdings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 1100px;
+
+        .tree {
+            max-width: 900px;
             margin: 0 auto;
         }
-        .holdings-card {
+        .tree-node {
             border: 1px solid #333;
-            padding: 1.5rem;
-            transition: border-color 0.2s;
-        }
-        .holdings-card:hover { border-color: var(--accent); }
-        .holdings-card h3 {
-            font-size: 1rem;
-            letter-spacing: 0.15em;
             margin-bottom: 0.5rem;
+            margin-left: var(--depth, 0);
+        }
+        .tree-node:hover { border-color: var(--accent); }
+        .tree-header {
+            padding: 1rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.5rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.02);
         }
-        .holdings-card .count {
-            color: var(--accent);
-            font-size: 0.75rem;
+        .tree-header:hover { background: rgba(255,255,255,0.05); }
+        .tree-header h3 {
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
         }
-        .holdings-card p {
+        .tree-header .meta {
+            color: var(--dim);
+            font-size: 0.7rem;
+        }
+        .tree-content {
+            padding: 0 1rem 1rem;
+            display: none;
+        }
+        .tree-content.open { display: block; }
+        .tree-axiom {
             color: var(--dim);
             font-size: 0.8rem;
             line-height: 1.5;
-            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-left: 2px solid var(--accent);
+            margin-bottom: 0.5rem;
         }
-        .holdings-card ul {
+        .tree-constraints {
+            font-size: 0.7rem;
             color: var(--dim);
-            font-size: 0.75rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-            padding-left: 1rem;
+            margin-top: 0.5rem;
         }
-        .holdings-card a {
-            color: var(--fg);
-            text-decoration: none;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--fg);
-            display: inline-block;
-            transition: all 0.2s;
+        .tree-constraints li {
+            margin-left: 1rem;
+            margin-top: 0.25rem;
         }
-        .holdings-card a:hover {
-            background: var(--fg);
-            color: var(--bg);
+
+        .loading {
+            text-align: center;
+            color: var(--dim);
+            padding: 2rem;
+        }
+        .error {
+            color: #ff4444;
         }
 
         footer {
@@ -229,14 +175,6 @@
             color: var(--dim);
             font-size: 0.7rem;
         }
-        .logout-btn {
-            color: var(--dim);
-            text-decoration: none;
-            font-size: 0.7rem;
-            cursor: pointer;
-            margin-left: 1rem;
-        }
-        .logout-btn:hover { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -246,178 +184,177 @@
             <a href="../STORE/">Store</a>
             <a href="../EVIDENCE/">Evidence</a>
             <a href="./" class="active">Holdings</a>
-            <span class="logout-btn" onclick="logout()" id="logout-btn" style="display:none;">Logout</span>
         </div>
     </nav>
 
-    <!-- Auth gate -->
-    <div class="auth-container" id="auth-gate">
-        <div class="lock-icon">🔒</div>
+    <section class="hero">
         <h1>HOLDINGS</h1>
-        <p class="tagline">Private Holdings Access</p>
-        <p class="auth-message">
-            This area contains private holdings data.
-            Authentication via AGENT is required to access.
-        </p>
-        <a href="../AGENT/?scope=holdings&return=/HOLDINGS/" class="auth-btn">AUTHENTICATE VIA AGENT</a>
-        <p class="auth-status" id="auth-status">Checking authentication...</p>
-    </div>
+        <p class="tagline">CANON Aggregator | Reads CANON.md Tree</p>
+        <div class="axiom-box" id="root-axiom">Loading CANON.md...</div>
+    </section>
 
-    <!-- Holdings content (shown after auth) -->
-    <div class="holdings-content" id="holdings-content">
-        <section class="hero">
-            <h1>HOLDINGS</h1>
-            <p class="tagline">Private Portfolio Dashboard</p>
-            <div class="formula">HOLDINGS = PATENTS + COMPANIES + FINANCIALS + STRATEGY</div>
-        </section>
-
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-value">71</div>
-                <div class="stat-label">DISCLOSURES</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">3</div>
-                <div class="stat-label">COMPANIES</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">7</div>
-                <div class="stat-label">DEALS</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">2</div>
-                <div class="stat-label">APPLICATIONS</div>
-            </div>
+    <div class="stats" id="stats">
+        <div class="stat">
+            <div class="stat-value" id="stat-canon">-</div>
+            <div class="stat-label">CANON.md</div>
         </div>
-
-        <section class="section">
-            <h2 class="section-title">PORTFOLIO</h2>
-            <div class="holdings-grid">
-                <div class="holdings-card">
-                    <h3>PATENTS <span class="count">(71 disclosures)</span></h3>
-                    <p>Intellectual property portfolio. Disclosures, applications, filings.</p>
-                    <ul>
-                        <li>71 DISCLOSURE documents</li>
-                        <li>2 USPTO applications</li>
-                        <li>DISCLOSURE-IDF mapping</li>
-                    </ul>
-                    <a href="PATENTS/">Browse</a>
-                </div>
-                <div class="holdings-card">
-                    <h3>COMPANIES <span class="count">(3 entities)</span></h3>
-                    <p>Corporate structures and governance.</p>
-                    <ul>
-                        <li>CANONIC Foundation</li>
-                        <li>Onconex US</li>
-                        <li>Onconex EU</li>
-                    </ul>
-                    <a href="COMPANIES/">Browse</a>
-                </div>
-                <div class="holdings-card">
-                    <h3>FINANCIALS</h3>
-                    <p>Treasury, tokenomics, projections.</p>
-                    <ul>
-                        <li>COIN/TOKEN duality</li>
-                        <li>Tier pricing (5%/10%)</li>
-                        <li>Revenue models</li>
-                    </ul>
-                    <a href="FINANCIALS/">Browse</a>
-                </div>
-                <div class="holdings-card">
-                    <h3>STRATEGY <span class="count">(7 deals)</span></h3>
-                    <p>Executive summary, active deals, roadmap.</p>
-                    <ul>
-                        <li>AdventHealth partnership</li>
-                        <li>Onconex US acquisition</li>
-                        <li>Onconex EU expansion</li>
-                        <li>MammoSight partnership</li>
-                    </ul>
-                    <a href="STRATEGY/">Browse</a>
-                </div>
-                <div class="holdings-card">
-                    <h3>EVIDENCE</h3>
-                    <p>Git history, transcripts, discovery extraction.</p>
-                    <ul>
-                        <li>5 org git histories</li>
-                        <li>Transcript analysis</li>
-                        <li>Discovery types: AXIOM, PATTERN, INSIGHT</li>
-                    </ul>
-                    <a href="EVIDENCE/">Browse</a>
-                </div>
-                <div class="holdings-card">
-                    <h3>FORECASTS</h3>
-                    <p>Revenue projections, market analysis.</p>
-                    <ul>
-                        <li>$4.5M Y1 projection</li>
-                        <li>$35M Y3 target</li>
-                        <li>Exit scenarios</li>
-                    </ul>
-                    <a href="FORECASTS/">Browse</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2 class="section-title">QUICK ACCESS</h2>
-            <div class="holdings-grid">
-                <div class="holdings-card">
-                    <h3>Executive Summary</h3>
-                    <p>Business plan overview with App Store architecture.</p>
-                    <a href="STRATEGY/EXECUTIVE-SUMMARY.md">View</a>
-                </div>
-                <div class="holdings-card">
-                    <h3>IP Coverage Report</h3>
-                    <p>Coverage analysis across all disclosures.</p>
-                    <a href="PATENTS/INDEX.md">View</a>
-                </div>
-                <div class="holdings-card">
-                    <h3>Tokenomics</h3>
-                    <p>COIN/TOKEN structure and economics.</p>
-                    <a href="FINANCIALS/TOKENOMICS.md">View</a>
-                </div>
-            </div>
-        </section>
+        <div class="stat">
+            <div class="stat-value" id="stat-children">-</div>
+            <div class="stat-label">CHILDREN</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="stat-depth">-</div>
+            <div class="stat-label">MAX DEPTH</div>
+        </div>
     </div>
+
+    <section class="section">
+        <h2 class="section-title">CANON TREE</h2>
+        <div class="tree" id="tree">
+            <p class="loading">Reading CANON.md files from GitHub...</p>
+        </div>
+    </section>
 
     <footer>
-        <p>DEXTER HOLDINGS | Private | Authenticated Access Only</p>
+        <p>HOLDINGS APP | Reads CANON.md | Aggregates Tree | hadleylab-dexter/hadleylab</p>
     </footer>
 
     <script>
-        // Check for AGENT auth token
-        function checkAuth() {
-            const params = new URLSearchParams(window.location.search);
-            const token = params.get('token') || localStorage.getItem('dexter_auth_token');
-            const authStatus = document.getElementById('auth-status');
-            const authGate = document.getElementById('auth-gate');
-            const holdingsContent = document.getElementById('holdings-content');
-            const logoutBtn = document.getElementById('logout-btn');
+        const REPO = 'hadleylab-dexter/hadleylab';
+        const BASE_PATH = 'HOLDINGS';
+        const API = 'https://api.github.com';
 
-            if (token) {
-                // Store token for session
-                localStorage.setItem('dexter_auth_token', token);
-                // Clean URL
-                if (params.get('token')) {
-                    window.history.replaceState({}, '', window.location.pathname);
-                }
-                // Show holdings
-                authGate.style.display = 'none';
-                holdingsContent.classList.add('visible');
-                logoutBtn.style.display = 'inline';
-                authStatus.textContent = 'Authenticated';
-                authStatus.classList.add('authenticated');
-            } else {
-                authStatus.textContent = 'Not authenticated';
+        let canonCount = 0;
+        let maxDepth = 0;
+
+        async function fetchCanon(path) {
+            const url = `${API}/repos/${REPO}/contents/${path}/CANON.md`;
+            try {
+                const res = await fetch(url);
+                if (!res.ok) return null;
+                const data = await res.json();
+                const content = atob(data.content);
+                return parseCanon(content, path);
+            } catch (e) {
+                console.error(`Failed to fetch ${path}/CANON.md:`, e);
+                return null;
             }
         }
 
-        // Logout function
-        function logout() {
-            localStorage.removeItem('dexter_auth_token');
-            location.reload();
+        function parseCanon(content, path) {
+            const lines = content.split('\n');
+            const canon = {
+                title: path.split('/').pop(),
+                axiom: '',
+                axioms: [],
+                children: [],
+                constraints: []
+            };
+
+            let section = '';
+            for (const line of lines) {
+                if (line.startsWith('# ')) {
+                    canon.title = line.slice(2).trim();
+                } else if (line.match(/^## Axioms?$/i)) {
+                    section = 'axiom';
+                } else if (line.match(/^## Children$/i)) {
+                    section = 'children';
+                } else if (line.match(/^## Constraints?$/i)) {
+                    section = 'constraints';
+                } else if (line.startsWith('## ')) {
+                    section = '';
+                } else if (section === 'axiom') {
+                    if (line.startsWith('**') && line.includes('**')) {
+                        canon.axiom = line.replace(/\*\*/g, '').replace(/=/, '→').trim();
+                    } else if (line.match(/^\d+\./)) {
+                        canon.axioms.push(line.replace(/^\d+\.\s*\*\*([^*]+)\*\*:?\s*/, '$1: ').trim());
+                    }
+                } else if (section === 'children' && line.startsWith('- ')) {
+                    const match = line.match(/- ([^/\s]+)\/?/);
+                    if (match) canon.children.push(match[1]);
+                } else if (section === 'constraints' && line.startsWith('- ')) {
+                    canon.constraints.push(line.slice(2).trim());
+                }
+            }
+            return canon;
         }
 
-        checkAuth();
+        async function buildTree(path, depth = 0) {
+            const canon = await fetchCanon(path);
+            if (!canon) return null;
+
+            canonCount++;
+            maxDepth = Math.max(maxDepth, depth);
+
+            const node = { path, canon, children: [], depth };
+
+            // Fetch children in parallel
+            const childPromises = canon.children.map(child =>
+                buildTree(`${path}/${child}`, depth + 1)
+            );
+            const childNodes = await Promise.all(childPromises);
+            node.children = childNodes.filter(n => n !== null);
+
+            return node;
+        }
+
+        function renderNode(node, container) {
+            const el = document.createElement('div');
+            el.className = 'tree-node';
+            el.style.setProperty('--depth', `${node.depth * 1.5}rem`);
+
+            const childCount = node.children.length;
+            const hasContent = node.canon.axiom || node.canon.constraints.length > 0;
+
+            el.innerHTML = `
+                <div class="tree-header" onclick="this.nextElementSibling.classList.toggle('open')">
+                    <h3>${node.canon.title}</h3>
+                    <span class="meta">${childCount > 0 ? childCount + ' children' : 'leaf'}</span>
+                </div>
+                <div class="tree-content">
+                    ${node.canon.axiom ? `<div class="tree-axiom">${node.canon.axiom}</div>` : ''}
+                    ${node.canon.constraints.length > 0 ? `
+                        <div class="tree-constraints">
+                            <strong>Constraints:</strong>
+                            <ul>${node.canon.constraints.map(c => `<li>${c}</li>`).join('')}</ul>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            container.appendChild(el);
+
+            // Render children
+            for (const child of node.children) {
+                renderNode(child, container);
+            }
+        }
+
+        async function init() {
+            const treeContainer = document.getElementById('tree');
+
+            try {
+                const tree = await buildTree(BASE_PATH);
+
+                if (tree) {
+                    // Update stats
+                    document.getElementById('root-axiom').textContent =
+                        tree.canon.axiom || 'HOLDINGS = IP governance structure';
+                    document.getElementById('stat-canon').textContent = canonCount;
+                    document.getElementById('stat-children').textContent = tree.canon.children.length;
+                    document.getElementById('stat-depth').textContent = maxDepth;
+
+                    // Render tree
+                    treeContainer.innerHTML = '';
+                    renderNode(tree, treeContainer);
+                } else {
+                    treeContainer.innerHTML = '<p class="loading error">Could not load HOLDINGS/CANON.md</p>';
+                }
+            } catch (e) {
+                treeContainer.innerHTML = `<p class="loading error">Error: ${e.message}</p>`;
+            }
+        }
+
+        init();
     </script>
 </body>
 </html>
