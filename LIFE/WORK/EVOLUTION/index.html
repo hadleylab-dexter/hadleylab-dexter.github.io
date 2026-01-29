@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORK EVOLUTION | DEXTER</title>
+    <style>
+        :root { --bg: #0a0a0a; --fg: #fff; --accent: #ff6b35; --dim: #888; --credit: #4ade80; --evo: #a78bfa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: ui-monospace, 'SF Mono', Menlo, monospace; background: var(--bg); color: var(--fg); min-height: 100vh; }
+        .topnav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; border-bottom: 1px solid #333; }
+        .topnav-brand { font-size: 0.9rem; letter-spacing: 0.2em; color: var(--accent); text-decoration: none; }
+        .topnav-links { display: flex; gap: 2rem; }
+        .topnav-links a { color: var(--dim); text-decoration: none; font-size: 0.85rem; }
+        .topnav-links a:hover { color: var(--accent); }
+        .hero { text-align: center; padding: 3rem 2rem; }
+        h1 { font-size: 1.5rem; font-weight: 300; letter-spacing: 0.3em; margin-bottom: 0.5rem; color: var(--evo); }
+        .tagline { color: var(--dim); font-size: 0.9rem; }
+        .axiom-box { color: var(--credit); font-size: 0.85rem; padding: 1rem 2rem; border: 1px solid var(--credit); margin-top: 1rem; display: inline-block; }
+
+        .timeline { max-width: 800px; margin: 2rem auto; padding: 0 2rem; }
+        .timeline-title { font-size: 0.85rem; letter-spacing: 0.2em; color: var(--dim); margin-bottom: 1rem; }
+        .timeline-list { border-left: 2px solid var(--credit); margin-left: 1rem; }
+        .timeline-item { padding: 1rem 0 1rem 2rem; position: relative; }
+        .timeline-item::before { content: ''; width: 10px; height: 10px; background: var(--credit); border-radius: 50%; position: absolute; left: -6px; top: 1.25rem; }
+        .timeline-date { font-size: 0.7rem; color: var(--credit); margin-bottom: 0.25rem; }
+        .timeline-event { font-size: 0.85rem; }
+        .timeline-token { color: var(--credit); font-size: 0.75rem; margin-top: 0.25rem; }
+
+        footer { text-align: center; padding: 2rem; border-top: 1px solid #333; color: var(--dim); font-size: 0.7rem; }
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="../../../" class="topnav-brand">DEXTER</a>
+        <div class="topnav-links">
+            <a href="../../">Life</a>
+            <a href="../">Work</a>
+            <a href="../../PLAY/">Play</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>WORK EVOLUTION</h1>
+        <p class="tagline">Deterministic replay of WRITING</p>
+        <div class="axiom-box">WRITING → TOKEN → VAULT → CREDITS</div>
+    </section>
+
+    <div class="timeline">
+        <div class="timeline-title">WRITING HISTORY</div>
+        <div class="timeline-list">
+            <div class="timeline-item">
+                <div class="timeline-date">2026-01-28 21:57</div>
+                <div class="timeline-event">WORK/EVOLUTION/CANON.md created</div>
+                <div class="timeline-token">+1 TOKEN</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2026-01-28 21:45</div>
+                <div class="timeline-event">WORK/CANON.md updated</div>
+                <div class="timeline-token">+1 TOKEN</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2026-01-28 21:30</div>
+                <div class="timeline-event">WORK axiom established</div>
+                <div class="timeline-token">+1 TOKEN</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>WORK EVOLUTION | WRITING → TOKEN accumulation history</p>
+    </footer>
+</body>
+</html>

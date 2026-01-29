@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORK | LIFE | DEXTER</title>
+    <style>
+        :root { --bg: #0a0a0a; --fg: #fff; --accent: #ff6b35; --dim: #888; --credit: #4ade80; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: ui-monospace, 'SF Mono', Menlo, monospace; background: var(--bg); color: var(--fg); min-height: 100vh; }
+        .topnav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; border-bottom: 1px solid #333; }
+        .topnav-brand { font-size: 0.9rem; letter-spacing: 0.2em; color: var(--accent); text-decoration: none; }
+        .topnav-links { display: flex; gap: 2rem; }
+        .topnav-links a { color: var(--dim); text-decoration: none; font-size: 0.85rem; }
+        .topnav-links a:hover { color: var(--accent); }
+        .topnav-links a.active { color: var(--fg); }
+        .hero { text-align: center; padding: 3rem 2rem; }
+        h1 { font-size: 2rem; font-weight: 300; letter-spacing: 0.3em; margin-bottom: 0.5rem; }
+        .tagline { color: var(--dim); font-size: 0.9rem; }
+        .axiom-box { color: var(--credit); font-size: 1rem; padding: 1rem 2rem; border: 1px solid var(--credit); margin-top: 1.5rem; display: inline-block; }
+
+        .flow { max-width: 800px; margin: 2rem auto; padding: 0 2rem; }
+        .flow-title { font-size: 0.85rem; letter-spacing: 0.2em; color: var(--dim); margin-bottom: 1rem; text-align: center; }
+        .flow-steps { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .flow-step { text-align: center; padding: 1rem 1.5rem; border: 1px solid #333; }
+        .flow-step.active { border-color: var(--credit); }
+        .flow-step .label { font-size: 0.7rem; color: var(--dim); margin-bottom: 0.5rem; }
+        .flow-step .value { font-size: 1.5rem; color: var(--credit); }
+        .flow-arrow { color: var(--dim); font-size: 1.5rem; }
+
+        .vault { max-width: 800px; margin: 2rem auto; padding: 0 2rem; }
+        .vault-box { border: 2px solid var(--credit); padding: 2rem; text-align: center; }
+        .vault-label { font-size: 0.8rem; color: var(--dim); letter-spacing: 0.1em; }
+        .vault-balance { font-size: 4rem; color: var(--credit); margin: 1rem 0; }
+        .vault-sub { color: var(--dim); font-size: 0.75rem; }
+
+        .writings { max-width: 800px; margin: 2rem auto; padding: 0 2rem; }
+        .writings-title { font-size: 0.85rem; letter-spacing: 0.2em; color: var(--dim); margin-bottom: 1rem; }
+        .writings-list { border: 1px solid #333; }
+        .writing-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #222; }
+        .writing-item:last-child { border-bottom: none; }
+        .writing-file { color: var(--fg); font-size: 0.85rem; }
+        .writing-path { color: var(--dim); font-size: 0.7rem; margin-top: 0.25rem; }
+        .writing-token { color: var(--credit); font-size: 0.85rem; }
+
+        .evolution-link { max-width: 800px; margin: 2rem auto; padding: 0 2rem; }
+        .evolution-link a { display: block; text-align: center; padding: 1rem; border: 1px solid #333; color: var(--dim); text-decoration: none; font-size: 0.8rem; }
+        .evolution-link a:hover { border-color: var(--credit); color: var(--credit); }
+
+        footer { text-align: center; padding: 2rem; border-top: 1px solid #333; color: var(--dim); font-size: 0.7rem; }
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="../../" class="topnav-brand">DEXTER</a>
+        <div class="topnav-links">
+            <a href="../">Life</a>
+            <a href="./" class="active">Work</a>
+            <a href="../PLAY/">Play</a>
+            <a href="../../CREDITS/">Credits</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>WORK</h1>
+        <p class="tagline">Aggregates WRITING</p>
+        <div class="axiom-box">WRITING → TOKEN → VAULT → CREDITS</div>
+    </section>
+
+    <div class="flow">
+        <div class="flow-title">VALUE FLOW</div>
+        <div class="flow-steps">
+            <div class="flow-step active">
+                <div class="label">ACTION</div>
+                <div class="value">WRITE</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <div class="label">EARN</div>
+                <div class="value">TOKEN</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <div class="label">STORE</div>
+                <div class="value">VAULT</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <div class="label">BALANCE</div>
+                <div class="value">CREDITS</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vault">
+        <div class="vault-box">
+            <div class="vault-label">VAULT BALANCE</div>
+            <div class="vault-balance" id="vault-balance">42</div>
+            <div class="vault-sub">TOKEN accumulated from WRITING</div>
+        </div>
+    </div>
+
+    <div class="writings">
+        <div class="writings-title">RECENT WRITINGS</div>
+        <div class="writings-list" id="writings-list">
+            <div class="writing-item">
+                <div>
+                    <div class="writing-file">CANON.md</div>
+                    <div class="writing-path">LIFE/WORK/CANON.md</div>
+                </div>
+                <div class="writing-token">+1 TOKEN</div>
+            </div>
+            <div class="writing-item">
+                <div>
+                    <div class="writing-file">CANON.md</div>
+                    <div class="writing-path">LIFE/WORK/EVOLUTION/CANON.md</div>
+                </div>
+                <div class="writing-token">+1 TOKEN</div>
+            </div>
+            <div class="writing-item">
+                <div>
+                    <div class="writing-file">VOCAB.md</div>
+                    <div class="writing-path">LIFE/WORK/VOCAB.md</div>
+                </div>
+                <div class="writing-token">+1 TOKEN</div>
+            </div>
+            <div class="writing-item">
+                <div>
+                    <div class="writing-file">ROADMAP.md</div>
+                    <div class="writing-path">LIFE/WORK/ROADMAP.md</div>
+                </div>
+                <div class="writing-token">+1 TOKEN</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="evolution-link">
+        <a href="EVOLUTION/">WORK EVOLUTION → Deterministic replay of WORK</a>
+    </div>
+
+    <footer>
+        <p>WORK | WRITING → TOKEN → VAULT → CREDITS</p>
+    </footer>
+</body>
+</html>
