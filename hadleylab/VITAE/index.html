@@ -6,6 +6,38 @@
     <title>DEXTER VITAE | CANONIC</title>
     <link rel="stylesheet" href="https://canonic-foundation.github.io/assets/style.css">
     <style>
+        .topnav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: #000;
+            border-bottom: 1px solid #222;
+        }
+        body {
+            padding-top: 60px;
+        }
+        .chat-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .chat-bubble {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 18px;
+            background: currentColor;
+            border-radius: 4px 4px 4px 0;
+            position: relative;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .chat-bubble span {
+            color: #000;
+        }
         .cv-panel {
             background: #0a0a0a;
             border: 1px solid #222;
@@ -96,7 +128,7 @@
         <a href="https://hadleylab-dexter.github.io" class="topnav-brand">D</a>
         <div class="topnav-links">
             <a href="./" class="active">VITAE</a>
-            <a href="./CHAT/">CHAT</a>
+            <a href="./CHAT/" class="chat-icon"><span class="chat-bubble"><span>∩</span></span>CHAT</a>
             <a href="https://github.com/hadleylab/hadleylab-dexter/blob/main/VITAE/VITAE.md">GITHUB</a>
         </div>
     </nav>
