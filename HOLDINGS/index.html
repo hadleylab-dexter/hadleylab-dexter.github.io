@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOLDINGS | DEXTER Private</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --fg: #fff;
+            --accent: #ff6b35;
+            --dim: #888;
+            --private: #ff6b35;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .topnav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #333;
+        }
+        .topnav-brand {
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            color: var(--private);
+            text-decoration: none;
+        }
+        .topnav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .topnav-links a {
+            color: var(--dim);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .topnav-links a:hover { color: var(--accent); }
+        .topnav-links a.active { color: var(--fg); }
+        .private-badge {
+            background: var(--private);
+            color: var(--bg);
+            padding: 0.2rem 0.5rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            margin-left: 0.5rem;
+        }
+
+        .auth-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            margin-bottom: 0.5rem;
+        }
+        .tagline {
+            color: var(--dim);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+        }
+        .auth-message {
+            color: var(--dim);
+            font-size: 0.8rem;
+            line-height: 1.6;
+            max-width: 400px;
+            margin-bottom: 2rem;
+        }
+        .auth-btn {
+            color: var(--fg);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--accent);
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        .auth-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        .auth-status {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: var(--dim);
+        }
+        .auth-status.authenticated {
+            color: var(--accent);
+        }
+
+        /* Holdings content (shown when authenticated) */
+        .holdings-content {
+            display: none;
+            flex: 1;
+        }
+        .holdings-content.visible {
+            display: block;
+        }
+        .hero {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        .formula {
+            color: var(--accent);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            padding: 1rem;
+            border: 1px solid var(--accent);
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            padding: 0 2rem;
+        }
+        .stat {
+            padding: 1rem;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--dim);
+            letter-spacing: 0.1em;
+        }
+
+        .section {
+            padding: 2rem;
+            border-top: 1px solid #333;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+            color: var(--dim);
+            margin-bottom: 2rem;
+        }
+        .holdings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .holdings-card {
+            border: 1px solid #333;
+            padding: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        .holdings-card:hover { border-color: var(--accent); }
+        .holdings-card h3 {
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .holdings-card .count {
+            color: var(--accent);
+            font-size: 0.75rem;
+        }
+        .holdings-card p {
+            color: var(--dim);
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        .holdings-card ul {
+            color: var(--dim);
+            font-size: 0.75rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+        }
+        .holdings-card a {
+            color: var(--fg);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--fg);
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        .holdings-card a:hover {
+            background: var(--fg);
+            color: var(--bg);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #333;
+            color: var(--dim);
+            font-size: 0.7rem;
+        }
+        .logout-btn {
+            color: var(--dim);
+            text-decoration: none;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-left: 1rem;
+        }
+        .logout-btn:hover { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <a href="../" class="topnav-brand">DEXTER<span class="private-badge">PRIVATE</span></a>
+        <div class="topnav-links">
+            <a href="../STORE/">Store</a>
+            <a href="../EVIDENCE/">Evidence</a>
+            <a href="./" class="active">Holdings</a>
+            <span class="logout-btn" onclick="logout()" id="logout-btn" style="display:none;">Logout</span>
+        </div>
+    </nav>
+
+    <!-- Auth gate -->
+    <div class="auth-container" id="auth-gate">
+        <div class="lock-icon">🔒</div>
+        <h1>HOLDINGS</h1>
+        <p class="tagline">Private Holdings Access</p>
+        <p class="auth-message">
+            This area contains private holdings data.
+            Authentication via AGENT is required to access.
+        </p>
+        <a href="../AGENT/?scope=holdings&return=/HOLDINGS/" class="auth-btn">AUTHENTICATE VIA AGENT</a>
+        <p class="auth-status" id="auth-status">Checking authentication...</p>
+    </div>
+
+    <!-- Holdings content (shown after auth) -->
+    <div class="holdings-content" id="holdings-content">
+        <section class="hero">
+            <h1>HOLDINGS</h1>
+            <p class="tagline">Private Portfolio Dashboard</p>
+            <div class="formula">HOLDINGS = PATENTS + COMPANIES + FINANCIALS + STRATEGY</div>
+        </section>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">71</div>
+                <div class="stat-label">DISCLOSURES</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">3</div>
+                <div class="stat-label">COMPANIES</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">7</div>
+                <div class="stat-label">DEALS</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">2</div>
+                <div class="stat-label">APPLICATIONS</div>
+            </div>
+        </div>
+
+        <section class="section">
+            <h2 class="section-title">PORTFOLIO</h2>
+            <div class="holdings-grid">
+                <div class="holdings-card">
+                    <h3>PATENTS <span class="count">(71 disclosures)</span></h3>
+                    <p>Intellectual property portfolio. Disclosures, applications, filings.</p>
+                    <ul>
+                        <li>71 DISCLOSURE documents</li>
+                        <li>2 USPTO applications</li>
+                        <li>DISCLOSURE-IDF mapping</li>
+                    </ul>
+                    <a href="PATENTS/">Browse</a>
+                </div>
+                <div class="holdings-card">
+                    <h3>COMPANIES <span class="count">(3 entities)</span></h3>
+                    <p>Corporate structures and governance.</p>
+                    <ul>
+                        <li>CANONIC Foundation</li>
+                        <li>Onconex US</li>
+                        <li>Onconex EU</li>
+                    </ul>
+                    <a href="COMPANIES/">Browse</a>
+                </div>
+                <div class="holdings-card">
+                    <h3>FINANCIALS</h3>
+                    <p>Treasury, tokenomics, projections.</p>
+                    <ul>
+                        <li>COIN/TOKEN duality</li>
+                        <li>Tier pricing (5%/10%)</li>
+                        <li>Revenue models</li>
+                    </ul>
+                    <a href="FINANCIALS/">Browse</a>
+                </div>
+                <div class="holdings-card">
+                    <h3>STRATEGY <span class="count">(7 deals)</span></h3>
+                    <p>Executive summary, active deals, roadmap.</p>
+                    <ul>
+                        <li>AdventHealth partnership</li>
+                        <li>Onconex US acquisition</li>
+                        <li>Onconex EU expansion</li>
+                        <li>MammoSight partnership</li>
+                    </ul>
+                    <a href="STRATEGY/">Browse</a>
+                </div>
+                <div class="holdings-card">
+                    <h3>EVIDENCE</h3>
+                    <p>Git history, transcripts, discovery extraction.</p>
+                    <ul>
+                        <li>5 org git histories</li>
+                        <li>Transcript analysis</li>
+                        <li>Discovery types: AXIOM, PATTERN, INSIGHT</li>
+                    </ul>
+                    <a href="EVIDENCE/">Browse</a>
+                </div>
+                <div class="holdings-card">
+                    <h3>FORECASTS</h3>
+                    <p>Revenue projections, market analysis.</p>
+                    <ul>
+                        <li>$4.5M Y1 projection</li>
+                        <li>$35M Y3 target</li>
+                        <li>Exit scenarios</li>
+                    </ul>
+                    <a href="FORECASTS/">Browse</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">QUICK ACCESS</h2>
+            <div class="holdings-grid">
+                <div class="holdings-card">
+                    <h3>Executive Summary</h3>
+                    <p>Business plan overview with App Store architecture.</p>
+                    <a href="STRATEGY/EXECUTIVE-SUMMARY.md">View</a>
+                </div>
+                <div class="holdings-card">
+                    <h3>IP Coverage Report</h3>
+                    <p>Coverage analysis across all disclosures.</p>
+                    <a href="PATENTS/INDEX.md">View</a>
+                </div>
+                <div class="holdings-card">
+                    <h3>Tokenomics</h3>
+                    <p>COIN/TOKEN structure and economics.</p>
+                    <a href="FINANCIALS/TOKENOMICS.md">View</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>DEXTER HOLDINGS | Private | Authenticated Access Only</p>
+    </footer>
+
+    <script>
+        // Check for AGENT auth token
+        function checkAuth() {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token') || localStorage.getItem('dexter_auth_token');
+            const authStatus = document.getElementById('auth-status');
+            const authGate = document.getElementById('auth-gate');
+            const holdingsContent = document.getElementById('holdings-content');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            if (token) {
+                // Store token for session
+                localStorage.setItem('dexter_auth_token', token);
+                // Clean URL
+                if (params.get('token')) {
+                    window.history.replaceState({}, '', window.location.pathname);
+                }
+                // Show holdings
+                authGate.style.display = 'none';
+                holdingsContent.classList.add('visible');
+                logoutBtn.style.display = 'inline';
+                authStatus.textContent = 'Authenticated';
+                authStatus.classList.add('authenticated');
+            } else {
+                authStatus.textContent = 'Not authenticated';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('dexter_auth_token');
+            location.reload();
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>
