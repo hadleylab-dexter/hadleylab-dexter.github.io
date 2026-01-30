@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HADLEYLAB-DEXTER</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'SF Mono', 'Monaco', monospace;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { font-size: 28px; margin-bottom: 8px; color: #7c3aed; }
+        .inherits { color: #888; font-size: 14px; margin-bottom: 24px; }
+        .section {
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .section-title { font-size: 14px; color: #7c3aed; margin-bottom: 12px; font-weight: bold; }
+        .axiom { font-size: 18px; color: #22c55e; }
+        .constraint {
+            background: #0a0a0a;
+            padding: 10px 12px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            border-left: 3px solid #7c3aed;
+        }
+        .evidence-table { width: 100%; border-collapse: collapse; }
+        .evidence-table th, .evidence-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        .evidence-table th { color: #7c3aed; }
+        .footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 12px;
+        }
+        .tier-badge {
+            background: #1a2e1a;
+            color: #22c55e;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HADLEYLAB-DEXTER <span class="tier-badge">Tier 63</span></h1>
+        <div class="inherits">inherits: /SHOP/</div>
+
+        <div class="section">
+            <div class="section-title">AXIOM</div>
+            <div class="axiom">DEXTER = PRODUCE. CV → PAPER → BOOK. Sells in SHOP.</div>
+        </div>
+
+        <div class="section"><div class="section-title">EVIDENCE</div><table class="evidence-table"><tr><th>Source</th><th>Authority</th><th>Scope</th></tr><tr><td>Claim</td><td>Authority</td><td>Source</td></tr><tr><td>-------</td><td>-----------</td><td>--------</td></tr><tr><td>CV authority</td><td>GOLD</td><td>LEDGER</td></tr><tr><td>PAPERS citations</td><td>GOLD</td><td>IDFs</td></tr><tr><td>SHOP integration</td><td>SILVER</td><td>config.json</td></tr><tr><td>LEARNING contribution</td><td>SILVER</td><td>MAMMOCHAT</td></tr></table></div>
+
+        <div class="section">
+            <div class="section-title">CONSTRAINTS</div>
+            <div class="constraint">CV MUST establish authority before PAPER or BOOK.</div><div class="constraint">PAPERS MUST cite evidence from DOMAINS.</div><div class="constraint">BOOKS MUST reference PAPERS.</div><div class="constraint">All content MUST be tracked in LEDGER.</div><div class="constraint">All content MUST flow to SHOP.</div><div class="constraint">All content MUST train LEARNING.</div>
+        </div>
+
+        <div class="footer">DEXTER | PRODUCE | CANONVERSE</div>
+    </div>
+</body>
+</html>
