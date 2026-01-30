@@ -85,7 +85,27 @@
         .status-active { background: #1a2e1a; color: #22c55e; }
         .status-inactive { background: #2e2e1a; color: #888; }
 
-        /* IDFs styles */
+        /* PAPERS styles (human-authored) */
+        .papers-subtitle { color: #22c55e; font-size: 12px; margin-bottom: 12px; }
+        .papers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 12px;
+        }
+        .paper-card {
+            background: #0a0a0a;
+            padding: 16px;
+            border-radius: 4px;
+            border-left: 3px solid #22c55e;
+        }
+        .paper-title { color: #22c55e; font-weight: bold; font-size: 14px; }
+        .paper-domain { color: #7c3aed; font-size: 12px; margin-top: 4px; }
+        .paper-status { display: inline-block; margin-top: 8px; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+        .status-progress { background: #1a2e1a; color: #22c55e; }
+        .status-draft { background: #2e2e1a; color: #f59e0b; }
+
+        /* IDFs styles (LEARNING output) */
+        .idfs-subtitle { color: #ec4899; font-size: 12px; margin-bottom: 8px; }
         .idfs-count { color: #888; font-size: 14px; margin-bottom: 12px; }
         .idfs-grid {
             display: grid;
@@ -101,6 +121,7 @@
         .idf-number { color: #ec4899; font-weight: bold; font-size: 12px; }
         .idf-title { color: #e0e0e0; font-size: 13px; margin-top: 4px; }
         .idf-date { color: #666; font-size: 11px; margin-top: 4px; }
+        .filed-badge { background: #1a2e1a; color: #22c55e; padding: 2px 6px; border-radius: 3px; font-size: 10px; margin-left: 8px; }
         .idf-more {
             color: #888;
             font-size: 14px;
@@ -262,67 +283,21 @@
                     <span class="org-name">Fzero Genomics</span>
                     <span class="org-role">Chair, Scientific Advisory</span>
                     <span class="org-status status-active">active</span>
-                </div></div></div><div class="section"><div class="section-title">PAPERS (IDFs)</div><div class="idfs-count">41 Invention Disclosure Forms</div><div class="idfs-grid">
-            <div class="idf-card">
-                <div class="idf-number">IDF-001</div>
-                <div class="idf-title">Constitutional Governance Framework for Human–AI Collaborati...</div>
-                <div class="idf-date">2026-01-12</div>
+                </div></div></div><div class="section"><div class="section-title">PAPERS</div><div class="papers-subtitle">Human-authored research</div><div class="papers-grid">
+            <div class="paper-card">
+                <div class="paper-title">CANONIC-PAPER</div>
+                <div class="paper-domain">CANONIC</div>
+                <div class="paper-status status-progress">In Progress</div>
             </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-002</div>
-                <div class="idf-title">Multi-Model Governance Correlation and Compliance Differenti...</div>
-                <div class="idf-date">2026-01-12</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-003</div>
-                <div class="idf-title">Compliance Proof Chaining for Verifiable Governance Evidence</div>
-                <div class="idf-date">2026-01-13</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-004</div>
-                <div class="idf-title">Producer-Consumer Bifurcated Governance Architecture for Hum...</div>
-                <div class="idf-date">2026-01-13</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-005</div>
-                <div class="idf-title">Episodic Drift Detection and Constitutional Learning in Gove...</div>
-                <div class="idf-date">2026-01-13</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-006</div>
-                <div class="idf-title">Literal Introspection for Definitional Closure in Constituti...</div>
-                <div class="idf-date">2026-01-13</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-007</div>
-                <div class="idf-title">Hierarchical Authority Scoping with Irreversible Constraint ...</div>
-                <div class="idf-date">2026-01-13</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-008</div>
-                <div class="idf-title">Deterministic Black-Box Validation with Observable Input-Out...</div>
-                <div class="idf-date">2026-01-13</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-009</div>
-                <div class="idf-title">Observational Multi-System Composition Without Cross-System ...</div>
-                <div class="idf-date">2026-01-13</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-010</div>
-                <div class="idf-title">Violation Pattern Taxonomy for Systematic Governance Failure...</div>
-                <div class="idf-date">2026-01-13</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-011</div>
-                <div class="idf-title">Evidence-Based Epistemic Writing Framework for Verifiable Sc...</div>
-                <div class="idf-date">2026-01-13</div>
-            </div>
-            <div class="idf-card">
-                <div class="idf-number">IDF-012</div>
-                <div class="idf-title">Meta-Circular Self-Healing Governance Through Structural Vio...</div>
-                <div class="idf-date">2026-01-13</div>
-            </div><div class="idf-more">+29 more</div></div></div>
+            <div class="paper-card">
+                <div class="paper-title">MAMMOCHAT-PAPER</div>
+                <div class="paper-domain">MED.ONCO.MAMMO</div>
+                <div class="paper-status status-progress">In Progress</div>
+            </div></div></div>
+        <div class="section">
+            <div class="section-title">IDFs</div>
+            <div class="placeholder">No filed invention disclosures yet</div>
+        </div>
         <div class="section">
             <div class="section-title">BOOKS</div>
             <div class="placeholder">Long-form synthesis — coming soon</div>
@@ -334,7 +309,7 @@
 
         <div class="footer">
             <span>DEXTER | PRODUCE | CANONVERSE</span>
-            <span class="timestamp">Built 2026-01-30 14:42 UTC</span>
+            <span class="timestamp">Built 2026-01-30 15:25 UTC</span>
         </div>
     </div>
 </body>
