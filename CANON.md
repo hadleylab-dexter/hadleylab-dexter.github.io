@@ -15,8 +15,9 @@ inherits: /CANONIC/
 ```
 hadleylab-dexter/
 ├── CV/         ← authority
-├── PAPERS/     ← research
-└── BOOKS/      ← long-form
+├── PAPERS/     ← epistemic (IDFs, research)
+├── BOOKS/      ← long-form
+└── BLOGS/      ← short-form
 ```
 
 ---

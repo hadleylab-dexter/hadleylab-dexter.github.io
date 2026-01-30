@@ -6,16 +6,16 @@ inherits: /DEXTER/
 
 ## Axiom
 
-**PAPERS = Research. Evidence-based WRITING.**
+**PAPERS = Epistemic. Bounded by evidence.**
 
 ---
 
 ## Constraints
 
-1. PAPERS MUST cite DOMAINS evidence.
-2. PAPERS MUST have CV authority.
-3. PAPERS MUST be peer-reviewed or self-validated.
+1. PAPERS MUST cite evidence.
+2. PAPERS MUST be falsifiable.
+3. PAPERS MUST trace claims to sources.
 
 ---
 
-*PAPERS | Research | DEXTER*
+*PAPERS | Epistemic | DEXTER*
