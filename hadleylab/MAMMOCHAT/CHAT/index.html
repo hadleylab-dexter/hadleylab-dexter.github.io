@@ -63,34 +63,16 @@
     </div>
 
     <script>
-        const responses = {
-            'What is OPTS-EGO?': `<strong>OPTS-EGO</strong> is the core architecture of MammoChat:<br><br>
-                <strong>OPTS</strong> = Open Provenance Token Standard<br>
-                Each mammogram, biopsy, and clinical note becomes a verifiable token: OPTS<sub>i</sub> = (D<sub>i</sub>, M<sub>i</sub>, σ<sub>i</sub>, τ<sub>i</sub>) where D is content hash, M is mCODE metadata, σ is patient signature, τ is consent timestamp.<br><br>
-                <strong>EGO</strong> = Ethical Governance Operators<br>
-                Smart contracts that validate consent, enforce access rules, and ensure data never moves without patient authorization.<br><br>
-                Together, they transform regulatory compliance into patient capability.`,
-            'Explain the token system': `The <strong>token system</strong> has three layers:<br><br>
-                <strong>1. Data Tokens (OPTS)</strong><br>
-                Every clinical record becomes a signed, timestamped token with mCODE-compliant metadata.<br><br>
-                <strong>2. Grant Tokens (OPTS-Grant)</strong><br>
-                Public funding deliverables are registered as tokens, linking taxpayer investment to open-source outputs.<br><br>
-                <strong>3. Consent Tokens</strong><br>
-                Patient permissions are cryptographically recorded, enabling transparent sharing for research and clinical trials.<br><br>
-                <em>"Structure without provenance is information; provenance with consent is power."</em>`,
-            'How does this relate to CANONIC?': `<strong>MAMMOCHAT is the origin of CANONIC.</strong><br><br>
-                This whitepaper (October 2025) introduced the OPTS-EGO architecture that became the foundation for the CANONIC Programming Paradigm (December 2025).<br><br>
-                The evolution:<br>
-                • <strong>OPTS</strong> → became CANONIC's provenance layer<br>
-                • <strong>EGO</strong> → became CANONIC's governance operators<br>
-                • <strong>Empathy Architecture</strong> → became CANONIC's constitutional constraints<br><br>
-                MammoChat is now a flagship holding of the <a href="https://canonic-foundation.github.io" style="color: #ff69b4;">CANONIC FOUNDATION</a>, demonstrating open governance in healthcare AI.`
-        };
+        // CANONIC Chat API Configuration
+        const CHAT_API = 'https://canonic-chat.dexter-hadley.workers.dev/chat';
+        let conversationHistory = [];
+        let isLoading = false;
 
-        function addMessage(text, isUser) {
+        function addMessage(text, isUser, isLoading = false) {
             const messages = document.getElementById('messages');
             const div = document.createElement('div');
             div.className = 'message';
+            if (isLoading) div.id = 'loading-message';
             div.innerHTML = `
                 <div class="message-avatar" style="${isUser ? 'background: #333; color: #fff;' : ''}">${isUser ? 'U' : 'M'}</div>
                 <div class="message-content">
@@ -99,25 +81,75 @@
             `;
             messages.appendChild(div);
             messages.scrollTop = messages.scrollHeight;
+            return div;
+        }
+
+        function removeLoadingMessage() {
+            const loading = document.getElementById('loading-message');
+            if (loading) loading.remove();
+        }
+
+        async function sendMessage(text) {
+            if (isLoading || !text.trim()) return;
+
+            isLoading = true;
+            addMessage(text, true);
+
+            // Add to history
+            conversationHistory.push({ role: 'user', content: text });
+
+            // Show loading
+            addMessage('<em style="opacity: 0.6;">Thinking...</em>', false, true);
+
+            try {
+                const response = await fetch(CHAT_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: text,
+                        history: conversationHistory.slice(-10)
+                    })
+                });
+
+                removeLoadingMessage();
+
+                if (!response.ok) {
+                    throw new Error('API error');
+                }
+
+                const data = await response.json();
+                const reply = data.reply || 'No response received.';
+
+                // Add assistant reply to history
+                conversationHistory.push({ role: 'assistant', content: reply });
+
+                // Format markdown-like response
+                const formatted = reply
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n\n/g, '<br><br>')
+                    .replace(/\n/g, '<br>');
+
+                addMessage(formatted, false);
+
+            } catch (error) {
+                removeLoadingMessage();
+                console.error('Chat error:', error);
+                addMessage('<em style="color: #ff6b6b;">Connection error. Please try again.</em>', false);
+            }
+
+            isLoading = false;
         }
 
         function askQuestion(q) {
-            addMessage(q, true);
-            setTimeout(() => {
-                const response = responses[q] || 'I can answer questions about the OPTS-EGO Ledger, token system, mCODE integration, and empathy architecture. Try one of the quick actions below.';
-                addMessage(response, false);
-            }, 500);
+            sendMessage(q);
         }
 
         document.querySelector('.chat-send').onclick = function() {
             const input = document.querySelector('.chat-input');
             const text = input.value.trim();
             if (text) {
-                addMessage(text, true);
+                sendMessage(text);
                 input.value = '';
-                setTimeout(() => {
-                    addMessage('This is a demo interface. For full paper chat, the backend integration is coming soon. In the meantime, try the quick actions below for curated answers about the OPTS-EGO Ledger.', false);
-                }, 500);
             }
         };
 
