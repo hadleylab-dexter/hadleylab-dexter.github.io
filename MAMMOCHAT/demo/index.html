@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAMMOCHAT DEMO | MED.ONCO.MAMMO</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: #2a2a2a;
+            --text: #e0e0e0;
+            --dim: #888;
+            --accent: #10a37f;
+            --gold: #ffd700;
+            --warn: #f59e0b;
+            --error: #ef4444;
+            --evo: #8b5cf6;
+            --shop: #3b82f6;
+        }
+        body {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .logo { font-weight: 600; font-size: 15px; }
+        .logo span { color: var(--accent); }
+        .badge {
+            font-size: 10px;
+            background: var(--bg);
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            color: var(--dim);
+            margin-left: 8px;
+        }
+        .demo-badge {
+            font-size: 10px;
+            background: rgba(245,158,11,0.15);
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--warn);
+            color: var(--warn);
+            margin-left: 8px;
+        }
+        .context {
+            display: flex;
+            gap: 8px;
+        }
+        .context select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: inherit;
+        }
+        .dcis-warn {
+            background: rgba(245,158,11,0.15);
+            border: 1px solid var(--warn);
+            color: var(--warn);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            display: none;
+        }
+        .dcis-warn.show { display: block; }
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        .container { max-width: 700px; margin: 0 auto; }
+
+        /* Messages */
+        .message {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .message:last-child { border-bottom: none; }
+        .msg-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .msg-header.user { color: var(--text); }
+        .msg-header.assistant { color: var(--accent); }
+        .flag {
+            font-size: 9px;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: normal;
+        }
+        .flag-mcode { background: rgba(16,163,127,0.15); color: var(--accent); border: 1px solid var(--accent); }
+        .flag-evidence { background: rgba(255,215,0,0.1); color: var(--gold); border: 1px solid var(--gold); }
+        .flag-dcis { background: rgba(245,158,11,0.15); color: var(--warn); border: 1px solid var(--warn); }
+        .msg-content { line-height: 1.5; font-size: 13px; }
+        .evidence {
+            margin-top: 10px;
+            padding: 8px;
+            background: var(--surface);
+            border-left: 2px solid var(--gold);
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        .evidence-title { color: var(--gold); font-weight: 600; margin-bottom: 4px; }
+        .evidence-ref { color: var(--dim); font-family: monospace; font-size: 10px; }
+        .mcode {
+            margin-top: 6px;
+            padding: 6px;
+            background: rgba(16,163,127,0.05);
+            border-left: 2px solid var(--accent);
+            border-radius: 4px;
+            font-size: 10px;
+            font-family: monospace;
+        }
+
+        /* Welcome */
+        .welcome {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+        }
+        .welcome h1 { font-size: 28px; margin-bottom: 8px; }
+        .welcome h1 span { color: var(--accent); }
+        .welcome p { color: var(--dim); font-size: 13px; max-width: 360px; margin-bottom: 16px; }
+        .detros-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .detros-cell {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            text-align: center;
+        }
+        .detros-cell strong { color: var(--accent); display: block; font-size: 14px; }
+        .disclaimer {
+            margin-top: 16px;
+            padding: 10px 16px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid var(--error);
+            border-radius: 6px;
+            font-size: 10px;
+            color: var(--error);
+        }
+
+        /* EVO/LEARNING View */
+        .evo-header { color: var(--evo); font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .evo-domain { color: var(--dim); font-size: 11px; margin-bottom: 16px; }
+        .evo-stat {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .evo-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 14px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .evo-card .value { font-size: 24px; font-weight: bold; color: var(--evo); }
+        .evo-card .label { font-size: 10px; color: var(--dim); margin-top: 4px; }
+        .discovery {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .discovery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .discovery-id { color: var(--evo); font-weight: 600; font-size: 12px; }
+        .discovery-date { color: var(--dim); font-size: 10px; }
+        .discovery-title { font-size: 13px; margin-bottom: 6px; }
+        .discovery-evidence { color: var(--dim); font-size: 10px; font-family: monospace; }
+
+        /* SHOP View */
+        .shop-header { color: var(--shop); font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .shop-axiom {
+            background: var(--surface);
+            border: 1px solid var(--shop);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .shop-axiom h3 { color: var(--shop); font-size: 13px; margin-bottom: 8px; }
+        .shop-axiom p { color: var(--dim); font-size: 11px; }
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .shop-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .shop-card h4 { font-size: 13px; margin-bottom: 6px; color: var(--shop); }
+        .shop-card p { font-size: 11px; color: var(--dim); margin-bottom: 10px; }
+        .shop-card .price { font-size: 16px; font-weight: bold; color: var(--text); }
+        .shop-card .tier { font-size: 9px; color: var(--dim); }
+        .shop-card button {
+            margin-top: 10px;
+            width: 100%;
+            background: var(--shop);
+            border: none;
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        /* Input */
+        #input-area {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+        #input-wrap {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+        #input {
+            width: 100%;
+            padding: 12px 45px 12px 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 13px;
+            font-family: inherit;
+            resize: none;
+        }
+        #input:focus { outline: none; border-color: var(--accent); }
+        #send {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            background: var(--accent);
+            border: none;
+            border-radius: 6px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* FAB */
+        .fab-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+        .fab {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            transition: all 0.15s;
+        }
+        .fab:hover { transform: scale(1.1); }
+        .fab.evo { background: var(--evo); color: white; }
+        .fab.evo.active { box-shadow: 0 0 0 3px rgba(139,92,246,0.4); }
+        .fab.chat { background: var(--accent); color: white; }
+        .fab.chat.active { box-shadow: 0 0 0 3px rgba(16,163,127,0.4); }
+        .fab.shop { background: var(--shop); color: white; }
+        .fab.shop.active { box-shadow: 0 0 0 3px rgba(59,130,246,0.4); }
+
+        .view { display: none; }
+        .view.active { display: block; }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display:flex;align-items:center">
+            <div class="logo">∩ MAMMO<span>CHAT</span></div>
+            <span class="badge">MED.ONCO.MAMMO | mCODE</span>
+            <span class="demo-badge">DEMO</span>
+        </div>
+        <div class="context">
+            <select id="histology" onchange="updateContext()">
+                <option value="UNKNOWN">Histology: ?</option>
+                <option value="DCIS">DCIS</option>
+                <option value="INVASIVE">Invasive</option>
+            </select>
+            <select id="phase" onchange="updateContext()">
+                <option value="SCREENING">Screening</option>
+                <option value="DIAGNOSIS">Diagnosis</option>
+                <option value="TREATMENT">Treatment</option>
+                <option value="SURVIVORSHIP">Survivorship</option>
+            </select>
+            <div class="dcis-warn" id="dcis-warn">DCIS ≠ Invasive</div>
+        </div>
+    </header>
+
+    <main>
+        <!-- CHAT View -->
+        <div class="view active" id="view-chat">
+            <div class="container" id="messages"></div>
+        </div>
+
+        <!-- LEARNING View -->
+        <div class="view" id="view-evo">
+            <div class="container">
+                <div class="evo-header">LEARNING</div>
+                <div class="evo-domain">MATCHING on mCODE (DEMO DATA)</div>
+                <div class="evo-stat">
+                    <div class="evo-card">
+                        <div class="value">89</div>
+                        <div class="label">INSIGHTS</div>
+                    </div>
+                    <div class="evo-card">
+                        <div class="value">1.2K</div>
+                        <div class="label">MATCHES</div>
+                    </div>
+                    <div class="evo-card">
+                        <div class="value">20K+</div>
+                        <div class="label">ENCOUNTERS</div>
+                    </div>
+                </div>
+
+                <div class="discovery">
+                    <div class="discovery-header">
+                        <span class="discovery-id">PATIENT</span>
+                        <span class="discovery-date">2026-01-30</span>
+                    </div>
+                    <div class="discovery-title">Stage IIA patients prefer lumpectomy over mastectomy 3:1</div>
+                    <div class="discovery-evidence">n=847 | MED.ONCO.MAMMO encounters</div>
+                </div>
+
+                <div class="discovery">
+                    <div class="discovery-header">
+                        <span class="discovery-id">TRIALS</span>
+                        <span class="discovery-date">2026-01-29</span>
+                    </div>
+                    <div class="discovery-title">WISDOM trial: 40-74yo, no prior breast cancer</div>
+                    <div class="discovery-evidence">NCT02620852 | 127 patients matched</div>
+                </div>
+
+                <div class="discovery">
+                    <div class="discovery-header">
+                        <span class="discovery-id">PHYSICIAN</span>
+                        <span class="discovery-date">2026-01-28</span>
+                    </div>
+                    <div class="discovery-title">Dr. Nguyen: DCIS specialist, AdventHealth</div>
+                    <div class="discovery-evidence">15+ years | Orlando FL</div>
+                </div>
+
+                <div class="discovery">
+                    <div class="discovery-header">
+                        <span class="discovery-id">SECOND-OP</span>
+                        <span class="discovery-date">2026-01-27</span>
+                    </div>
+                    <div class="discovery-title">23% of second opinions change treatment plan</div>
+                    <div class="discovery-evidence">n=312 | Stage II-III cases</div>
+                </div>
+
+                <div class="discovery">
+                    <div class="discovery-header">
+                        <span class="discovery-id">MATCH</span>
+                        <span class="discovery-date">2026-01-26</span>
+                    </div>
+                    <div class="discovery-title">mCODE + SDOH improves trial match rate by 34%</div>
+                    <div class="discovery-evidence">Gravity Project | ZIP code integration</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATCHING View -->
+        <div class="view" id="view-shop">
+            <div class="container">
+                <div class="shop-header">MATCHING</div>
+                <div class="shop-axiom">
+                    <h3>MATCHING on mCODE (DEMO DATA)</h3>
+                    <p>Patient → Trials → Physicians → Second Opinion</p>
+                </div>
+                <div class="shop-grid">
+                    <div class="shop-card">
+                        <h4>Patient Matching</h4>
+                        <p>mCODE profile → treatment pathway matching</p>
+                        <div class="price">127</div>
+                        <div class="tier">ACTIVE MATCHES</div>
+                        <button type="button">View Matches</button>
+                    </div>
+                    <div class="shop-card">
+                        <h4>Trials Matching</h4>
+                        <p>Eligibility parsing → ClinicalTrials.gov</p>
+                        <div class="price">43</div>
+                        <div class="tier">ELIGIBLE TRIALS</div>
+                        <button type="button">Find Trials</button>
+                    </div>
+                    <div class="shop-card">
+                        <h4>Physician Matching</h4>
+                        <p>Specialty + location + availability</p>
+                        <div class="price">12</div>
+                        <div class="tier">LOCAL SPECIALISTS</div>
+                        <button type="button">Find Physicians</button>
+                    </div>
+                    <div class="shop-card">
+                        <h4>Second Opinion</h4>
+                        <p>Expert review for complex cases</p>
+                        <div class="price">3</div>
+                        <div class="tier">AVAILABLE NOW</div>
+                        <button type="button">Request Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="input-area">
+        <div id="input-wrap">
+            <textarea id="input" rows="1" placeholder="Ask about breast imaging, staging, treatment..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
+            <button id="send" onclick="send()">↑</button>
+        </div>
+    </div>
+
+    <div class="fab-container">
+        <button class="fab evo" type="button" onclick="showView('evo')" title="LEARNING">LEARN</button>
+        <button class="fab chat active" type="button" onclick="showView('chat')" title="CHAT">CHAT</button>
+        <button class="fab shop" type="button" onclick="showView('shop')" title="MATCHING">MATCH</button>
+    </div>
+
+    <script>
+        // DEMO VERSION — STATIC MOCK DATA
+        const MCODE = {
+            DCIS: { snomed: '109886000', desc: 'Ductal carcinoma in situ', chemo: false },
+            INVASIVE: { snomed: '254837009', desc: 'Invasive breast carcinoma', chemo: true },
+            UNKNOWN: { snomed: '?', desc: 'Histology pending', chemo: null }
+        };
+
+        let ctx = { histology: 'UNKNOWN', phase: 'SCREENING' };
+        let messages = [];
+        let currentView = 'chat';
+
+        function showView(view) {
+            currentView = view;
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.fab').forEach(f => f.classList.remove('active'));
+            document.getElementById('view-' + view).classList.add('active');
+            document.querySelector('.fab.' + view).classList.add('active');
+        }
+
+        function updateContext() {
+            ctx.histology = document.getElementById('histology').value;
+            ctx.phase = document.getElementById('phase').value;
+            document.getElementById('dcis-warn').classList.toggle('show', ctx.histology === 'DCIS');
+        }
+
+        function render() {
+            const el = document.getElementById('messages');
+            if (!messages.length) {
+                el.innerHTML = `
+                    <div class="welcome">
+                        <h1>MAMMO<span>CHAT</span></h1>
+                        <p>LEARN + CHAT + MATCH on mCODE</p>
+                        <div class="detros-grid">
+                            <div class="detros-cell"><strong>D</strong>Declarative</div>
+                            <div class="detros-cell"><strong>E</strong>Evidential</div>
+                            <div class="detros-cell"><strong>T</strong>Temporal</div>
+                            <div class="detros-cell"><strong>R</strong>Relational</div>
+                            <div class="detros-cell"><strong>O</strong>Operational</div>
+                            <div class="detros-cell"><strong>S</strong>Structural</div>
+                        </div>
+                        <p style="color:var(--accent);font-size:11px">mCODE = Precision Cancer Embedding</p>
+                        <p style="color:var(--warn);font-size:10px;margin-top:8px">DEMO MODE — Static data</p>
+                        <div class="disclaimer">
+                            <strong>NOT MEDICAL ADVICE</strong> — Educational only
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            el.innerHTML = messages.map(m => {
+                const flags = (m.flags || []).map(f => `<span class="flag flag-${f.toLowerCase()}">${f}</span>`).join('');
+                const ev = m.evidence?.length ? `
+                    <div class="evidence">
+                        <div class="evidence-title">Evidence</div>
+                        ${m.evidence.map(e => `<div class="evidence-ref">${e}</div>`).join('')}
+                    </div>
+                ` : '';
+                const mc = m.mcode ? `<div class="mcode">mCODE: ${m.mcode.snomed} | ${m.mcode.phase}</div>` : '';
+                return `
+                    <div class="message">
+                        <div class="msg-header ${m.role}">${m.role === 'user' ? 'You' : 'MAMMOCHAT'} ${flags}</div>
+                        <div class="msg-content">${m.content}</div>
+                        ${ev}${mc}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function respond(text) {
+            const t = text.toLowerCase();
+            const h = ctx.histology;
+            const mc = { snomed: MCODE[h].snomed, phase: ctx.phase };
+
+            if (t.includes('chemo') && h === 'DCIS') {
+                return {
+                    content: 'DCIS is non-invasive (SNOMED:109886000). Chemotherapy is NOT indicated. Treatment: surgery ± radiation.',
+                    flags: ['DCIS', 'MCODE'],
+                    evidence: ['NCCN.Breast.2024.DCIS-1', 'mCODE.STU3.nonInvasive'],
+                    mcode: mc
+                };
+            }
+
+            if (t.includes('chemo') && h === 'INVASIVE') {
+                return {
+                    content: 'Invasive carcinoma (SNOMED:254837009). Chemotherapy may be indicated based on stage, grade, receptors.',
+                    flags: ['MCODE', 'EVIDENCE'],
+                    evidence: ['NCCN.Breast.2024.INV-1', 'mCODE.STU3.invasive'],
+                    mcode: mc
+                };
+            }
+
+            if (t.includes('chemo') && h === 'UNKNOWN') {
+                return {
+                    content: 'Cannot recommend chemotherapy without histology. DCIS = no chemo. Invasive = may need chemo.',
+                    flags: ['DCIS', 'MCODE'],
+                    evidence: ['mCODE.STU3.histologyRequired'],
+                    mcode: mc
+                };
+            }
+
+            if (t.includes('birads') || t.includes('bi-rads')) {
+                return {
+                    content: 'BI-RADS: 0=Incomplete, 1=Neg, 2=Benign, 3=<2%, 4=2-95%, 5=>95%, 6=Known.',
+                    flags: ['EVIDENCE'],
+                    evidence: ['BIRADS.5ed'],
+                    mcode: mc
+                };
+            }
+
+            if (t.includes('treatment') && h === 'DCIS') {
+                return {
+                    content: 'DCIS: Lumpectomy + radiation OR mastectomy. Endocrine therapy for ER+. NO chemo.',
+                    flags: ['DCIS', 'EVIDENCE'],
+                    evidence: ['NCCN.Breast.2024.DCIS-2'],
+                    mcode: mc
+                };
+            }
+
+            if (t.includes('treatment') && h === 'INVASIVE') {
+                return {
+                    content: 'Invasive: Surgery, radiation, chemo, targeted therapy based on stage/grade/receptors.',
+                    flags: ['MCODE', 'EVIDENCE'],
+                    evidence: ['NCCN.Breast.2024.INV-2'],
+                    mcode: mc
+                };
+            }
+
+            return {
+                content: `Processing: "${text}" | ${h}/${ctx.phase}`,
+                flags: ['MCODE'],
+                evidence: ['ENGINE.READING'],
+                mcode: mc
+            };
+        }
+
+        function send() {
+            const input = document.getElementById('input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            if (currentView !== 'chat') showView('chat');
+
+            const mc = { snomed: MCODE[ctx.histology].snomed, phase: ctx.phase };
+            messages.push({ role: 'user', content: text, mcode: mc });
+            messages.push({ role: 'assistant', ...respond(text) });
+
+            input.value = '';
+            render();
+        }
+
+        render();
+    </script>
+</body>
+</html>
