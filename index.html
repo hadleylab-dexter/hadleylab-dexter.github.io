@@ -295,6 +295,29 @@
             box-shadow: 0 8px 30px rgba(37, 99, 235, 0.6);
         }
 
+        .learn-more-btn {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: var(--blue);
+            border: 2px solid var(--blue);
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            text-decoration: none;
+            transition: all 0.3s;
+            z-index: 20;
+        }
+
+        .learn-more-btn:hover {
+            background: var(--blue-pale);
+            transform: translateX(-50%) scale(1.05);
+        }
+
         /* App preview animation */
         @keyframes fade-cycle {
             0%, 20% { opacity: 1; transform: translateY(0); }
@@ -705,13 +728,14 @@
                 <h1>Translating big data into <span>precision medicine</span></h1>
                 <p>MammoChat delivers evidence-based breast health information with BI-RADS categorization and NCCN guideline integration. Every response cited. Every claim validated.</p>
                 <div class="hero-cta">
-                    <a href="SHOP/MAMMOCHAT/CHAT/" class="btn btn-primary">Try MammoChat</a>
+                    <a href="SHOP/MAMMOCHAT/CHAT/" class="btn btn-primary">Chat Now</a>
                     <a href="SHOP/MAMMOCHAT/" class="btn btn-secondary">Learn More</a>
                 </div>
             </div>
 
             <div class="device-container">
                 <div class="device-glow"></div>
+                <a href="SHOP/MAMMOCHAT/" class="learn-more-btn">Learn More</a>
                 <div class="iphone">
                     <div class="iphone-screen">
                         <div class="app-preview">
