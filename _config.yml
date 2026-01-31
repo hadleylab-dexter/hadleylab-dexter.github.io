@@ -1,0 +1,36 @@
+# Jekyll configuration for GitHub Pages
+title: Hadley Lab
+description: Translating big data into precision medicine
+
+# Use GitHub Pages default theme (minimal)
+theme: minima
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Include markdown files
+include:
+  - "*.md"
+  - SHOP
+  - MAMMOCHAT
+
+# Exclude from processing
+exclude:
+  - node_modules
+  - vendor
+  - .git
+
+# Default layout for markdown files
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "**/*.md"
+    values:
+      layout: "default"

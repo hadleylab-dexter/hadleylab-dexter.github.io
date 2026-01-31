@@ -226,6 +226,52 @@
             border-left: 3px solid var(--accent);
         }
 
+        /* Markdown styles */
+        .msg-content h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--fg);
+            margin: 16px 0 12px 0;
+        }
+        .msg-content h2:first-child { margin-top: 0; }
+
+        .msg-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--fg);
+            margin: 14px 0 10px 0;
+        }
+
+        .msg-content h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--fg);
+            margin: 12px 0 8px 0;
+        }
+
+        .msg-content strong { color: var(--fg); }
+
+        .msg-content li {
+            margin-left: 20px;
+            margin-bottom: 6px;
+            list-style: disc;
+        }
+
+        .msg-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 13px;
+        }
+
+        .msg-content tr { border-bottom: 1px solid var(--border); }
+        .msg-content tr:first-child { font-weight: 600; background: var(--bg); }
+
+        .msg-content td {
+            padding: 8px 12px;
+            text-align: left;
+        }
+
         .evidence {
             margin-top: 12px;
             padding: 12px 16px;
@@ -866,6 +912,30 @@ IMPORTANT: DCIS does NOT typically require chemotherapy. Always clarify this dis
             }
         }
 
+        // Markdown parser
+        function parseMarkdown(text) {
+            return text
+                // Headers
+                .replace(/^### (.+)$/gm, '<h4>$1</h4>')
+                .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+                .replace(/^# (.+)$/gm, '<h2>$1</h2>')
+                // Bold and italic
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                // Lists
+                .replace(/^- (.+)$/gm, '<li>$1</li>')
+                .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+                // Tables (simple conversion)
+                .replace(/\|(.+)\|/g, (match, content) => {
+                    if (content.match(/^[-:|]+$/)) return ''; // Skip separator rows
+                    const cells = content.split('|').map(c => c.trim());
+                    return '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
+                })
+                // Paragraphs
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+        }
+
         function render() {
             const el = document.getElementById('messages');
             if (!messages.length) {
@@ -998,7 +1068,7 @@ IMPORTANT: DCIS does NOT typically require chemotherapy. Always clarify this dis
 
                 messages.push({
                     role: 'assistant',
-                    content: reply.replace(/\n/g, '<br>'),
+                    content: parseMarkdown(reply),
                     tags,
                     evidence: ['NCCN Guidelines', 'ACR BI-RADS'],
                     mcode: mc
