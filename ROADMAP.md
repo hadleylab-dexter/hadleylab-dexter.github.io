@@ -13,7 +13,7 @@ inherits: /CANONIC/
 
 ## 2026-02
 
-- [ ] Frontend generation (docs/)
+- [ ] Frontend generation (github.io)
 - [x] CHAT product demos — `9ca4198` EVO/SHOP panels on all 5 verticals
 
 ---

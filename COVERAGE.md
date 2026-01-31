@@ -41,7 +41,7 @@ inherits: /CANONIC/
 | PUBLICATIONS organized | ✓ CLOSED | 2026-01 |
 | VITAE organized | ✓ CLOSED | 2026-01 |
 | CHAT product demos | ✓ CLOSED | `9ca4198` EVO/SHOP panels |
-| Frontend generation | - OPEN | Pending FaaS |
+| Frontend generation | - OPEN | Pending FaaS → github.io |
 
 ---
 
