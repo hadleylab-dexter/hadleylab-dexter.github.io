@@ -598,19 +598,22 @@
                 <h1>Translating big data into <span>precision medicine</span></h1>
                 <p>MammoChat delivers evidence-based breast health information with BI-RADS categorization and NCCN guideline integration. Every response cited. Every claim validated.</p>
                 <div class="hero-cta">
-                    <button class="btn btn-primary" onclick="openModal()">Try MammoChat</button>
+                    <a href="SHOP/MAMMOCHAT/CHAT/" class="btn btn-primary">Try MammoChat</a>
                     <a href="SHOP/MAMMOCHAT/" class="btn btn-secondary">Learn More</a>
                 </div>
             </div>
 
             <div class="device-container">
                 <div class="device-glow"></div>
-                <div class="iphone">
+                <a href="SHOP/MAMMOCHAT/CHAT/" class="iphone">
                     <div class="iphone-screen">
-                        <iframe src="SHOP/MAMMOCHAT/" title="MammoChat"></iframe>
+                        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:20px;">
+                            <span style="font-size:48px;">💗</span>
+                            <h3 style="margin:16px 0 8px;">MammoChat</h3>
+                            <p style="color:var(--dim);font-size:14px;">Click to launch</p>
+                        </div>
                     </div>
-                </div>
-                <button class="expand-btn" onclick="openModal()">↗ Expand</button>
+                </a>
             </div>
         </div>
 
@@ -699,33 +702,6 @@
         <p>Translating big data into precision medicine and digital health.</p>
     </footer>
 
-    <!-- Fullscreen Modal -->
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">×</button>
-            <iframe src="SHOP/MAMMOCHAT/" title="MammoChat"></iframe>
-        </div>
-    </div>
-
-    <script>
-        function openModal() {
-            document.getElementById('modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
-        });
-    </script>
-</body>
+    </body>
 </html>
 <!-- deployed Sat Jan 31 00:48:51 EST 2026 -->
