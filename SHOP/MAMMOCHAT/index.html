@@ -449,8 +449,8 @@
         </a>
         <div class="nav-links">
             <a href="#features">Features</a>
-            <a href="#app">Try It</a>
             <a href="#research">Research</a>
+            <a href="CHAT/">Chat Now</a>
             <a href="../">Hadley Lab</a>
         </div>
     </nav>
@@ -462,8 +462,8 @@
         <h1>Your <span>Breast Health</span> Companion</h1>
         <p>Evidence-based information powered by clinical guidelines. Every response cited. Every claim validated. Supporting you on your journey with compassion and precision.</p>
         <div class="hero-buttons">
-            <a href="#app" class="btn btn-primary">Chat Now</a>
-            <a href="#research" class="btn btn-secondary">Read the Paper</a>
+            <a href="CHAT/" class="btn btn-primary">Chat Now</a>
+            <a href="#research" class="btn btn-secondary">Learn More</a>
         </div>
     </section>
 
@@ -502,31 +502,6 @@
         </div>
     </section>
 
-    <section class="app-section" id="app">
-        <h2>Chat Now</h2>
-        <p>Ask questions about mammography, breast cancer staging, treatment options, or clinical trials.</p>
-        <div class="chat-launch">
-            <button type="button" class="chat-launch-btn" onclick="openMammoChat()">
-                <span>💗</span> Open MammoChat
-            </button>
-            <p class="chat-launch-note">Opens in a new window optimized for mobile</p>
-        </div>
-    </section>
-
-    <script>
-        function openMammoChat() {
-            const width = 390;
-            const height = 700;
-            const left = (screen.width - width) / 2;
-            const top = (screen.height - height) / 2;
-            window.open(
-                'CHAT/',
-                'MammoChat',
-                `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=no`
-            );
-        }
-    </script>
-
     <section class="research" id="research">
         <div class="research-content">
             <h2>Built on Research</h2>
@@ -539,26 +514,24 @@
                     <a href="https://github.com/canonic-foundation/canonic-foundation" class="paper-badge" style="text-decoration:none;">🛡️ ENTERPRISE</a>
                 </div>
             </a>
-        </div>
-    </section>
 
-    <section class="formula">
-        <h2>Built with CANONIC</h2>
-        <div class="formula-box">
-            EVO <span>+</span> CHAT <span>+</span> SHOP <span>=</span> CANONIC
-        </div>
-        <div class="canonic-components">
-            <div class="canonic-component">
-                <h3><span class="tag tag-evo">EVO</span> Evolution</h3>
-                <p>Compliance derived from evidence. COVERAGE tracks where we came from. ROADMAP shows where we're going. Every claim validated against the ledger.</p>
+            <div class="formula-box" style="margin-top: 40px;">
+                EVO <span>+</span> CHAT <span>+</span> SHOP <span>=</span> CANONIC
             </div>
-            <div class="canonic-component">
-                <h3><span class="tag tag-chat">CHAT</span> Interface</h3>
-                <p>The conversational AI that speaks to you. Evidence-based responses with citations. BI-RADS guidance. Clinical trials matching. Compassionate support.</p>
-            </div>
-            <div class="canonic-component">
-                <h3><span class="tag tag-shop">SHOP</span> Distribution</h3>
-                <p>Apps live in user organizations. Doctrine flows from canonic-shop. LEARNING indexes everything. You own your instance, we provide the framework.</p>
+
+            <div class="canonic-components">
+                <div class="canonic-component">
+                    <h3><span class="tag tag-evo">EVO</span> Evolution</h3>
+                    <p>Compliance derived from evidence. COVERAGE tracks where we came from. ROADMAP shows where we're going. Every claim validated against the ledger.</p>
+                </div>
+                <div class="canonic-component">
+                    <h3><span class="tag tag-chat">CHAT</span> Interface</h3>
+                    <p>The conversational AI that speaks to you. Evidence-based responses with citations. BI-RADS guidance. Clinical trials matching. Compassionate support.</p>
+                </div>
+                <div class="canonic-component">
+                    <h3><span class="tag tag-shop">SHOP</span> Distribution</h3>
+                    <p>Apps live in user organizations. Doctrine flows from canonic-shop. LEARNING indexes everything. You own your instance, we provide the framework.</p>
+                </div>
             </div>
         </div>
     </section>
