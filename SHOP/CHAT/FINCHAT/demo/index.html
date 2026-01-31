@@ -6,7 +6,10 @@
     <title>FinChat — Financial Intelligence Platform</title>
     <meta name="description" content="Data-driven insights. Market clarity.">
     <meta name="theme-color" content="#059669">
+    <link rel="stylesheet" href="../../base/chat.css">
+    <link rel="stylesheet" href="../../base/overlay.css">
     <style>
+        /* FINCHAT theme - green financial */
         :root {
             --bg: #f8fdf9;
             --bg-alt: #ffffff;
@@ -47,29 +50,14 @@
             }
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--fg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Header */
+        /* Override header for FINCHAT style */
         header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 32px;
-            background: var(--bg-alt);
-            border-bottom: 1px solid var(--border);
         }
 
-        .logo {
+        .header-left {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -88,25 +76,25 @@
             font-weight: 700;
         }
 
-        .logo-text {
+        h1 {
             font-size: 20px;
             font-weight: 700;
             letter-spacing: -0.02em;
         }
 
-        .logo-text span { color: var(--accent); }
+        h1 span { color: var(--accent); }
 
         .market-ticker {
             display: flex;
-            gap: 24px;
-            font-size: 13px;
+            gap: 20px;
+            font-size: 12px;
             font-weight: 500;
         }
 
         .ticker-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .ticker-symbol { color: var(--dim); }
@@ -114,63 +102,52 @@
         .ticker-change.up { color: var(--gain); }
         .ticker-change.down { color: var(--loss); }
 
-        /* Main */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Dashboard */
+        /* Dashboard layout */
         .dashboard {
-            padding: 32px;
+            padding: 24px;
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 24px;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
+            gap: 20px;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 800px) {
             .dashboard { grid-template-columns: 1fr; }
         }
 
         /* Chart Card */
         .chart-card {
-            padding: 24px;
+            padding: 20px;
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 16px;
+            border-radius: 12px;
         }
 
         .chart-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .chart-title {
-            font-size: 14px;
+            font-size: 12px;
             color: var(--dim);
             margin-bottom: 4px;
         }
 
         .chart-value {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
         }
 
         .chart-change {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 6px;
+            padding: 4px 8px;
+            border-radius: 4px;
         }
 
         .chart-change.up { background: var(--gain-soft); color: var(--gain); }
-        .chart-change.down { background: var(--loss-soft); color: var(--loss); }
 
         .chart-period {
             display: flex;
@@ -178,27 +155,22 @@
         }
 
         .period-btn {
-            padding: 6px 12px;
+            padding: 5px 10px;
             background: transparent;
             border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 12px;
+            border-radius: 4px;
+            font-size: 11px;
             font-weight: 500;
             color: var(--dim);
             cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .period-btn:hover { border-color: var(--accent); color: var(--accent); }
         .period-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
         .chart-area {
-            height: 200px;
+            height: 140px;
             background: linear-gradient(180deg, var(--accent-soft) 0%, transparent 100%);
             border-radius: 8px;
-            display: flex;
-            align-items: flex-end;
-            padding: 16px;
             position: relative;
         }
 
@@ -227,28 +199,27 @@
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
-        /* Insight Card */
         .insight-card {
-            padding: 20px;
+            padding: 16px;
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
         }
 
         .insight-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 8px;
         }
 
-        .insight-icon { font-size: 16px; }
+        .insight-icon { font-size: 14px; }
 
         .insight-label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             color: var(--accent);
             text-transform: uppercase;
@@ -256,41 +227,36 @@
         }
 
         .insight-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .insight-text {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--dim);
             line-height: 1.5;
         }
 
         .insight-meta {
-            margin-top: 12px;
-            padding-top: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
-            font-size: 11px;
+            font-size: 10px;
             color: var(--dim);
         }
 
         /* Services Grid */
-        .services {
-            padding: 32px;
+        .services-section {
+            padding: 24px;
             background: var(--bg-alt);
             border-top: 1px solid var(--border);
         }
 
-        .services-header {
-            max-width: 1400px;
-            margin: 0 auto 24px;
-        }
-
         .services-title {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--accent);
             text-transform: uppercase;
@@ -299,23 +265,22 @@
         }
 
         .services-headline {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
+            margin-bottom: 20px;
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            max-width: 1400px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
         }
 
         .service-card {
-            padding: 24px;
+            padding: 16px;
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -323,146 +288,18 @@
         .service-card:hover {
             border-color: var(--accent);
             transform: translateY(-2px);
-            box-shadow: var(--shadow);
         }
 
-        .service-icon {
-            font-size: 24px;
-            margin-bottom: 12px;
-        }
-
-        .service-name {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .service-desc {
-            font-size: 12px;
-            color: var(--dim);
-            line-height: 1.5;
-        }
-
-        /* Chat */
-        .chat-section {
-            padding: 32px;
-            border-top: 1px solid var(--border);
-        }
-
-        .chat-container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .chat-title {
-            font-size: 20px;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .chat-sub {
-            font-size: 14px;
-            color: var(--dim);
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .chat-input-wrap {
-            display: flex;
-            gap: 12px;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 14px 20px;
-            font-size: 15px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--fg);
-            transition: all 0.2s;
-        }
-
-        .chat-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-soft);
-        }
-
-        .chat-input::placeholder { color: var(--dim); }
-
-        .chat-btn {
-            padding: 14px 28px;
-            background: var(--accent);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .chat-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px var(--accent-glow);
-        }
-
-        .chat-examples {
-            margin-top: 16px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-        }
-
-        .chat-example {
-            padding: 8px 14px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--fg-soft);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .chat-example:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        /* Footer */
-        footer {
-            padding: 24px 32px;
-            text-align: center;
-            border-top: 1px solid var(--border);
-        }
-
-        .footer-brand {
-            font-size: 12px;
-            color: var(--dim);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .footer-brand span { color: var(--accent); }
-
-        .footer-disclaimer {
-            margin-top: 8px;
-            font-size: 10px;
-            color: var(--dim);
-        }
+        .service-icon { font-size: 20px; margin-bottom: 8px; }
+        .service-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .service-desc { font-size: 11px; color: var(--dim); line-height: 1.4; }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">
+        <div class="header-left">
             <div class="logo-icon">$</div>
-            <span class="logo-text">Fin<span>Chat</span></span>
+            <h1>Fin<span>Chat</span></h1>
         </div>
         <div class="market-ticker">
             <div class="ticker-item">
@@ -483,7 +320,62 @@
         </div>
     </header>
 
-    <main>
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+        <button type="button" class="tab-btn evo" data-panel="evo" title="EVO - Learning Ledger">EVO</button>
+        <button type="button" class="tab-btn chat active" data-panel="chat" title="CHAT - Conversation">CHAT</button>
+        <button type="button" class="tab-btn shop" data-panel="shop" title="SHOP - Services">SHOP</button>
+    </nav>
+
+    <!-- EVO Panel -->
+    <div id="panel-evo" class="panel">
+        <div class="evo-content">
+            <div class="evo-header">Learning Ledger</div>
+            <div class="evo-stats">
+                <div class="evo-stat">
+                    <div class="value">312</div>
+                    <div class="label">Axioms</div>
+                </div>
+                <div class="evo-stat">
+                    <div class="value">18</div>
+                    <div class="label">IDFs</div>
+                </div>
+                <div class="evo-stat">
+                    <div class="value">8K+</div>
+                    <div class="label">Encounters</div>
+                </div>
+            </div>
+            <div class="evo-list">
+                <div class="evo-item">
+                    <span class="time">2026-01-30</span>
+                    <span class="learned">→ Learned: SEC regulation updates</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-29</span>
+                    <span class="learned">→ Learned: Tax code patterns</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-28</span>
+                    <span class="learned">→ Learned: Investment risk models</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-27</span>
+                    <span class="learned">→ Learned: Portfolio optimization</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-26</span>
+                    <span class="learned">→ Learned: Dividend growth screening</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-25</span>
+                    <span class="learned">→ Learned: Options pricing models</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHAT Panel -->
+    <div id="panel-chat" class="panel active">
         <div class="dashboard">
             <div class="chart-card">
                 <div class="chart-header">
@@ -493,11 +385,11 @@
                         <span class="chart-change up">+12.4% YTD</span>
                     </div>
                     <div class="chart-period">
-                        <button class="period-btn">1D</button>
-                        <button class="period-btn">1W</button>
-                        <button class="period-btn active">1M</button>
-                        <button class="period-btn">1Y</button>
-                        <button class="period-btn">ALL</button>
+                        <button type="button" class="period-btn">1D</button>
+                        <button type="button" class="period-btn">1W</button>
+                        <button type="button" class="period-btn active">1M</button>
+                        <button type="button" class="period-btn">1Y</button>
+                        <button type="button" class="period-btn">ALL</button>
                     </div>
                 </div>
                 <div class="chart-area">
@@ -512,7 +404,7 @@
                         <span class="insight-label">AI Insight</span>
                     </div>
                     <div class="insight-title">Tech Sector Rotation</div>
-                    <div class="insight-text">Large cap tech showing momentum shift. Consider rebalancing NVIDIA position given valuation multiples.</div>
+                    <div class="insight-text">Large cap tech showing momentum shift. Consider rebalancing NVIDIA position.</div>
                     <div class="insight-meta">
                         <span>Confidence: 87%</span>
                         <span>2 min ago</span>
@@ -525,7 +417,7 @@
                         <span class="insight-label">Earnings Alert</span>
                     </div>
                     <div class="insight-title">AAPL Reports Tomorrow</div>
-                    <div class="insight-text">Consensus EPS: $2.10. Your position: 150 shares. Historical beat rate: 73%.</div>
+                    <div class="insight-text">Consensus EPS: $2.10. Your position: 150 shares.</div>
                     <div class="insight-meta">
                         <span>After hours</span>
                         <span>Set reminder</span>
@@ -538,7 +430,7 @@
                         <span class="insight-label">Risk Monitor</span>
                     </div>
                     <div class="insight-title">Concentration Warning</div>
-                    <div class="insight-text">Tech allocation at 42% of portfolio. Consider diversification into defensive sectors.</div>
+                    <div class="insight-text">Tech allocation at 42% of portfolio.</div>
                     <div class="insight-meta">
                         <span>Moderate risk</span>
                         <span>View options</span>
@@ -547,70 +439,88 @@
             </div>
         </div>
 
-        <section class="services">
-            <div class="services-header">
-                <div class="services-title">Capabilities</div>
-                <h2 class="services-headline">Financial Intelligence Suite</h2>
-            </div>
+        <section class="services-section">
+            <div class="services-title">Capabilities</div>
+            <h2 class="services-headline">Financial Intelligence Suite</h2>
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-icon">📈</div>
                     <div class="service-name">Portfolio Analysis</div>
-                    <div class="service-desc">Risk metrics, allocation analysis, and rebalancing recommendations</div>
+                    <div class="service-desc">Risk metrics, allocation, rebalancing</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🔮</div>
                     <div class="service-name">Market Forecasts</div>
-                    <div class="service-desc">AI-powered predictions with confidence intervals and scenario analysis</div>
+                    <div class="service-desc">AI predictions with confidence intervals</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">📰</div>
                     <div class="service-name">News Sentiment</div>
-                    <div class="service-desc">Real-time sentiment analysis across financial news and social media</div>
+                    <div class="service-desc">Real-time sentiment analysis</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🏦</div>
                     <div class="service-name">Tax Optimization</div>
-                    <div class="service-desc">Tax-loss harvesting opportunities and capital gains planning</div>
+                    <div class="service-desc">Tax-loss harvesting opportunities</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">📑</div>
                     <div class="service-name">SEC Filings</div>
-                    <div class="service-desc">Automated analysis of 10-K, 10-Q, and 8-K filings</div>
+                    <div class="service-desc">10-K, 10-Q, 8-K analysis</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🎯</div>
                     <div class="service-name">Goal Tracking</div>
-                    <div class="service-desc">Retirement, education, and wealth accumulation projections</div>
+                    <div class="service-desc">Retirement and wealth projections</div>
                 </div>
             </div>
         </section>
 
-        <section class="chat-section">
-            <div class="chat-container">
-                <h2 class="chat-title">Ask FinChat</h2>
-                <p class="chat-sub">Get instant analysis on markets, portfolios, and financial planning</p>
-                <div class="chat-input-wrap">
-                    <input type="text" class="chat-input" placeholder="What's your financial question?">
-                    <button class="chat-btn">Analyze</button>
+        <div id="messages"></div>
+        <div class="input-area">
+            <input type="text" id="input" placeholder="Ask about markets, portfolios, or financial planning..." autocomplete="off">
+            <button type="button" id="send">Analyze</button>
+        </div>
+    </div>
+
+    <!-- SHOP Panel -->
+    <div id="panel-shop" class="panel">
+        <div class="shop-content">
+            <div class="shop-header">FinChat Services</div>
+            <div class="shop-grid">
+                <div class="shop-card">
+                    <h3>Personal</h3>
+                    <p>Financial education, basics</p>
+                    <div class="price">Free</div>
+                    <div class="tier">COMMUNITY tier</div>
+                    <button type="button">Active</button>
                 </div>
-                <div class="chat-examples">
-                    <div class="chat-example">"Should I sell NVDA before earnings?"</div>
-                    <div class="chat-example">"Roth conversion strategy"</div>
-                    <div class="chat-example">"Best dividend ETFs"</div>
-                    <div class="chat-example">"Analyze my risk exposure"</div>
+                <div class="shop-card">
+                    <h3>Advisor</h3>
+                    <p>Portfolio analysis, planning tools</p>
+                    <div class="price">$10K/yr</div>
+                    <div class="tier">BUSINESS tier</div>
+                    <button type="button" disabled>Contact Sales</button>
+                </div>
+                <div class="shop-card">
+                    <h3>Enterprise</h3>
+                    <p>Compliance automation, reporting</p>
+                    <div class="price">$75K/yr</div>
+                    <div class="tier">ENTERPRISE tier</div>
+                    <button type="button" disabled>Contact Sales</button>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
 
-    <footer>
-        <div class="footer-brand">
-            <span>∩</span> CANONIC · FinChat · VaaS + FaaS
-        </div>
-        <div class="footer-disclaimer">
-            Not financial advice. Past performance does not guarantee future results.
-        </div>
-    </footer>
+    <div class="disclaimer">Not financial advice. Past performance does not guarantee future results.</div>
+
+    <script src="../../base/chat.js"></script>
+    <script src="../../base/overlay.js"></script>
+    <script>
+        // FINCHAT demo - Financial platform
+        const chat = CHAT.create(CHAT_CONFIGS.FINCHAT);
+        chat.init();
+    </script>
 </body>
 </html>
