@@ -4,6 +4,8 @@ inherits: /CANONIC/
 
 tier: CLOSURE
 
+version: 2026-01
+
 ---
 
 ## Axiom
@@ -36,26 +38,35 @@ hadleylab-dexter/
 
 ---
 
+## Evidence
+
+| Claim | Source | Authority |
+|-------|--------|-----------|
+| CHAT products | SHOP/CHAT/ | GOLD |
+| Publications | SHOP/PUBLICATIONS/ | GOLD |
+| Portfolio | SHOP/VITAE/ | GOLD |
+
+---
+
+## Constraints
+
+1. All products MUST have CANON.md.
+2. SHOP MUST organize by type.
+3. Evidence MUST be in offerings.
+4. Frontend SHOULD be in docs/.
+
+---
+
 ## DETROS Closure
 
 | Dimension | Application |
 |-----------|-------------|
 | **D** | This CANON.md |
 | **E** | SHOP products = evidence of work |
-| **T** | Types: CHAT, PUBLICATIONS, VITAE |
+| **T** | version: 2026-01 |
 | **R** | inherits: /CANONIC/ |
-| **O** | Products serve users |
+| **O** | Products MUST serve users |
 | **S** | SHOP catalog structure |
-
----
-
-## Catalog
-
-| Type | Products | Status |
-|------|----------|--------|
-| CHAT | MAMMOCHAT, MEDCHAT, ONCOCHAT, FINCHAT, LAWCHAT | Active |
-| PUBLICATIONS | PAPERS, BOOKS, BLOGS | Active |
-| VITAE | CV | Active |
 
 ---
 
