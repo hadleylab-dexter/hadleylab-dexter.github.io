@@ -168,6 +168,7 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+            scroll-behavior: smooth;
         }
 
         /* Messages */
@@ -177,16 +178,23 @@
             max-width: 800px;
             width: 100%;
             margin: 0 auto;
+            scroll-behavior: smooth;
         }
 
         .message {
             margin-bottom: 24px;
-            animation: fadeUp 0.3s ease-out;
+            animation: slideUpFade 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .msg-header {
@@ -225,15 +233,24 @@
         .msg-content {
             font-size: 15px;
             line-height: 1.6;
-            color: var(--fg-soft);
             padding: 16px 20px;
-            background: var(--card);
-            border: 1px solid var(--border);
             border-radius: 16px;
         }
 
+        .msg-content.user {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            border-radius: 16px 16px 4px 16px;
+            margin-left: 15%;
+        }
+
         .msg-content.assistant {
+            background: var(--card);
+            color: var(--fg-soft);
+            border: 1px solid var(--border);
             border-left: 3px solid var(--accent);
+            border-radius: 16px 16px 16px 4px;
+            margin-right: 10%;
         }
 
         .evidence {
@@ -741,6 +758,177 @@
         .shop-card button:hover {
             transform: scale(1.02);
         }
+
+        /* ===========================================
+           RESPONSIVE BREAKPOINTS
+           Mobile: Compact like demo
+           iPad: More info on home
+           Desktop: Full experience
+           =========================================== */
+
+        /* Mobile - Matches the demo exactly */
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 16px;
+            }
+
+            .logo-symbol { font-size: 20px; }
+            .logo-text { font-size: 14px; }
+            .logo-badge { font-size: 9px; padding: 3px 6px; }
+
+            .header-controls {
+                gap: 6px;
+            }
+
+            .header-controls select {
+                padding: 6px 8px;
+                font-size: 11px;
+            }
+
+            .messages {
+                padding: 12px;
+            }
+
+            .message {
+                margin-bottom: 12px;
+            }
+
+            .msg-header {
+                gap: 6px;
+                margin-bottom: 4px;
+            }
+
+            .msg-role { font-size: 11px; }
+            .msg-tag { font-size: 9px; padding: 2px 6px; }
+
+            .msg-content {
+                font-size: 13px;
+                padding: 10px 14px;
+                line-height: 1.5;
+            }
+
+            .msg-content.user {
+                margin-left: 20%;
+                border-radius: 14px 14px 4px 14px;
+            }
+
+            .msg-content.assistant {
+                margin-right: 15%;
+                border-radius: 14px 14px 14px 4px;
+            }
+
+            .input-bar {
+                padding: 10px 12px;
+                gap: 8px;
+            }
+
+            .input-bar input {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+
+            .send-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .welcome-heart { font-size: 48px; }
+            .welcome h1 { font-size: 22px; }
+            .welcome-message { font-size: 14px; }
+            .welcome-features { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .feature-card { padding: 12px; }
+            .feature-icon { font-size: 20px; }
+            .feature-title { font-size: 12px; }
+            .feature-desc { font-size: 10px; }
+
+            .typing-indicator {
+                padding: 10px 14px;
+            }
+
+            .typing-indicator span {
+                width: 6px;
+                height: 6px;
+            }
+        }
+
+        /* iPad - More info on home */
+        @media (min-width: 481px) and (max-width: 1024px) {
+            .messages {
+                max-width: 700px;
+                padding: 20px;
+            }
+
+            .welcome-features {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .feature-card {
+                padding: 20px;
+            }
+
+            .welcome h1 {
+                font-size: 28px;
+            }
+
+            .welcome-message {
+                font-size: 16px;
+                max-width: 500px;
+            }
+
+            .msg-content.user {
+                margin-left: 20%;
+            }
+
+            .msg-content.assistant {
+                margin-right: 15%;
+            }
+        }
+
+        /* Desktop - Full experience */
+        @media (min-width: 1025px) {
+            .messages {
+                max-width: 800px;
+                padding: 32px;
+            }
+
+            .welcome {
+                padding: 60px 32px;
+            }
+
+            .welcome-heart { font-size: 72px; }
+            .welcome h1 { font-size: 36px; }
+            .welcome-message { font-size: 18px; max-width: 600px; }
+
+            .welcome-features {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+                max-width: 800px;
+            }
+
+            .feature-card {
+                padding: 24px 16px;
+            }
+
+            .msg-content {
+                font-size: 16px;
+                padding: 18px 24px;
+            }
+
+            .msg-content.user {
+                margin-left: 25%;
+            }
+
+            .msg-content.assistant {
+                margin-right: 20%;
+            }
+
+            .input-bar {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -982,7 +1170,10 @@ IMPORTANT: DCIS does NOT typically require chemotherapy. Always clarify this dis
                 `;
             }).join('');
 
-            el.scrollTop = el.scrollHeight;
+            // Smooth scroll to bottom like the demo
+            setTimeout(() => {
+                el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+            }, 50);
         }
 
         // Build system prompt with context
