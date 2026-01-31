@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinChat — Financial Information Assistant</title>
+    <meta name="description" content="AI-powered financial information with LEARNING compliance">
+    <link rel="stylesheet" href="../base/chat.css">
+    <style>
+        /* FINCHAT theme - green */
+        :root {
+            --bg: #f0fdf4; --fg: #14532d; --fg-soft: #6b7280;
+            --accent: #10b981; --border: #bbf7d0; --card: #ffffff;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #052e16; --fg: #ecfdf5; --fg-soft: #86efac;
+                --accent: #34d399; --border: #14532d; --card: #14532d;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <span class="logo">💰</span>
+            <div><h1>FinChat</h1><div class="subtitle">Financial Information Assistant</div></div>
+        </div>
+        <span class="learning-badge" id="learning-status">LEARNING: checking...</span>
+    </header>
+    <div id="messages"></div>
+    <div class="input-area">
+        <input type="text" id="input" placeholder="Ask a financial question..." autocomplete="off">
+        <button type="button" id="send">Send</button>
+    </div>
+    <div class="disclaimer">For informational purposes only. Not financial advice. Consult a licensed advisor.</div>
+
+    <script src="../base/chat.js"></script>
+    <script>
+        // FINCHAT - Financial chat
+        // inherits: CHAT base
+        const chat = CHAT.create(CHAT_CONFIGS.FINCHAT);
+        chat.init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedChat — Medical Information Assistant</title>
+    <meta name="description" content="AI-powered medical information with LEARNING compliance">
+    <link rel="stylesheet" href="../base/chat.css">
+    <style>
+        /* MEDCHAT theme - medical blue */
+        :root {
+            --bg: #f8fafc; --fg: #1e293b; --fg-soft: #64748b;
+            --accent: #3b82f6; --border: #e2e8f0; --card: #ffffff;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f172a; --fg: #f1f5f9; --fg-soft: #94a3b8;
+                --accent: #60a5fa; --border: #1e293b; --card: #1e293b;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <span class="logo">🩺</span>
+            <div><h1>MedChat</h1><div class="subtitle">Medical Information Assistant</div></div>
+        </div>
+        <span class="learning-badge" id="learning-status">LEARNING: checking...</span>
+    </header>
+    <div id="messages"></div>
+    <div class="input-area">
+        <input type="text" id="input" placeholder="Ask a medical question..." autocomplete="off">
+        <button type="button" id="send">Send</button>
+    </div>
+    <div class="disclaimer">For informational purposes only. Not a substitute for professional medical advice.</div>
+
+    <script src="../base/chat.js"></script>
+    <script>
+        // MEDCHAT - Base medical chat (compliance/billing)
+        // inherits: CHAT base
+        const chat = CHAT.create(CHAT_CONFIGS.MEDCHAT);
+        chat.init();
+    </script>
+</body>
+</html>

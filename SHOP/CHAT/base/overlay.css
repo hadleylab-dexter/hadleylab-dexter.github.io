@@ -1,0 +1,269 @@
+/**
+ * CHAT Overlay Styles - EVO + SHOP panels
+ *
+ * inherits: base/chat.css
+ *
+ * Provides: Tab navigation, panel switching, EVO stats, SHOP cards
+ * Usage: Include after chat.css in demos
+ */
+
+/* Tab Navigation - Fixed bottom-right */
+.tab-nav {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 50;
+}
+
+.tab-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg-soft);
+    font-size: 11px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tab-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.tab-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* EVO button - purple */
+.tab-btn.evo {
+    --btn-color: #8b5cf6;
+}
+
+.tab-btn.evo:hover,
+.tab-btn.evo.active {
+    background: var(--btn-color);
+    border-color: var(--btn-color);
+    color: white;
+}
+
+/* SHOP button - blue */
+.tab-btn.shop {
+    --btn-color: #3b82f6;
+}
+
+.tab-btn.shop:hover,
+.tab-btn.shop.active {
+    background: var(--btn-color);
+    border-color: var(--btn-color);
+    color: white;
+}
+
+/* Panel System */
+.panel {
+    display: none;
+}
+
+.panel.active {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* EVO Panel */
+.evo-content {
+    padding: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.evo-header {
+    font-size: 20px;
+    font-weight: 600;
+    color: #8b5cf6;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.evo-header::before {
+    content: "◈";
+}
+
+.evo-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+@media (max-width: 500px) {
+    .evo-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+.evo-stat {
+    padding: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.evo-stat .value {
+    font-size: 36px;
+    font-weight: 600;
+    color: #8b5cf6;
+}
+
+.evo-stat .label {
+    font-size: 11px;
+    color: var(--fg-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+}
+
+.evo-list {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.evo-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    display: flex;
+    gap: 12px;
+}
+
+.evo-item:last-child {
+    border-bottom: none;
+}
+
+.evo-item .time {
+    color: var(--fg-soft);
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 12px;
+    min-width: 90px;
+}
+
+.evo-item .learned {
+    color: #8b5cf6;
+}
+
+/* SHOP Panel */
+.shop-content {
+    padding: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.shop-header {
+    font-size: 20px;
+    font-weight: 600;
+    color: #3b82f6;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.shop-header::before {
+    content: "◆";
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 600px) {
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.shop-card {
+    padding: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+.shop-card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+}
+
+.shop-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #3b82f6;
+    margin-bottom: 8px;
+}
+
+.shop-card p {
+    font-size: 13px;
+    color: var(--fg-soft);
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.shop-card .price {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--fg);
+}
+
+.shop-card .tier {
+    font-size: 11px;
+    color: var(--fg-soft);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.shop-card button {
+    margin-top: 16px;
+    width: 100%;
+    padding: 12px;
+    background: #3b82f6;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.shop-card button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.shop-card button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}

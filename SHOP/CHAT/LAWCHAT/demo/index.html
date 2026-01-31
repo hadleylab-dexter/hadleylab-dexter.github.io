@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LawChat — Legal Intelligence Platform</title>
+    <meta name="description" content="Compliance clarity. Contract confidence.">
+    <meta name="theme-color" content="#1e3a5f">
+    <link rel="stylesheet" href="../../base/chat.css">
+    <link rel="stylesheet" href="../../base/overlay.css">
+    <style>
+        /* LAWCHAT theme - navy/gold legal */
+        :root {
+            --bg: #fafbfc;
+            --bg-alt: #ffffff;
+            --fg: #1e293b;
+            --fg-soft: #475569;
+            --dim: #94a3b8;
+            --accent: #1e3a5f;
+            --accent-soft: rgba(30, 58, 95, 0.08);
+            --accent-glow: rgba(30, 58, 95, 0.15);
+            --gold: #b8860b;
+            --gold-soft: rgba(184, 134, 11, 0.1);
+            --border: #e2e8f0;
+            --card: #ffffff;
+            --shadow: 0 4px 24px rgba(30, 58, 95, 0.08);
+            --success: #059669;
+            --success-soft: rgba(5, 150, 105, 0.1);
+            --warn: #d97706;
+            --warn-soft: rgba(217, 119, 6, 0.1);
+            --risk: #dc2626;
+            --risk-soft: rgba(220, 38, 38, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f1419;
+                --bg-alt: #1a2332;
+                --fg: #f1f5f9;
+                --fg-soft: #cbd5e1;
+                --dim: #64748b;
+                --accent: #60a5fa;
+                --accent-soft: rgba(96, 165, 250, 0.12);
+                --accent-glow: rgba(96, 165, 250, 0.2);
+                --gold: #fbbf24;
+                --gold-soft: rgba(251, 191, 36, 0.15);
+                --border: #2d3748;
+                --card: #1e293b;
+                --shadow: 0 4px 24px rgba(0,0,0,0.4);
+                --success-soft: rgba(5, 150, 105, 0.15);
+                --warn-soft: rgba(217, 119, 6, 0.15);
+                --risk-soft: rgba(220, 38, 38, 0.15);
+            }
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        /* Override header for LAWCHAT style */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--accent);
+            color: #fff;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon { font-size: 24px; }
+
+        h1 {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: #fff;
+        }
+
+        .logo-badge {
+            font-family: -apple-system, sans-serif;
+            font-size: 10px;
+            padding: 4px 10px;
+            background: var(--gold);
+            border-radius: 4px;
+            color: #000;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 20px;
+            font-family: -apple-system, sans-serif;
+            font-size: 12px;
+        }
+
+        .header-nav a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .header-nav a:hover { color: var(--gold); }
+
+        /* Hero */
+        .hero {
+            padding: 48px 24px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h2 {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .hero h2 span { color: var(--gold); }
+
+        .hero-sub {
+            font-family: -apple-system, sans-serif;
+            font-size: 16px;
+            color: var(--fg-soft);
+            margin-bottom: 24px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .stat { text-align: center; }
+
+        .stat-value {
+            font-family: -apple-system, sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-family: -apple-system, sans-serif;
+            font-size: 10px;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 4px;
+        }
+
+        /* Services */
+        .services-section {
+            padding: 32px 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-family: -apple-system, sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 6px;
+        }
+
+        .section-headline {
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            padding: 24px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+
+        .service-icon { font-size: 24px; margin-bottom: 12px; }
+
+        .service-name {
+            font-family: -apple-system, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--fg);
+            margin-bottom: 6px;
+        }
+
+        .service-desc {
+            font-size: 13px;
+            color: var(--dim);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .service-tag {
+            font-family: -apple-system, sans-serif;
+            font-size: 9px;
+            padding: 3px 8px;
+            background: var(--accent-soft);
+            border-radius: 4px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .service-tag.gold { background: var(--gold-soft); color: var(--gold); }
+        .service-tag.risk { background: var(--risk-soft); color: var(--risk); }
+
+        /* Override disclaimer for dark header */
+        .disclaimer {
+            background: var(--accent);
+            color: rgba(255,255,255,0.6);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <span class="logo-icon">⚖️</span>
+            <h1>LAWCHAT</h1>
+            <span class="logo-badge">PRIVILEGED</span>
+        </div>
+        <nav class="header-nav">
+            <a href="#">Contracts</a>
+            <a href="#">Compliance</a>
+            <a href="#">Research</a>
+            <a href="#">Billing</a>
+        </nav>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+        <button type="button" class="tab-btn evo" data-panel="evo" title="EVO - Learning Ledger">EVO</button>
+        <button type="button" class="tab-btn chat active" data-panel="chat" title="CHAT - Conversation">CHAT</button>
+        <button type="button" class="tab-btn shop" data-panel="shop" title="SHOP - Services">SHOP</button>
+    </nav>
+
+    <!-- EVO Panel -->
+    <div id="panel-evo" class="panel">
+        <div class="evo-content">
+            <div class="evo-header">Learning Ledger</div>
+            <div class="evo-stats">
+                <div class="evo-stat">
+                    <div class="value">256</div>
+                    <div class="label">Axioms</div>
+                </div>
+                <div class="evo-stat">
+                    <div class="value">22</div>
+                    <div class="label">IDFs</div>
+                </div>
+                <div class="evo-stat">
+                    <div class="value">6K+</div>
+                    <div class="label">Encounters</div>
+                </div>
+            </div>
+            <div class="evo-list">
+                <div class="evo-item">
+                    <span class="time">2026-01-30</span>
+                    <span class="learned">→ Learned: Case law citations</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-29</span>
+                    <span class="learned">→ Learned: Jurisdiction patterns</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-28</span>
+                    <span class="learned">→ Learned: Contract clause analysis</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-27</span>
+                    <span class="learned">→ Learned: Statute interpretation</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-26</span>
+                    <span class="learned">→ Learned: GDPR compliance mapping</span>
+                </div>
+                <div class="evo-item">
+                    <span class="time">2026-01-25</span>
+                    <span class="learned">→ Learned: NDA risk scoring</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHAT Panel -->
+    <div id="panel-chat" class="panel active">
+        <section class="hero">
+            <h2>Legal Intelligence, <span>Delivered</span></h2>
+            <p class="hero-sub">
+                Navigate contracts, compliance, and regulatory frameworks with confidence.
+                Precision answers backed by jurisdictional authority.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">50</div>
+                    <div class="stat-label">Jurisdictions</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">2M+</div>
+                    <div class="stat-label">Case Citations</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Availability</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-section">
+            <div class="section-header">
+                <div class="section-title">Practice Areas</div>
+                <h3 class="section-headline">Specialized Legal Assistants</h3>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📜</div>
+                    <div class="service-name">Contract Review</div>
+                    <div class="service-desc">Analyze agreements for risk, liability, and unfavorable terms.</div>
+                    <div class="service-tags">
+                        <span class="service-tag">NDA</span>
+                        <span class="service-tag">MSA</span>
+                        <span class="service-tag risk">Risk Score</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🏛️</div>
+                    <div class="service-name">Regulatory Compliance</div>
+                    <div class="service-desc">GDPR, HIPAA, SOX, and industry-specific regulations.</div>
+                    <div class="service-tags">
+                        <span class="service-tag">GDPR</span>
+                        <span class="service-tag">HIPAA</span>
+                        <span class="service-tag">SOX</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🔍</div>
+                    <div class="service-name">Legal Research</div>
+                    <div class="service-desc">Case law, statutes, and regulatory guidance across jurisdictions.</div>
+                    <div class="service-tags">
+                        <span class="service-tag gold">Westlaw</span>
+                        <span class="service-tag gold">LexisNexis</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">⏱️</div>
+                    <div class="service-name">Time & Billing</div>
+                    <div class="service-desc">Automate time entry descriptions and billing compliance.</div>
+                    <div class="service-tags">
+                        <span class="service-tag">LEDES</span>
+                        <span class="service-tag">UTBMS</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📋</div>
+                    <div class="service-name">Document Drafting</div>
+                    <div class="service-desc">Generate first drafts of standard legal documents.</div>
+                    <div class="service-tags">
+                        <span class="service-tag">Pleadings</span>
+                        <span class="service-tag">Motions</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🤝</div>
+                    <div class="service-name">Client Intake</div>
+                    <div class="service-desc">Conflict checks, engagement letters, matter opening.</div>
+                    <div class="service-tags">
+                        <span class="service-tag">KYC</span>
+                        <span class="service-tag">AML</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="messages"></div>
+        <div class="input-area">
+            <input type="text" id="input" placeholder="Describe your legal question or upload a contract..." autocomplete="off">
+            <button type="button" id="send">Analyze</button>
+        </div>
+    </div>
+
+    <!-- SHOP Panel -->
+    <div id="panel-shop" class="panel">
+        <div class="shop-content">
+            <div class="shop-header">LawChat Services</div>
+            <div class="shop-grid">
+                <div class="shop-card">
+                    <h3>Personal</h3>
+                    <p>Legal education, rights info</p>
+                    <div class="price">Free</div>
+                    <div class="tier">COMMUNITY tier</div>
+                    <button type="button">Active</button>
+                </div>
+                <div class="shop-card">
+                    <h3>Attorney</h3>
+                    <p>Research assistant, case analysis</p>
+                    <div class="price">$15K/yr</div>
+                    <div class="tier">BUSINESS tier</div>
+                    <button type="button" disabled>Contact Sales</button>
+                </div>
+                <div class="shop-card">
+                    <h3>Enterprise</h3>
+                    <p>Contract analysis, due diligence</p>
+                    <div class="price">$80K/yr</div>
+                    <div class="tier">ENTERPRISE tier</div>
+                    <button type="button" disabled>Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="disclaimer">Not legal advice. Consult licensed counsel for your jurisdiction.</div>
+
+    <script src="../../base/chat.js"></script>
+    <script src="../../base/overlay.js"></script>
+    <script>
+        // LAWCHAT demo - Legal platform
+        const chat = CHAT.create(CHAT_CONFIGS.LAWCHAT);
+        chat.init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedChat — Healthcare Operations Platform</title>
+    <meta name="description" content="Claims. Compliance. Revenue Cycle. Credentialing.">
+    <meta name="theme-color" content="#0891b2">
+    <style>
+        :root {
+            --bg: #f0fdfa;
+            --bg-alt: #ffffff;
+            --fg: #0f172a;
+            --fg-soft: #475569;
+            --dim: #64748b;
+            --accent: #0891b2;
+            --accent-soft: rgba(8, 145, 178, 0.08);
+            --accent-glow: rgba(8, 145, 178, 0.15);
+            --border: #ccfbf1;
+            --card: #ffffff;
+            --shadow: 0 4px 24px rgba(8, 145, 178, 0.1);
+            --evo: #8b5cf6;
+            --evo-soft: rgba(139, 92, 246, 0.1);
+            --shop: #3b82f6;
+            --shop-soft: rgba(59, 130, 246, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #042f2e;
+                --bg-alt: #0d3d3b;
+                --fg: #f0fdfa;
+                --fg-soft: #99f6e4;
+                --dim: #5eead4;
+                --accent: #22d3ee;
+                --accent-soft: rgba(34, 211, 238, 0.12);
+                --accent-glow: rgba(34, 211, 238, 0.2);
+                --border: #134e4a;
+                --card: #0d3d3b;
+                --shadow: 0 4px 24px rgba(0,0,0,0.4);
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: var(--bg-alt);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        @supports (backdrop-filter: blur(20px)) {
+            header {
+                background: transparent;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+            }
+        }
+
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo-icon {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--accent), #0d9488);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 18px; font-weight: 600;
+        }
+        .logo-text { font-size: 18px; font-weight: 600; }
+        .logo-text span { color: var(--accent); }
+        .logo-badge {
+            font-size: 10px; padding: 4px 8px;
+            background: var(--accent-soft);
+            border: 1px solid var(--accent);
+            border-radius: 6px; color: var(--accent); font-weight: 500;
+        }
+
+        main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+        /* Messages */
+        .messages {
+            flex: 1; padding: 24px;
+            max-width: 800px; width: 100%; margin: 0 auto;
+        }
+        .message { margin-bottom: 20px; animation: fadeUp 0.3s ease-out; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .msg-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .msg-role { font-size: 13px; font-weight: 600; }
+        .msg-role.user { color: var(--fg); }
+        .msg-role.assistant { color: var(--accent); }
+        .msg-content {
+            padding: 14px 18px; background: var(--card);
+            border: 1px solid var(--border); border-radius: 14px;
+            font-size: 14px; line-height: 1.6; color: var(--fg-soft);
+        }
+        .msg-content.assistant { border-left: 3px solid var(--accent); }
+
+        /* Welcome */
+        .welcome {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; padding: 48px 24px;
+            max-width: 640px; margin: 0 auto;
+        }
+        .welcome-icon { font-size: 56px; margin-bottom: 20px; }
+        .welcome h1 { font-size: 28px; font-weight: 600; margin-bottom: 12px; }
+        .welcome h1 span { color: var(--accent); }
+        .welcome-sub {
+            font-size: 16px; color: var(--fg-soft);
+            line-height: 1.6; margin-bottom: 32px;
+        }
+        .welcome-features {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 12px; width: 100%; margin-bottom: 32px;
+        }
+        @media (max-width: 500px) { .welcome-features { grid-template-columns: 1fr; } }
+        .feature-card {
+            padding: 16px 20px; background: var(--card);
+            border: 1px solid var(--border); border-radius: 12px;
+            text-align: left; cursor: pointer; transition: all 0.2s;
+        }
+        .feature-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .feature-icon { font-size: 20px; margin-bottom: 6px; }
+        .feature-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+        .feature-desc { font-size: 11px; color: var(--dim); }
+
+        /* Input */
+        .input-area {
+            padding: 16px 24px 24px;
+            background: var(--bg-alt);
+            border-top: 1px solid var(--border);
+        }
+        .input-wrap { max-width: 800px; margin: 0 auto; position: relative; }
+        .input-field {
+            width: 100%; padding: 14px 56px 14px 18px;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 14px; color: var(--fg); font-size: 14px;
+            font-family: inherit; resize: none; transition: all 0.2s;
+        }
+        .input-field:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+        .send-btn {
+            position: absolute; right: 10px; bottom: 10px;
+            width: 36px; height: 36px; background: var(--accent);
+            border: none; border-radius: 10px; color: #fff;
+            font-size: 16px; cursor: pointer; transition: all 0.2s;
+        }
+        .send-btn:hover { transform: scale(1.05); }
+
+        /* Tab Navigation */
+        .tab-nav {
+            position: fixed; bottom: 100px; right: 24px;
+            display: flex; flex-direction: column; gap: 8px; z-index: 50;
+        }
+        .tab-btn {
+            width: 56px; height: 56px; border-radius: 16px;
+            border: 1px solid var(--border); background: var(--card);
+            color: var(--dim); font-size: 11px; font-weight: 600;
+            font-family: inherit; cursor: pointer; transition: all 0.2s;
+            box-shadow: var(--shadow);
+        }
+        .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .tab-btn.evo { border-color: var(--evo); }
+        .tab-btn.evo:hover, .tab-btn.evo.active { background: var(--evo); color: #fff; }
+        .tab-btn.shop { border-color: var(--shop); }
+        .tab-btn.shop:hover, .tab-btn.shop.active { background: var(--shop); color: #fff; }
+
+        /* Panels */
+        .panel { display: none; }
+        .panel.active { display: flex; flex-direction: column; flex: 1; }
+
+        /* EVO Panel */
+        .evo-content { padding: 24px; max-width: 800px; margin: 0 auto; width: 100%; }
+        .evo-header { font-size: 20px; font-weight: 600; color: var(--evo); margin-bottom: 24px; }
+        .evo-header::before { content: "◈ "; }
+        .evo-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+        @media (max-width: 500px) { .evo-stats { grid-template-columns: 1fr; } }
+        .evo-stat {
+            padding: 24px; background: var(--card);
+            border: 1px solid var(--border); border-radius: 16px; text-align: center;
+        }
+        .evo-stat .value { font-size: 36px; font-weight: 600; color: var(--evo); }
+        .evo-stat .label { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+        .evo-list { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+        .evo-item { padding: 16px 20px; border-bottom: 1px solid var(--border); font-size: 13px; }
+        .evo-item:last-child { border-bottom: none; }
+        .evo-item .time { color: var(--dim); margin-right: 12px; font-family: 'SF Mono', Monaco, monospace; font-size: 12px; }
+        .evo-item .learned { color: var(--evo); }
+
+        /* SHOP Panel */
+        .shop-content { padding: 24px; max-width: 800px; margin: 0 auto; width: 100%; }
+        .shop-header { font-size: 20px; font-weight: 600; color: var(--shop); margin-bottom: 24px; }
+        .shop-header::before { content: "◆ "; }
+        .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        @media (max-width: 600px) { .shop-grid { grid-template-columns: 1fr; } }
+        .shop-card {
+            padding: 28px; background: var(--card);
+            border: 1px solid var(--border); border-radius: 20px; transition: all 0.3s;
+        }
+        .shop-card:hover { border-color: var(--shop); transform: translateY(-4px); box-shadow: var(--shadow); }
+        .shop-card h3 { font-size: 18px; font-weight: 600; color: var(--shop); margin-bottom: 8px; }
+        .shop-card p { font-size: 13px; color: var(--dim); margin-bottom: 16px; line-height: 1.5; }
+        .shop-card .price { font-size: 24px; font-weight: 600; color: var(--fg); }
+        .shop-card .tier { font-size: 11px; color: var(--dim); margin-top: 4px; }
+        .shop-card button {
+            margin-top: 16px; width: 100%; padding: 12px;
+            background: var(--shop); border: none; border-radius: 12px;
+            color: #fff; font-size: 13px; font-weight: 600;
+            font-family: inherit; cursor: pointer; transition: all 0.2s;
+        }
+        .shop-card button:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">+</div>
+            <span class="logo-text">Med<span>Chat</span></span>
+            <span class="logo-badge">HIPAA Compliant</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- CHAT Panel -->
+        <div class="panel active" id="panel-chat">
+            <div class="messages" id="messages"></div>
+        </div>
+
+        <!-- EVO Panel -->
+        <div class="panel" id="panel-evo">
+            <div class="evo-content">
+                <div class="evo-header">Learning Ledger</div>
+                <div class="evo-stats">
+                    <div class="evo-stat"><div class="value">420</div><div class="label">Axioms</div></div>
+                    <div class="evo-stat"><div class="value">25</div><div class="label">IDFs</div></div>
+                    <div class="evo-stat"><div class="value">15K+</div><div class="label">Encounters</div></div>
+                </div>
+                <div class="evo-list">
+                    <div class="evo-item"><span class="time">2026-01-30</span><span class="learned">→ Learned: ICD-10 code mapping for diabetes complications</span></div>
+                    <div class="evo-item"><span class="time">2026-01-29</span><span class="learned">→ Learned: Drug interaction patterns (RXNORM)</span></div>
+                    <div class="evo-item"><span class="time">2026-01-28</span><span class="learned">→ Learned: Symptom triage protocols</span></div>
+                    <div class="evo-item"><span class="time">2026-01-27</span><span class="learned">→ Learned: HIPAA breach notification timeline</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SHOP Panel -->
+        <div class="panel" id="panel-shop">
+            <div class="shop-content">
+                <div class="shop-header">MedChat Services</div>
+                <div class="shop-grid">
+                    <div class="shop-card">
+                        <h3>Personal</h3>
+                        <p>Patient education, symptom info, medication questions</p>
+                        <div class="price">Free</div>
+                        <div class="tier">COMMUNITY tier</div>
+                        <button>Active</button>
+                    </div>
+                    <div class="shop-card">
+                        <h3>Clinical</h3>
+                        <p>EHR integration, clinical decision support, coding assist</p>
+                        <div class="price">$25K/yr</div>
+                        <div class="tier">BUSINESS tier</div>
+                        <button>Contact Sales</button>
+                    </div>
+                    <div class="shop-card">
+                        <h3>Revenue Cycle</h3>
+                        <p>Claims processing, denial management, RCM analytics</p>
+                        <div class="price">$50K/yr</div>
+                        <div class="tier">BUSINESS tier</div>
+                        <button>Contact Sales</button>
+                    </div>
+                    <div class="shop-card">
+                        <h3>VaaS Enterprise</h3>
+                        <p>DETROS compliance, custom validators, audit support</p>
+                        <div class="price">$100K/yr</div>
+                        <div class="tier">ENTERPRISE tier</div>
+                        <button>Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn evo" onclick="showPanel('evo')">EVO</button>
+        <button class="tab-btn active" onclick="showPanel('chat')">CHAT</button>
+        <button class="tab-btn shop" onclick="showPanel('shop')">SHOP</button>
+    </div>
+
+    <!-- Input -->
+    <div class="input-area">
+        <div class="input-wrap">
+            <textarea class="input-field" id="input" rows="1" placeholder="Ask about claims, coding, compliance..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
+            <button class="send-btn" onclick="send()">↑</button>
+        </div>
+    </div>
+
+    <script>
+        let messages = [];
+
+        function showPanel(panel) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('panel-' + panel).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function render() {
+            const el = document.getElementById('messages');
+            if (!messages.length) {
+                el.innerHTML = `
+                    <div class="welcome">
+                        <div class="welcome-icon">🏥</div>
+                        <h1>Healthcare <span>Operations</span> Intelligence</h1>
+                        <p class="welcome-sub">
+                            Claims. Revenue Cycle. Compliance. Credentialing.
+                            AI-powered operations for healthcare organizations.
+                        </p>
+                        <div class="welcome-features">
+                            <div class="feature-card" onclick="askExample('claims')">
+                                <div class="feature-icon">📋</div>
+                                <div class="feature-title">Claims Processing</div>
+                                <div class="feature-desc">837P/837I, EDI, denial prevention</div>
+                            </div>
+                            <div class="feature-card" onclick="askExample('coding')">
+                                <div class="feature-icon">🏷️</div>
+                                <div class="feature-title">Medical Coding</div>
+                                <div class="feature-desc">ICD-10, CPT, E/M levels</div>
+                            </div>
+                            <div class="feature-card" onclick="askExample('compliance')">
+                                <div class="feature-icon">🛡️</div>
+                                <div class="feature-title">Compliance</div>
+                                <div class="feature-desc">HIPAA, Stark, Anti-Kickback</div>
+                            </div>
+                            <div class="feature-card" onclick="askExample('revenue')">
+                                <div class="feature-icon">💰</div>
+                                <div class="feature-title">Revenue Cycle</div>
+                                <div class="feature-desc">RCM analytics, A/R aging</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            el.innerHTML = messages.map(m => `
+                <div class="message">
+                    <div class="msg-header">
+                        <span class="msg-role ${m.role}">${m.role === 'user' ? 'You' : 'MedChat'}</span>
+                    </div>
+                    <div class="msg-content ${m.role}">${m.content}</div>
+                </div>
+            `).join('');
+            el.scrollTop = el.scrollHeight;
+        }
+
+        function askExample(type) {
+            const examples = {
+                claims: "How do I prevent claim denials for outpatient procedures?",
+                coding: "What's the ICD-10 code for Type 2 diabetes with CKD stage 3?",
+                compliance: "What's the HIPAA breach notification timeline?",
+                revenue: "How can I reduce days in A/R?"
+            };
+            document.getElementById('input').value = examples[type];
+            send();
+        }
+
+        function respond(text) {
+            const t = text.toLowerCase();
+            if (t.includes('icd') || t.includes('code') || t.includes('diabetes')) {
+                return `For Type 2 diabetes with CKD stage 3, use:<br><br>
+                    <strong>E11.22</strong> — Type 2 DM with diabetic CKD<br>
+                    <strong>N18.3</strong> — CKD stage 3 (moderate)<br><br>
+                    Code the diabetes first, then the CKD manifestation.`;
+            }
+            if (t.includes('hipaa') || t.includes('breach')) {
+                return `HIPAA Breach Notification Timeline:<br><br>
+                    • <strong>60 days</strong> — Notify affected individuals<br>
+                    • <strong>60 days</strong> — Notify HHS (if 500+ individuals)<br>
+                    • <strong>Annual</strong> — Report breaches under 500 to HHS<br>
+                    • <strong>Immediately</strong> — Notify media (if 500+ in a state)`;
+            }
+            if (t.includes('denial') || t.includes('claim')) {
+                return `Top denial prevention strategies:<br><br>
+                    • Verify eligibility before service<br>
+                    • Use correct place of service codes<br>
+                    • Match diagnosis to procedure<br>
+                    • Get prior auth when required<br>
+                    • Use specific ICD-10 codes (avoid unspecified)`;
+            }
+            if (t.includes('a/r') || t.includes('revenue') || t.includes('days')) {
+                return `To reduce days in A/R:<br><br>
+                    • Clean claim rate above 95%<br>
+                    • Electronic remittance posting<br>
+                    • Work aged claims weekly<br>
+                    • Appeal denials within 30 days<br>
+                    • Patient payment at time of service`;
+            }
+            return `I can help with healthcare operations questions about claims, coding, compliance, and revenue cycle. What would you like to know?`;
+        }
+
+        function send() {
+            const input = document.getElementById('input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-chat').classList.add('active');
+
+            messages.push({ role: 'user', content: text });
+            messages.push({ role: 'assistant', content: respond(text) });
+            input.value = '';
+            render();
+        }
+
+        render();
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MammoChat — Breast Health Information Assistant</title>
+    <meta name="description" content="AI-powered breast cancer information with LEARNING compliance">
+    <meta name="theme-color" content="#ec4899">
+    <link rel="stylesheet" href="../base/chat.css">
+    <style>
+        /* MAMMOCHAT theme - pink (inherits ONCOCHAT → MEDCHAT) */
+        :root {
+            --bg: #fffbfc; --fg: #1a1a1a; --fg-soft: #4a4a4a;
+            --accent: #db2777; --border: #fce7f3; --card: #ffffff;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f0a0c; --fg: #fdf2f8; --fg-soft: #f9a8d4;
+                --accent: #f472b6; --border: #2d1f26; --card: #1f1318;
+            }
+        }
+        /* MAMMOCHAT specific: accent headings */
+        .message.assistant h2,
+        .message.assistant h3,
+        .message.assistant h4 {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <span class="logo">🎀</span>
+            <div><h1>MammoChat</h1><div class="subtitle">Breast Health Information Assistant</div></div>
+        </div>
+        <span class="learning-badge" id="learning-status">LEARNING: checking...</span>
+    </header>
+    <div id="messages"></div>
+    <div class="input-area">
+        <input type="text" id="input" placeholder="Ask about breast health or mammography..." autocomplete="off">
+        <button type="button" id="send">Send</button>
+    </div>
+    <div class="disclaimer">For informational purposes only. Always consult your healthcare provider.</div>
+
+    <script src="../base/chat.js"></script>
+    <script>
+        // MAMMOCHAT - Breast cancer specialization
+        // inherits: ONCOCHAT → MEDCHAT → CHAT base
+        const chat = CHAT.create(CHAT_CONFIGS.MAMMOCHAT);
+        chat.init();
+    </script>
+</body>
+</html>

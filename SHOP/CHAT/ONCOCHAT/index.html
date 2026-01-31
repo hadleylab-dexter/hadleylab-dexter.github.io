@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OncoChat — Oncology Information Assistant</title>
+    <meta name="description" content="AI-powered oncology information with LEARNING compliance">
+    <link rel="stylesheet" href="../base/chat.css">
+    <style>
+        /* ONCOCHAT theme - purple (inherits MEDCHAT) */
+        :root {
+            --bg: #faf5ff; --fg: #1e1b4b; --fg-soft: #6b7280;
+            --accent: #8b5cf6; --border: #e9d5ff; --card: #ffffff;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f0d1a; --fg: #f5f3ff; --fg-soft: #a5b4fc;
+                --accent: #a78bfa; --border: #1e1b4b; --card: #1e1b4b;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <span class="logo">🔬</span>
+            <div><h1>OncoChat</h1><div class="subtitle">Oncology Information Assistant</div></div>
+        </div>
+        <span class="learning-badge" id="learning-status">LEARNING: checking...</span>
+    </header>
+    <div id="messages"></div>
+    <div class="input-area">
+        <input type="text" id="input" placeholder="Ask about cancer treatment or trials..." autocomplete="off">
+        <button type="button" id="send">Send</button>
+    </div>
+    <div class="disclaimer">For informational purposes only. Always consult your oncology team.</div>
+
+    <script src="../base/chat.js"></script>
+    <script>
+        // ONCOCHAT - Oncology chat
+        // inherits: MEDCHAT → CHAT base
+        const chat = CHAT.create(CHAT_CONFIGS.ONCOCHAT);
+        chat.init();
+    </script>
+</body>
+</html>
