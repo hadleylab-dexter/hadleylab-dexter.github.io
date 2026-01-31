@@ -282,49 +282,13 @@
             transform: scale(1.02);
         }
 
-        /* App preview animation */
-        @keyframes fade-cycle {
-            0%, 20% { opacity: 1; transform: translateY(0); }
-            25%, 45% { opacity: 0; transform: translateY(-10px); }
-            50%, 70% { opacity: 0; transform: translateY(10px); }
-            75%, 100% { opacity: 1; transform: translateY(0); }
-        }
-
+        /* App preview - realistic chat */
         .app-preview {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
             height: 100%;
-            text-align: center;
-            padding: 20px;
             background: linear-gradient(180deg, #fdf2f8 0%, #fff 100%);
-        }
-
-        .app-preview .feature {
-            position: absolute;
-            opacity: 0;
-            transition: opacity 0.5s, transform 0.5s;
-        }
-
-        .app-preview .feature-1 { animation: feature-1 12s infinite; }
-        .app-preview .feature-2 { animation: feature-2 12s infinite; }
-        .app-preview .feature-3 { animation: feature-3 12s infinite; }
-
-        @keyframes feature-1 {
-            0%, 30% { opacity: 1; transform: translateY(0); }
-            33%, 97% { opacity: 0; transform: translateY(-20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes feature-2 {
-            0%, 30% { opacity: 0; transform: translateY(20px); }
-            33%, 63% { opacity: 1; transform: translateY(0); }
-            66%, 100% { opacity: 0; transform: translateY(-20px); }
-        }
-        @keyframes feature-3 {
-            0%, 63% { opacity: 0; transform: translateY(20px); }
-            66%, 97% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-20px); }
+            overflow: hidden;
         }
 
         .chat-header {
@@ -334,10 +298,32 @@
             padding: 12px;
             border-bottom: 1px solid rgba(236,72,153,0.2);
             text-align: center;
+            flex-shrink: 0;
         }
 
-        .chat-demo {
+        .chat-messages {
+            flex: 1;
+            overflow: hidden;
             padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            animation: scroll-chat 24s infinite;
+        }
+
+        /* Natural scroll as messages accumulate */
+        @keyframes scroll-chat {
+            0%, 15% { transform: translateY(0); }
+            20%, 35% { transform: translateY(-60px); }
+            40%, 58% { transform: translateY(-140px); }
+            62%, 82% { transform: translateY(-220px); }
+            87%, 95% { transform: translateY(-300px); }
+            98%, 100% { transform: translateY(0); }
+        }
+
+        .chat-msg {
+            opacity: 0;
+            transform: translateY(10px);
         }
 
         .chat-user {
@@ -346,8 +332,8 @@
             padding: 10px 14px;
             border-radius: 16px 16px 4px 16px;
             font-size: 11px;
-            margin-bottom: 10px;
             margin-left: 20%;
+            align-self: flex-end;
         }
 
         .chat-bot {
@@ -356,15 +342,324 @@
             padding: 10px 14px;
             border-radius: 16px 16px 16px 4px;
             font-size: 11px;
-            margin-bottom: 8px;
-            margin-right: 10%;
+            margin-right: 15%;
             line-height: 1.5;
+            align-self: flex-start;
         }
 
         .chat-cite {
             font-size: 9px;
             color: #64748b;
             padding-left: 8px;
+            align-self: flex-start;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            width: fit-content;
+            margin-right: 60%;
+            opacity: 0;
+        }
+
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background: #ec4899;
+            border-radius: 50%;
+            animation: typing-bounce 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing-bounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-4px); opacity: 1; }
+        }
+
+        /* Realistic chat cadence - 24s cycle
+           0-2s: User types "My mammogram came back BI-RADS 4"
+           2s: Send button pressed
+           2-2.5s: User message appears
+           2.5-4s: Typing indicator
+           4s: Bot response appears
+           5-7s: User types "They want a biopsy"
+           7s: Send
+           7-7.5s: User message appears
+           7.5-9s: Typing indicator
+           9s: Bot response + cite
+           ... and so on
+        */
+
+        .msg-1 { animation: msg-user1 24s infinite; }
+        .typing-1 { animation: typing1 24s infinite; }
+        .msg-2 { animation: msg-bot1 24s infinite; }
+        .msg-3 { animation: msg-user2 24s infinite; }
+        .typing-2 { animation: typing2 24s infinite; }
+        .msg-4 { animation: msg-bot2 24s infinite; }
+        .msg-5 { animation: msg-cite1 24s infinite; }
+        .msg-6 { animation: msg-user3 24s infinite; }
+        .typing-3 { animation: typing3 24s infinite; }
+        .msg-7 { animation: msg-bot3 24s infinite; }
+        .msg-8 { animation: msg-user4 24s infinite; }
+        .typing-4 { animation: typing4 24s infinite; }
+        .msg-9 { animation: msg-bot4 24s infinite; }
+        .msg-10 { animation: msg-cite2 24s infinite; }
+
+        /* User msg 1: type 0-2s, appear at 2s */
+        @keyframes msg-user1 {
+            0%, 8% { opacity: 0; transform: translateY(8px); }
+            10%, 95% { opacity: 1; transform: translateY(0); }
+            98%, 100% { opacity: 0; }
+        }
+
+        /* Typing 1: 2.5-4s (10-17%) */
+        @keyframes typing1 {
+            0%, 10% { opacity: 0; }
+            12%, 16% { opacity: 1; }
+            18%, 100% { opacity: 0; }
+        }
+
+        /* Bot msg 1: appear at 4s (17%) */
+        @keyframes msg-bot1 {
+            0%, 16% { opacity: 0; transform: translateY(8px); }
+            18%, 95% { opacity: 1; transform: translateY(0); }
+            98%, 100% { opacity: 0; }
+        }
+
+        /* User msg 2: type 5-7s, appear at 7s (29%) */
+        @keyframes msg-user2 {
+            0%, 28% { opacity: 0; transform: translateY(8px); }
+            30%, 95% { opacity: 1; transform: translateY(0); }
+            98%, 100% { opacity: 0; }
+        }
+
+        /* Typing 2: 7.5-9s (31-38%) */
+        @keyframes typing2 {
+            0%, 30% { opacity: 0; }
+            32%, 36% { opacity: 1; }
+            38%, 100% { opacity: 0; }
+        }
+
+        /* Bot msg 2: appear at 9s (38%) */
+        @keyframes msg-bot2 {
+            0%, 36% { opacity: 0; transform: translateY(8px); }
+            38%, 95% { opacity: 1; transform: translateY(0); }
+            98%, 100% { opacity: 0; }
+        }
+
+        /* Cite 1: appear with bot msg 2 */
+        @keyframes msg-cite1 {
+            0%, 38% { opacity: 0; }
+            40%, 95% { opacity: 1; }
+            98%, 100% { opacity: 0; }
+        }
+
+        /* User msg 3: type 11-13s, appear at 13s (54%) */
+        @keyframes msg-user3 {
+            0%, 52% { opacity: 0; transform: translateY(8px); }
+            54%, 95% { opacity: 1; transform: translateY(0); }
+            98%, 100% { opacity: 0; }
+        }
+
+        /* Typing 3: 13.5-15s (56-63%) */
+        @keyframes typing3 {
+            0%, 54% { opacity: 0; }
+            56%, 60% { opacity: 1; }
+            62%, 100% { opacity: 0; }
+        }
+
+        /* Bot msg 3: appear at 15s (63%) */
+        @keyframes msg-bot3 {
+            0%, 60% { opacity: 0; transform: translateY(8px); }
+            62%, 95% { opacity: 1; transform: translateY(0); }
+            98%, 100% { opacity: 0; }
+        }
+
+        /* User msg 4: type 17-19s, appear at 19s (79%) */
+        @keyframes msg-user4 {
+            0%, 77% { opacity: 0; transform: translateY(8px); }
+            79%, 95% { opacity: 1; transform: translateY(0); }
+            98%, 100% { opacity: 0; }
+        }
+
+        /* Typing 4: 19.5-21s (81-88%) */
+        @keyframes typing4 {
+            0%, 79% { opacity: 0; }
+            81%, 85% { opacity: 1; }
+            87%, 100% { opacity: 0; }
+        }
+
+        /* Bot msg 4: appear at 21s (88%) */
+        @keyframes msg-bot4 {
+            0%, 85% { opacity: 0; transform: translateY(8px); }
+            87%, 95% { opacity: 1; transform: translateY(0); }
+            98%, 100% { opacity: 0; }
+        }
+
+        /* Cite 2: appear with bot msg 4 */
+        @keyframes msg-cite2 {
+            0%, 87% { opacity: 0; }
+            89%, 95% { opacity: 1; }
+            98%, 100% { opacity: 0; }
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid rgba(236,72,153,0.15);
+            flex-shrink: 0;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            font-size: 10px;
+            color: #374151;
+            background: #f9fafb;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        /* Input text typewriter effect - synchronized with 24s message cycle */
+        .input-text-wrapper {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            opacity: 0;
+        }
+
+        .input-text {
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            max-width: 0;
+        }
+
+        .input-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 12px;
+            background: #ec4899;
+            margin-left: 1px;
+            animation: blink-cursor 0.7s infinite;
+        }
+
+        @keyframes blink-cursor {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Input 1: type 0-2s (0-8%), send at 2s (8%) */
+        .input-wrapper-1 { animation: show-input1 24s infinite; }
+        .input-wrapper-1 .input-text { animation: type-text1 24s infinite; }
+        @keyframes show-input1 {
+            0%, 8% { opacity: 1; }
+            9%, 100% { opacity: 0; }
+        }
+        @keyframes type-text1 {
+            0% { max-width: 0; }
+            1% { max-width: 30px; }
+            2% { max-width: 60px; }
+            3% { max-width: 90px; }
+            4% { max-width: 120px; }
+            6%, 8% { max-width: 200px; }
+            9%, 100% { max-width: 0; }
+        }
+
+        /* Input 2: type 5-7s (21-29%), send at 7s (29%) */
+        .input-wrapper-2 { animation: show-input2 24s infinite; }
+        .input-wrapper-2 .input-text { animation: type-text2 24s infinite; }
+        @keyframes show-input2 {
+            0%, 20% { opacity: 0; }
+            21%, 29% { opacity: 1; }
+            30%, 100% { opacity: 0; }
+        }
+        @keyframes type-text2 {
+            0%, 20% { max-width: 0; }
+            21% { max-width: 0; }
+            23% { max-width: 40px; }
+            25% { max-width: 80px; }
+            27%, 29% { max-width: 150px; }
+            30%, 100% { max-width: 0; }
+        }
+
+        /* Input 3: type 11-13s (46-54%), send at 13s (54%) */
+        .input-wrapper-3 { animation: show-input3 24s infinite; }
+        .input-wrapper-3 .input-text { animation: type-text3 24s infinite; }
+        @keyframes show-input3 {
+            0%, 44% { opacity: 0; }
+            45%, 54% { opacity: 1; }
+            55%, 100% { opacity: 0; }
+        }
+        @keyframes type-text3 {
+            0%, 44% { max-width: 0; }
+            45% { max-width: 0; }
+            47% { max-width: 50px; }
+            49% { max-width: 100px; }
+            51% { max-width: 150px; }
+            53%, 54% { max-width: 200px; }
+            55%, 100% { max-width: 0; }
+        }
+
+        /* Input 4: type 17-19s (71-79%), send at 19s (79%) */
+        .input-wrapper-4 { animation: show-input4 24s infinite; }
+        .input-wrapper-4 .input-text { animation: type-text4 24s infinite; }
+        @keyframes show-input4 {
+            0%, 69% { opacity: 0; }
+            70%, 79% { opacity: 1; }
+            80%, 100% { opacity: 0; }
+        }
+        @keyframes type-text4 {
+            0%, 69% { max-width: 0; }
+            70% { max-width: 0; }
+            72% { max-width: 50px; }
+            74% { max-width: 100px; }
+            76% { max-width: 150px; }
+            78%, 79% { max-width: 200px; }
+            80%, 100% { max-width: 0; }
+        }
+
+        .chat-send {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            animation: send-pulse 24s infinite;
+        }
+
+        /* Send button pulses when each message is sent (8%, 29%, 54%, 79%) */
+        @keyframes send-pulse {
+            0%, 7% { transform: scale(1); }
+            8% { transform: scale(0.8); box-shadow: 0 0 12px rgba(236, 72, 153, 0.6); }
+            9%, 28% { transform: scale(1); box-shadow: none; }
+            29% { transform: scale(0.8); box-shadow: 0 0 12px rgba(236, 72, 153, 0.6); }
+            30%, 53% { transform: scale(1); box-shadow: none; }
+            54% { transform: scale(0.8); box-shadow: 0 0 12px rgba(236, 72, 153, 0.6); }
+            55%, 78% { transform: scale(1); box-shadow: none; }
+            79% { transform: scale(0.8); box-shadow: 0 0 12px rgba(236, 72, 153, 0.6); }
+            80%, 100% { transform: scale(1); box-shadow: none; }
         }
 
         /* Stats */
@@ -703,28 +998,30 @@
                     <div class="iphone-screen">
                         <div class="app-preview">
                             <div class="chat-header">💗 MammoChat</div>
-                            <div style="position:relative;height:420px;width:100%;overflow:hidden;">
-                                <div class="feature feature-1 chat-demo">
-                                    <div class="chat-user">My mammogram came back BI-RADS 4</div>
-                                    <div class="chat-bot">I understand this feels scary. BI-RADS 4 means something suspicious was found, but most turn out benign. What did your doctor recommend?</div>
-                                    <div class="chat-user">They want a biopsy</div>
-                                    <div class="chat-bot">That's the right next step. 70-80% of BI-RADS 4 biopsies come back benign. I'm here to support you through this.</div>
-                                    <div class="chat-cite">📚 ACR BI-RADS Atlas</div>
+                            <div class="chat-messages">
+                                <div class="chat-msg chat-user msg-1">I just got diagnosed. I'm scared.</div>
+                                <div class="typing-indicator typing-1"><span></span><span></span><span></span></div>
+                                <div class="chat-msg chat-bot msg-2">I hear you, and your feelings are completely valid. You're not alone in this. 💗</div>
+                                <div class="chat-msg chat-user msg-3">What do other patients do?</div>
+                                <div class="typing-indicator typing-2"><span></span><span></span><span></span></div>
+                                <div class="chat-msg chat-bot msg-4">Many find comfort in support groups. Would you like me to help you find a community nearby?</div>
+                                <div class="chat-msg chat-cite msg-5">👥 Cancer Support Community</div>
+                                <div class="chat-msg chat-user msg-6">Yes please. I need people who understand.</div>
+                                <div class="typing-indicator typing-3"><span></span><span></span><span></span></div>
+                                <div class="chat-msg chat-bot msg-7">I found 3 groups: a weekly meetup at UCSF, an online forum, and a peer mentor program. Want details?</div>
+                                <div class="chat-msg chat-user msg-8">And what about treatment options?</div>
+                                <div class="typing-indicator typing-4"><span></span><span></span><span></span></div>
+                                <div class="chat-msg chat-bot msg-9">Let's look at your options together. With ER+ cancer, there are good paths forward. I'll walk you through each one.</div>
+                                <div class="chat-msg chat-cite msg-10">📋 NCCN Guidelines</div>
+                            </div>
+                            <div class="chat-input-area">
+                                <div class="chat-input">
+                                    <div class="input-text-wrapper input-wrapper-1"><span class="input-text">I just got diagnosed. I'm scared.</span><span class="input-cursor"></span></div>
+                                    <div class="input-text-wrapper input-wrapper-2"><span class="input-text">What do other patients do?</span><span class="input-cursor"></span></div>
+                                    <div class="input-text-wrapper input-wrapper-3"><span class="input-text">Yes please. I need people who understand.</span><span class="input-cursor"></span></div>
+                                    <div class="input-text-wrapper input-wrapper-4"><span class="input-text">And what about treatment options?</span><span class="input-cursor"></span></div>
                                 </div>
-                                <div class="feature feature-2 chat-demo">
-                                    <div class="chat-user">I'm ER+/HER2- stage 2</div>
-                                    <div class="chat-bot">Thank you for sharing. With ER+/HER2- breast cancer, there are good treatment options. Are you interested in clinical trials?</div>
-                                    <div class="chat-user">Yes, what's available?</div>
-                                    <div class="chat-bot">I found 3 trials for your profile: CDK4/6 inhibitor study at UCSF, endocrine therapy trial at Stanford, and an oral SERD study nearby.</div>
-                                    <div class="chat-cite">🔬 ClinicalTrials.gov</div>
-                                </div>
-                                <div class="feature feature-3 chat-demo">
-                                    <div class="chat-user">Do I need chemo?</div>
-                                    <div class="chat-bot">It depends on your specific tumor. Have you had genomic testing like Oncotype DX?</div>
-                                    <div class="chat-user">Not yet, what is that?</div>
-                                    <div class="chat-bot">It's a test that analyzes your tumor to predict chemo benefit. Many ER+ patients with low scores can safely skip chemo.</div>
-                                    <div class="chat-cite">📋 NCCN Guidelines</div>
-                                </div>
+                                <div class="chat-send">➤</div>
                             </div>
                         </div>
                     </div>
@@ -750,7 +1047,7 @@
 
     <section class="mission">
         <h2>Deep learning on multi-modal datasets for screening, diagnosis, and therapy.</h2>
-        <p>We build clinical AI systems that respect boundaries, cite sources, and improve patient outcomes through evidence-based intelligence.</p>
+        <p>We build <a href="https://github.com/canonic-foundation/canonic-foundation" style="color: #8b5cf6; text-decoration: none; font-weight: 600;">CANONIC</a> AI systems that respect boundaries, cite sources, and improve patient outcomes through evidence-based intelligence.</p>
     </section>
 
     <section class="apps-section" id="apps">
@@ -766,6 +1063,7 @@
                     <h3>MammoChat</h3>
                     <p>Breast health AI with BI-RADS categorization and NCCN guidelines integration.</p>
                     <span class="app-badge">AVAILABLE NOW</span>
+                    <a href="https://github.com/canonic-foundation/canonic-foundation" style="display: inline-block; margin-top: 8px; padding: 4px 10px; background: #8b5cf6; color: white; border-radius: 4px; font-size: 10px; font-weight: 600; text-decoration: none;">🛡️ CANONIC FOUNDATION</a>
                 </div>
             </a>
 
@@ -813,10 +1111,11 @@
             <a href="https://github.com/hadleylab-dexter">GitHub</a>
             <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ">Publications</a>
             <a href="SHOP/MAMMOCHAT/">MammoChat</a>
+            <a href="https://github.com/canonic-foundation/canonic-foundation" style="color: #8b5cf6; font-weight: 600;">CANONIC FOUNDATION</a>
         </div>
         <p>Translating big data into precision medicine and digital health.</p>
     </footer>
 
     </body>
 </html>
-<!-- deployed Sat Jan 31 00:48:51 EST 2026 -->
+<!-- deployed Fri Jan 31 01:12:00 EST 2026 -->
