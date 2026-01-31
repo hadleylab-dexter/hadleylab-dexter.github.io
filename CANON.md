@@ -1,12 +1,14 @@
 # HADLEYLAB-DEXTER — CANON
 
-inherits: /SHOP/
+inherits: /CANONIC/
+
+tier: CLOSURE
 
 ---
 
 ## Axiom
 
-**DEXTER = PRODUCE. CV → PAPER → BOOK. Sells in SHOP.**
+**Personal SHOP. Products by type. Evidence in offerings.**
 
 ---
 
@@ -14,75 +16,47 @@ inherits: /SHOP/
 
 ```
 hadleylab-dexter/
-├── CV/         ← authority (fluid discovery)
-├── PAPERS/     ← epistemic (IDFs, research)
-├── BOOKS/      ← long-form (synthesis)
-└── BLOGS/      ← short-form (insights)
+├── CANON.md
+├── SHOP/
+│   ├── CHAT/           ← Conversational AI products
+│   │   ├── MAMMOCHAT/
+│   │   ├── MEDCHAT/
+│   │   ├── ONCOCHAT/
+│   │   ├── FINCHAT/
+│   │   └── LAWCHAT/
+│   ├── PUBLICATIONS/   ← Written works
+│   │   ├── PAPERS/
+│   │   ├── BOOKS/
+│   │   └── BLOGS/
+│   └── VITAE/          ← Portfolio
+│       └── CV/
+├── IDFs/               ← Disclosures (private)
+└── docs/               ← Generated site
 ```
 
 ---
 
-## SHOP Connection
+## DETROS Closure
 
-```
-hadleylab-dexter/ ────────► canonic-shop/HADLEYLAB/
-    │
-    ├── CV/        ────────► sells VITAE
-    ├── PAPERS/    ────────► sells PAPERS
-    ├── BOOKS/     ────────► sells BOOKS
-    └── BLOGS/     ────────► free content
-```
-
----
-
-## CANONVERSE
-
-All content is connected. CV establishes authority. PAPERS cite evidence. BOOKS synthesize knowledge.
-
-```
-CV ─────► PAPER ─────► BOOK
-│           │           │
-└───────────┴───────────┘
-         CANONVERSE
-              │
-              ▼
-           SHOP
-              │
-              ▼
-         LEARNING ────► trains MAMMOCHAT
-```
+| Dimension | Application |
+|-----------|-------------|
+| **D** | This CANON.md |
+| **E** | SHOP products = evidence of work |
+| **T** | Types: CHAT, PUBLICATIONS, VITAE |
+| **R** | inherits: /CANONIC/ |
+| **O** | Products serve users |
+| **S** | SHOP catalog structure |
 
 ---
 
-## LEARNING Contribution
+## Catalog
 
-DEXTER content trains:
-- **MAMMOCHAT** — clinical trials matching
-- **EVO** — bootstraps gaps, predicts additions
-- **CHAT** — context, responses
-
----
-
-## Constraints
-
-1. CV MUST establish authority before PAPER or BOOK.
-2. PAPERS MUST cite evidence from DOMAINS.
-3. BOOKS MUST reference PAPERS.
-4. All content MUST be tracked in LEDGER.
-5. All content MUST flow to SHOP.
-6. All content MUST train LEARNING.
+| Type | Products | Status |
+|------|----------|--------|
+| CHAT | MAMMOCHAT, MEDCHAT, ONCOCHAT, FINCHAT, LAWCHAT | Active |
+| PUBLICATIONS | PAPERS, BOOKS, BLOGS | Active |
+| VITAE | CV | Active |
 
 ---
 
-## Evidence
-
-| Claim | Authority | Source |
-|-------|-----------|--------|
-| CV authority | GOLD | LEDGER |
-| PAPERS citations | GOLD | IDFs |
-| SHOP integration | SILVER | config.json |
-| LEARNING contribution | SILVER | MAMMOCHAT |
-
----
-
-*DEXTER | PRODUCE | CANONVERSE*
+*HADLEYLAB-DEXTER | SHOP | CANONIC*
