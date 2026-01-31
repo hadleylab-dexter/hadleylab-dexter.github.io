@@ -424,20 +424,33 @@
             position: absolute;
             right: 12px;
             bottom: 12px;
-            width: 40px;
-            height: 40px;
-            background: var(--accent);
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #f472b6 0%, #db2777 100%);
             border: none;
-            border-radius: 12px;
-            color: #000;
-            font-size: 18px;
+            border-radius: 50%;
+            color: white;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
+        }
+
+        .send-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
         }
 
         .send-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px var(--accent-glow);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(219, 39, 119, 0.4);
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
         }
 
         /* Tab Navigation */
@@ -792,7 +805,7 @@
     <div class="input-area">
         <div class="input-wrap">
             <textarea class="input-field" id="input" rows="1" placeholder="What's on your mind? I'm here to help..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
-            <button class="send-btn" onclick="send()">↑</button>
+            <button class="send-btn" onclick="send()" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
         </div>
     </div>
 
