@@ -60,12 +60,64 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: var(--bg);
+            background: #1a1a2e;
             color: var(--fg);
-            height: 100vh;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            padding: 24px;
+        }
+
+        /* Mobile app container */
+        .mobile-app {
+            width: 100%;
+            max-width: 420px;
+            height: 90vh;
+            max-height: 900px;
+            background: var(--bg);
+            border-radius: 40px;
+            box-shadow:
+                0 0 0 12px #1a1a2e,
+                0 0 0 14px rgba(255,255,255,0.1),
+                0 50px 100px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
-            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Phone notch */
+        .mobile-app::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 28px;
+            background: #1a1a2e;
+            border-radius: 0 0 16px 16px;
+            z-index: 200;
+        }
+
+        /* Full screen on actual mobile */
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+                background: var(--bg);
+            }
+            .mobile-app {
+                max-width: 100%;
+                height: 100vh;
+                max-height: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .mobile-app::before {
+                display: none;
+            }
         }
 
         /* Header */
@@ -455,23 +507,30 @@
 
         /* Tab Navigation */
         .tab-nav {
-            position: fixed;
+            position: absolute;
             bottom: 100px;
-            right: 20px;
+            right: 16px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             z-index: 50;
         }
 
+        @media (max-width: 480px) {
+            .tab-nav {
+                bottom: 90px;
+                right: 12px;
+            }
+        }
+
         .tab-btn {
-            width: 52px;
-            height: 52px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: none;
             background: var(--card);
             color: var(--dim);
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
@@ -701,6 +760,7 @@
     </style>
 </head>
 <body>
+<div class="mobile-app">
     <header>
         <div class="logo">
             <span class="logo-symbol">💗</span>
@@ -1024,5 +1084,6 @@ IMPORTANT: DCIS does NOT typically require chemotherapy. Always clarify this dis
         checkLearning();
         setInterval(checkLearning, 30000);
     </script>
+</div>
 </body>
 </html>
