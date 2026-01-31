@@ -340,6 +340,46 @@
             100% { opacity: 0; transform: translateY(-20px); }
         }
 
+        .chat-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ec4899;
+            padding: 12px;
+            border-bottom: 1px solid rgba(236,72,153,0.2);
+            text-align: center;
+        }
+
+        .chat-demo {
+            padding: 12px;
+        }
+
+        .chat-user {
+            background: var(--blue);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 16px 16px 4px 16px;
+            font-size: 11px;
+            margin-bottom: 10px;
+            margin-left: 20%;
+        }
+
+        .chat-bot {
+            background: #f8f9fa;
+            color: #1a1a2e;
+            padding: 10px 14px;
+            border-radius: 16px 16px 16px 4px;
+            font-size: 11px;
+            margin-bottom: 8px;
+            margin-right: 10%;
+            line-height: 1.5;
+        }
+
+        .chat-cite {
+            font-size: 9px;
+            color: #64748b;
+            padding-left: 8px;
+        }
+
         /* Stats */
         .stats {
             display: grid;
@@ -675,22 +715,24 @@
                 <div class="iphone">
                     <div class="iphone-screen">
                         <div class="app-preview">
-                            <span style="font-size:48px;margin-bottom:12px;">💗</span>
-                            <div style="position:relative;height:120px;width:100%;">
-                                <div class="feature feature-1" style="position:absolute;width:100%;top:0;">
-                                    <p style="font-size:13px;color:#ec4899;font-weight:600;margin-bottom:8px;">🔬 Clinical Trials</p>
-                                    <p style="font-size:12px;color:#64748b;line-height:1.4;">Find trials matched to your cancer type, biomarkers, and treatment history</p>
+                            <div class="chat-header">💗 MammoChat</div>
+                            <div style="position:relative;height:420px;width:100%;overflow:hidden;">
+                                <div class="feature feature-1 chat-demo">
+                                    <div class="chat-user">What does BI-RADS 4 mean?</div>
+                                    <div class="chat-bot">BI-RADS 4 indicates a suspicious finding. While concerning, most (70-80%) turn out benign. A biopsy is recommended to be certain. I'm here to support you through this.</div>
+                                    <div class="chat-cite">📚 ACR BI-RADS Atlas</div>
                                 </div>
-                                <div class="feature feature-2" style="position:absolute;width:100%;top:0;">
-                                    <p style="font-size:13px;color:#ec4899;font-weight:600;margin-bottom:8px;">📋 BI-RADS Guidance</p>
-                                    <p style="font-size:12px;color:#64748b;line-height:1.4;">Understand your mammography results with clear, supportive explanations</p>
+                                <div class="feature feature-2 chat-demo">
+                                    <div class="chat-user">I'm ER+/HER2-. Any trials for me?</div>
+                                    <div class="chat-bot">Based on your ER+/HER2- status, I found 3 trials accepting patients: CDK4/6 inhibitor combination study at UCSF, endocrine therapy trial at Stanford, and a novel oral SERD study.</div>
+                                    <div class="chat-cite">🔬 ClinicalTrials.gov</div>
                                 </div>
-                                <div class="feature feature-3" style="position:absolute;width:100%;top:0;">
-                                    <p style="font-size:13px;color:#ec4899;font-weight:600;margin-bottom:8px;">💊 Treatment Support</p>
-                                    <p style="font-size:12px;color:#64748b;line-height:1.4;">Navigate your options with NCCN guideline-aligned information</p>
+                                <div class="feature feature-3 chat-demo">
+                                    <div class="chat-user">Should I do chemo or just hormonal?</div>
+                                    <div class="chat-bot">For ER+ early-stage breast cancer, genomic tests like Oncotype DX can help determine if chemo adds benefit. Many patients with low scores can safely skip chemo. Let's discuss your specific situation.</div>
+                                    <div class="chat-cite">📋 NCCN Guidelines</div>
                                 </div>
                             </div>
-                            <p style="color:#1a1a2e;font-size:11px;font-weight:600;margin-top:16px;">mCODE Verified</p>
                         </div>
                     </div>
                 </div>
