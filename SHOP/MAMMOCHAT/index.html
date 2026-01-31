@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MammoChat — Your Breast Cancer Journey Companion</title>
-    <meta name="description" content="I'm here to support you on your breast cancer journey">
+    <title>MammoChat — AI-Powered Breast Health Companion</title>
+    <meta name="description" content="Evidence-based breast health information with mCODE integration, BI-RADS guidance, and clinical trials matching.">
     <meta name="theme-color" content="#ec4899">
     <style>
         :root {
@@ -15,22 +15,11 @@
             --dim: #888;
             --accent: #db2777;
             --accent-soft: rgba(219, 39, 119, 0.08);
-            --accent-glow: rgba(236, 72, 153, 0.2);
             --border: #fce7f3;
             --card: #ffffff;
             --shadow: 0 4px 24px rgba(219, 39, 119, 0.08);
-            --warm: #f9a8d4;
-            --warm-soft: rgba(249, 168, 212, 0.2);
-            --warn: #f59e0b;
-            --warn-soft: rgba(245, 158, 11, 0.1);
-            --error: #ef4444;
-            --error-soft: rgba(239, 68, 68, 0.1);
             --evo: #8b5cf6;
-            --evo-soft: rgba(139, 92, 246, 0.1);
             --shop: #3b82f6;
-            --shop-soft: rgba(59, 130, 246, 0.1);
-            --hope: #10b981;
-            --hope-soft: rgba(16, 185, 129, 0.1);
         }
 
         @media (prefers-color-scheme: dark) {
@@ -42,987 +31,416 @@
                 --dim: #9ca3af;
                 --accent: #f472b6;
                 --accent-soft: rgba(244, 114, 182, 0.12);
-                --accent-glow: rgba(244, 114, 182, 0.25);
                 --border: #2d1f26;
                 --card: #1f1318;
                 --shadow: 0 4px 24px rgba(0,0,0,0.4);
-                --warm: #be185d;
-                --warm-soft: rgba(190, 24, 93, 0.2);
-                --warn-soft: rgba(245, 158, 11, 0.15);
-                --error-soft: rgba(239, 68, 68, 0.15);
-                --evo-soft: rgba(139, 92, 246, 0.15);
-                --shop-soft: rgba(59, 130, 246, 0.15);
-                --hope-soft: rgba(16, 185, 129, 0.15);
             }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--fg);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Header */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 24px;
-            background: var(--bg-alt);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
+        /* Navigation */
+        nav {
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
-        }
-
-        @supports (backdrop-filter: blur(20px)) {
-            header {
-                background: transparent;
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-            }
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-symbol {
-            font-size: 24px;
-            font-weight: 300;
-            color: var(--accent);
-        }
-
-        .logo-text {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .logo-text span { color: var(--accent); }
-
-        .logo-badge {
-            font-size: 10px;
-            padding: 4px 8px;
-            background: var(--accent-soft);
-            border: 1px solid var(--accent);
-            border-radius: 6px;
-            color: var(--accent);
-            font-weight: 500;
-        }
-
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        select {
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--fg);
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        select:hover { border-color: var(--accent); }
-        select:focus { outline: none; border-color: var(--accent); }
-
-        .dcis-badge {
-            display: none;
-            padding: 8px 14px;
-            background: var(--warn-soft);
-            border: 1px solid var(--warn);
-            border-radius: 10px;
-            color: var(--warn);
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .dcis-badge.show { display: flex; align-items: center; gap: 6px; }
-
-        /* Main */
-        main {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Messages */
-        .messages {
-            flex: 1;
-            padding: 24px;
-            max-width: 800px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .message {
-            margin-bottom: 24px;
-            animation: fadeUp 0.3s ease-out;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .msg-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-
-        .msg-role {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .msg-role.user { color: var(--fg); }
-        .msg-role.assistant { color: var(--accent); }
-
-        .msg-tag {
-            font-size: 10px;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-
-        .msg-tag.dcis { background: var(--warn-soft); color: var(--warn); border: 1px solid var(--warn); }
-        .msg-tag.mcode { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
-        .msg-tag.evo { background: var(--evo-soft); color: var(--evo); border: 1px solid var(--evo); }
-        .msg-tag.shop { background: var(--shop-soft); color: var(--shop); border: 1px solid var(--shop); }
-        .msg-tag.hope { background: var(--hope-soft); color: var(--hope); border: 1px solid var(--hope); }
-        .msg-tag.support { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
-        .msg-tag.question { background: var(--warm-soft); color: var(--accent); border: 1px solid var(--warm); }
-        .msg-tag.trials { background: var(--shop-soft); color: var(--shop); border: 1px solid var(--shop); }
-        .msg-tag.learn { background: var(--evo-soft); color: var(--evo); border: 1px solid var(--evo); }
-        .msg-tag.listening { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
-
-        .msg-content {
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--fg-soft);
-            padding: 16px 20px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-        }
-
-        .msg-content.assistant {
-            border-left: 3px solid var(--accent);
-        }
-
-        .evidence {
-            margin-top: 12px;
-            padding: 12px 16px;
-            background: var(--bg);
-            border-radius: 12px;
-        }
-
-        .evidence-title {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 6px;
-        }
-
-        .evidence-ref {
-            font-size: 12px;
-            color: var(--dim);
-            font-family: 'SF Mono', Monaco, monospace;
-            padding: 2px 0;
-        }
-
-        .mcode-bar {
-            margin-top: 12px;
-            padding: 8px 12px;
-            background: var(--accent-soft);
-            border-radius: 8px;
-            font-size: 11px;
-            font-family: 'SF Mono', Monaco, monospace;
-            color: var(--accent);
-        }
-
-        /* Welcome */
-        .welcome {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 48px 24px;
-            max-width: 640px;
-            margin: 0 auto;
-        }
-
-        .welcome-heart {
-            font-size: 64px;
-            margin-bottom: 24px;
-            animation: pulse-heart 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-heart {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-
-        .welcome h1 {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            line-height: 1.3;
-        }
-
-        .welcome h1 span { color: var(--accent); }
-
-        .welcome-message {
-            font-size: 18px;
-            line-height: 1.7;
-            color: var(--fg-soft);
-            margin-bottom: 40px;
-        }
-
-        .welcome-features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            width: 100%;
-            margin-bottom: 40px;
-        }
-
-        @media (max-width: 500px) {
-            .welcome-features { grid-template-columns: 1fr; }
-        }
-
-        .feature-card {
-            padding: 20px 24px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            text-align: left;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .feature-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .feature-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .feature-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--fg);
-            margin-bottom: 4px;
-        }
-
-        .feature-desc {
-            font-size: 12px;
-            color: var(--dim);
-            line-height: 1.5;
-        }
-
-        .welcome-prompt {
             padding: 16px 24px;
-            background: var(--accent-soft);
-            border: 1px solid var(--accent);
-            border-radius: 16px;
-            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,251,252,0.8);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
 
-        .welcome-prompt-label {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
+        @media (prefers-color-scheme: dark) {
+            nav { background: rgba(15,10,12,0.8); }
         }
 
-        .welcome-prompt-text {
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--fg);
+        }
+
+        .nav-logo span:first-child { font-size: 24px; }
+        .nav-logo span:last-child { font-weight: 600; }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: var(--fg-soft);
+            text-decoration: none;
             font-size: 14px;
-            color: var(--fg-soft);
-            font-style: italic;
+            transition: color 0.2s;
         }
 
-        .welcome-footer {
-            font-size: 13px;
-            color: var(--dim);
-            margin-bottom: 20px;
-        }
+        .nav-links a:hover { color: var(--accent); }
 
-        .welcome-footer strong { color: var(--accent); }
-
-        .disclaimer {
-            padding: 12px 20px;
-            background: var(--warm-soft);
-            border: 1px solid var(--warm);
-            border-radius: 12px;
-            font-size: 12px;
-            color: var(--fg-soft);
-            max-width: 400px;
-        }
-
-        .disclaimer strong { color: var(--accent); }
-
-        /* Input */
-        .input-area {
-            padding: 16px 24px 24px;
-            background: var(--bg-alt);
-            border-top: 1px solid var(--border);
-        }
-
-        .input-wrap {
+        /* Hero */
+        .hero {
+            padding: 140px 24px 80px;
+            text-align: center;
             max-width: 800px;
             margin: 0 auto;
-            position: relative;
         }
 
-        .input-field {
-            width: 100%;
-            padding: 16px 60px 16px 20px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            color: var(--fg);
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--accent-soft);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span { color: var(--accent); }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--fg-soft);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
             font-size: 15px;
-            font-family: inherit;
-            resize: none;
+            font-weight: 600;
+            text-decoration: none;
             transition: all 0.2s;
         }
 
-        .input-field:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-soft);
-        }
-
-        .send-btn {
-            position: absolute;
-            right: 12px;
-            bottom: 12px;
-            width: 44px;
-            height: 44px;
+        .btn-primary {
             background: linear-gradient(135deg, #f472b6 0%, #db2777 100%);
-            border: none;
-            border-radius: 50%;
             color: white;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
         }
 
-        .send-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: white;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.4);
         }
 
-        .send-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(219, 39, 119, 0.4);
-        }
-
-        .send-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Tab Navigation */
-        .tab-nav {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 50;
-        }
-
-        .tab-btn {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            border: none;
+        .btn-secondary {
             background: var(--card);
-            color: var(--dim);
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .tab-btn::before {
-            content: attr(data-label);
-            position: absolute;
-            right: 60px;
-            background: var(--fg);
-            color: var(--bg);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            white-space: nowrap;
-            opacity: 0;
-            transform: translateX(10px);
-            transition: all 0.2s;
-            pointer-events: none;
-        }
-
-        .tab-btn:hover::before {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .tab-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.16);
-        }
-
-        .tab-btn:active {
-            transform: scale(0.95);
-        }
-
-        .tab-btn.evo {
-            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
-            color: white;
-        }
-        .tab-btn.evo:hover {
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
-        }
-        .tab-btn.evo.active {
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3), 0 8px 24px rgba(139, 92, 246, 0.4);
-        }
-
-        .tab-btn.chat {
-            background: linear-gradient(135deg, #f472b6 0%, #db2777 100%);
-            color: white;
-        }
-        .tab-btn.chat:hover {
-            box-shadow: 0 8px 24px rgba(219, 39, 119, 0.4);
-        }
-        .tab-btn.chat.active {
-            box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.3), 0 8px 24px rgba(219, 39, 119, 0.4);
-        }
-
-        .tab-btn.shop {
-            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-            color: white;
-        }
-        .tab-btn.shop:hover {
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
-        }
-        .tab-btn.shop.active {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3), 0 8px 24px rgba(59, 130, 246, 0.4);
-        }
-
-        .tab-btn .icon {
-            font-size: 22px;
-            line-height: 1;
-        }
-
-        /* Panels */
-        .panel { display: none; }
-        .panel.active { display: flex; flex-direction: column; flex: 1; }
-
-        /* EVO Panel */
-        .evo-content {
-            padding: 24px;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .evo-header {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--evo);
-            margin-bottom: 24px;
-        }
-
-        .evo-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .evo-stat {
-            padding: 24px;
-            background: var(--card);
+            color: var(--fg);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            text-align: center;
         }
 
-        .evo-stat .value {
-            font-size: 36px;
-            font-weight: 600;
-            color: var(--evo);
+        .btn-secondary:hover {
+            border-color: var(--accent);
         }
 
-        .evo-stat .label {
-            font-size: 11px;
-            color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 4px;
+        /* Features */
+        .features {
+            padding: 80px 24px;
+            background: var(--bg-alt);
         }
 
-        .evo-list {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .evo-item {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
-            font-size: 13px;
-        }
-
-        .evo-item:last-child { border-bottom: none; }
-        .evo-item .time { color: var(--dim); margin-right: 12px; }
-        .evo-item .learned { color: var(--evo); }
-
-        /* SHOP Panel */
-        .shop-content {
-            padding: 24px;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .shop-header {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--shop);
-            margin-bottom: 24px;
-        }
-
-        .shop-grid {
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        @media (max-width: 600px) {
-            .shop-grid { grid-template-columns: 1fr; }
-        }
-
-        .shop-card {
-            padding: 28px;
+        .feature-card {
+            padding: 32px;
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 20px;
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--dim);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* App Section */
+        .app-section {
+            padding: 80px 24px;
+        }
+
+        .app-section h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .app-section > p {
+            text-align: center;
+            color: var(--fg-soft);
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+
+        .app-container {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(219, 39, 119, 0.15);
+            border: 1px solid var(--border);
+        }
+
+        .app-container iframe {
+            width: 100%;
+            height: 700px;
+            border: none;
+        }
+
+        /* Research Section */
+        .research {
+            padding: 80px 24px;
+            background: var(--bg-alt);
+        }
+
+        .research-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .research h2 {
+            font-size: 36px;
+            margin-bottom: 24px;
+        }
+
+        .research p {
+            color: var(--fg-soft);
+            line-height: 1.8;
+            margin-bottom: 32px;
+        }
+
+        .paper-card {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 32px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            text-align: left;
+            text-decoration: none;
+            color: var(--fg);
             transition: all 0.3s;
         }
 
-        .shop-card:hover {
-            border-color: var(--shop);
+        .paper-card:hover {
+            border-color: var(--accent);
             transform: translateY(-4px);
             box-shadow: var(--shadow);
         }
 
-        .shop-card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--shop);
+        .paper-icon {
+            font-size: 48px;
+        }
+
+        .paper-info h3 {
+            font-size: 20px;
             margin-bottom: 8px;
         }
 
-        .shop-card p {
-            font-size: 13px;
+        .paper-info p {
+            font-size: 14px;
             color: var(--dim);
-            margin-bottom: 16px;
-            line-height: 1.5;
+            margin: 0;
         }
 
-        .shop-card .price {
+        .paper-badge {
+            margin-top: 12px;
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--evo);
+            color: white;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Formula */
+        .formula {
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .formula-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            padding: 24px 48px;
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
             font-size: 24px;
             font-weight: 600;
-            color: var(--fg);
         }
 
-        .shop-card .tier {
-            font-size: 11px;
+        .formula-box span { color: var(--accent); }
+
+        /* Footer */
+        footer {
+            padding: 40px 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
             color: var(--dim);
-            margin-top: 4px;
+            font-size: 14px;
         }
 
-        .shop-card button {
-            margin-top: 16px;
-            width: 100%;
-            padding: 12px;
-            background: var(--shop);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 13px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.2s;
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
         }
 
-        .shop-card button:hover {
-            transform: scale(1.02);
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 32px; }
+            .paper-card { flex-direction: column; text-align: center; }
+            .formula-box { font-size: 18px; padding: 16px 24px; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <span class="logo-symbol">💗</span>
-            <span class="logo-text">Mammo<span>Chat</span></span>
-            <span class="logo-badge">mCODE Verified</span>
+    <nav>
+        <a href="../" class="nav-logo">
+            <span>💗</span>
+            <span>MammoChat</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#app">Try It</a>
+            <a href="#research">Research</a>
+            <a href="../">Hadley Lab</a>
         </div>
-        <div class="header-controls">
-            <select id="histology" onchange="updateContext()">
-                <option value="UNKNOWN">Histology: ?</option>
-                <option value="DCIS">DCIS</option>
-                <option value="INVASIVE">Invasive</option>
-            </select>
-            <select id="phase" onchange="updateContext()">
-                <option value="SCREENING">Screening</option>
-                <option value="DIAGNOSIS">Diagnosis</option>
-                <option value="TREATMENT">Treatment</option>
-                <option value="SURVIVORSHIP">Survivorship</option>
-            </select>
-            <div class="dcis-badge" id="dcis-badge">⚠️ DCIS ≠ Invasive</div>
-        </div>
-    </header>
+    </nav>
 
-    <main>
-        <!-- CHAT Panel -->
-        <div class="panel active" id="panel-chat">
-            <div class="messages" id="messages"></div>
+    <section class="hero">
+        <div class="hero-badge">
+            mCODE Verified | BI-RADS Integrated
         </div>
+        <h1>Your <span>Breast Health</span> Companion</h1>
+        <p>Evidence-based information powered by clinical guidelines. Every response cited. Every claim validated. Supporting you on your journey with compassion and precision.</p>
+        <div class="hero-buttons">
+            <a href="#app" class="btn btn-primary">Try MammoChat</a>
+            <a href="#research" class="btn btn-secondary">Read the Paper</a>
+        </div>
+    </section>
 
-        <!-- EVO Panel -->
-        <div class="panel" id="panel-evo">
-            <div class="evo-content">
-                <div class="evo-header">◈ Learning Ledger</div>
-                <div class="evo-stats">
-                    <div class="evo-stat">
-                        <div class="value">528</div>
-                        <div class="label">Axioms</div>
-                    </div>
-                    <div class="evo-stat">
-                        <div class="value">38</div>
-                        <div class="label">IDFs</div>
-                    </div>
-                    <div class="evo-stat">
-                        <div class="value">20K+</div>
-                        <div class="label">Encounters</div>
-                    </div>
-                </div>
-                <div class="evo-list">
-                    <div class="evo-item"><span class="time">2026-01-30</span><span class="learned">→ Learned: DCIS ≠ Invasive distinction (Minh feedback)</span></div>
-                    <div class="evo-item"><span class="time">2026-01-29</span><span class="learned">→ Learned: mCODE embedding for histology</span></div>
-                    <div class="evo-item"><span class="time">2026-01-28</span><span class="learned">→ Learned: BI-RADS 5ed classification</span></div>
-                    <div class="evo-item"><span class="time">2026-01-27</span><span class="learned">→ Learned: NCCN 2024 treatment pathways</span></div>
-                </div>
+    <section class="features" id="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔬</div>
+                <h3>Clinical Trials Matching</h3>
+                <p>Find trials matched to your specific cancer type, biomarkers, and treatment history using structured eligibility criteria.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>BI-RADS Guidance</h3>
+                <p>Understand mammography results with ACR BI-RADS categorization explained in clear, supportive language.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧬</div>
+                <h3>mCODE Integration</h3>
+                <p>Structured oncology data using the Minimal Common Oncology Data Elements standard for precise communication.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>NCCN Guidelines</h3>
+                <p>Treatment recommendations aligned with National Comprehensive Cancer Network clinical practice guidelines.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💗</div>
+                <h3>Compassionate Support</h3>
+                <p>Designed with empathy for patients and caregivers navigating the emotional journey of breast health.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Privacy First</h3>
+                <p>Your conversations stay private. No personal health information is stored or shared.</p>
             </div>
         </div>
+    </section>
 
-        <!-- SHOP Panel -->
-        <div class="panel" id="panel-shop">
-            <div class="shop-content">
-                <div class="shop-header">◆ MammoChat Services</div>
-                <div class="shop-grid">
-                    <div class="shop-card">
-                        <h3>Personal</h3>
-                        <p>Patient education, risk assessment, community support</p>
-                        <div class="price">Free</div>
-                        <div class="tier">COMMUNITY tier</div>
-                        <button>Active</button>
-                    </div>
-                    <div class="shop-card">
-                        <h3>Clinical</h3>
-                        <p>Epic EHR integration, mCODE extraction, clinical decision support</p>
-                        <div class="price">$50K/yr</div>
-                        <div class="tier">BUSINESS tier</div>
-                        <button>Contact Sales</button>
-                    </div>
-                    <div class="shop-card">
-                        <h3>TrialsChat</h3>
-                        <p>Clinical trials matching, eligibility parsing, site finder</p>
-                        <div class="price">$25K/yr</div>
-                        <div class="tier">BUSINESS tier</div>
-                        <button>Coming Q2</button>
-                    </div>
-                    <div class="shop-card">
-                        <h3>VaaS Enterprise</h3>
-                        <p>Validation as a Service, DETROS compliance, custom domains</p>
-                        <div class="price">$100K/yr</div>
-                        <div class="tier">ENTERPRISE tier</div>
-                        <button>Contact Sales</button>
-                    </div>
+    <section class="app-section" id="app">
+        <h2>Try MammoChat</h2>
+        <p>Ask questions about mammography, breast cancer staging, treatment options, or clinical trials.</p>
+        <div class="app-container">
+            <iframe src="CHAT/" title="MammoChat"></iframe>
+        </div>
+    </section>
+
+    <section class="research" id="research">
+        <div class="research-content">
+            <h2>Built on Research</h2>
+            <p>MammoChat is part of the Canonic framework for validated AI systems. Our approach combines conversational AI with structured clinical data to provide evidence-based information while maintaining transparency about sources and limitations.</p>
+            <a href="PAPER/" class="paper-card">
+                <div class="paper-icon">📄</div>
+                <div class="paper-info">
+                    <h3>MammoChat: Clinical Trials Matching via Conversational AI</h3>
+                    <p>AI-powered clinical trial matching for breast oncology patients using natural language processing and structured eligibility criteria.</p>
+                    <span class="paper-badge">CANONIC VERIFIED</span>
                 </div>
-            </div>
+            </a>
         </div>
-    </main>
+    </section>
 
-    <!-- Tab Navigation -->
-    <div class="tab-nav">
-        <button class="tab-btn evo" onclick="showPanel('evo')" data-label="Learning"><span class="icon">🧠</span></button>
-        <button class="tab-btn chat active" onclick="showPanel('chat')" data-label="Chat"><span class="icon">💬</span></button>
-        <button class="tab-btn shop" onclick="showPanel('shop')" data-label="Services"><span class="icon">✨</span></button>
-    </div>
-
-    <!-- Input -->
-    <div class="input-area">
-        <div class="input-wrap">
-            <textarea class="input-field" id="input" rows="1" placeholder="What's on your mind? I'm here to help..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
-            <button class="send-btn" onclick="send()" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+    <section class="formula">
+        <div class="formula-box">
+            APP <span>+</span> PAPER <span>=</span> CANONIC
         </div>
-    </div>
+    </section>
 
-    <script>
-        // API Configuration
-        const API_URL = 'https://mammochat-api.dexter-hadley.workers.dev';
-        const LEARNING_URL = 'http://localhost:3334';
-
-        const MCODE = {
-            DCIS: { snomed: '109886000', desc: 'Ductal carcinoma in situ', chemo: false },
-            INVASIVE: { snomed: '254837009', desc: 'Invasive breast carcinoma', chemo: true },
-            UNKNOWN: { snomed: '?', desc: 'Histology pending', chemo: null }
-        };
-
-        const SYSTEM_PROMPT = `You are MammoChat, a compassionate breast health information assistant specializing in mammography and breast cancer.
-
-Role: Explain mammography screening (2D/3D), BI-RADS categories, breast cancer types, staging, and treatment options.
-Guidelines:
-- Be warm, supportive, and empathetic
-- Recommend consulting healthcare providers for medical decisions
-- Reference ACR BI-RADS, NCCN guidelines, NCI, breastcancer.org
-- Distinguish clearly between DCIS (non-invasive) and invasive cancer
-- Format responses with clear structure using bullet points when helpful
-
-IMPORTANT: DCIS does NOT typically require chemotherapy. Always clarify this distinction.`;
-
-        let ctx = { histology: 'UNKNOWN', phase: 'SCREENING' };
-        let messages = [];
-        let chatHistory = [];
-        let learningOnline = false;
-
-        function showPanel(panel) {
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('panel-' + panel).classList.add('active');
-            document.querySelector('.tab-btn.' + panel).classList.add('active');
-        }
-
-        function updateContext() {
-            ctx.histology = document.getElementById('histology').value;
-            ctx.phase = document.getElementById('phase').value;
-            document.getElementById('dcis-badge').classList.toggle('show', ctx.histology === 'DCIS');
-        }
-
-        // Check LEARNING engine status
-        async function checkLearning() {
-            try {
-                const res = await fetch(`${LEARNING_URL}/api/stats`);
-                if (res.ok) {
-                    const data = await res.json();
-                    learningOnline = true;
-                    // Update EVO stats if available
-                    const axiomEl = document.querySelector('.evo-stat .value');
-                    if (axiomEl && data.total) axiomEl.textContent = data.total;
-                }
-            } catch (e) {
-                learningOnline = false;
-            }
-        }
-
-        function render() {
-            const el = document.getElementById('messages');
-            if (!messages.length) {
-                el.innerHTML = `
-                    <div class="welcome">
-                        <div class="welcome-heart">💗</div>
-                        <h1>I'm here to support you on your <span>breast cancer journey</span></h1>
-                        <p class="welcome-message">
-                            I understand this is a difficult time. Whether you're newly diagnosed,
-                            in treatment, or in survivorship — I'm here to walk alongside you
-                            every step of the way.
-                        </p>
-                        <div class="welcome-features">
-                            <div class="feature-card">
-                                <div class="feature-icon">🔬</div>
-                                <div class="feature-title">Find Clinical Trials</div>
-                                <div class="feature-desc">Discover trials matched to your specific cancer type and situation</div>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">👥</div>
-                                <div class="feature-title">Connect with Peers</div>
-                                <div class="feature-desc">Find others who share your journey and understand what you're going through</div>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">💊</div>
-                                <div class="feature-title">Navigate Treatment</div>
-                                <div class="feature-desc">Understand your options with evidence-based information</div>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">💪</div>
-                                <div class="feature-title">Make Informed Decisions</div>
-                                <div class="feature-desc">Feel empowered with knowledge about your care</div>
-                            </div>
-                        </div>
-                        <div class="welcome-prompt">
-                            <div class="welcome-prompt-label">Try asking me</div>
-                            <div class="welcome-prompt-text">"I'm 52, ER+/HER2-, and want to understand my treatment options"</div>
-                        </div>
-                        <p class="welcome-footer">I remember our conversations and your <strong>unique situation</strong></p>
-                        <div class="disclaimer">
-                            <strong>Educational support only</strong> — Always consult your care team for medical decisions
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            el.innerHTML = messages.map(m => {
-                const tags = (m.tags || []).map(t => `<span class="msg-tag ${t.toLowerCase()}">${t}</span>`).join('');
-                const evidence = m.evidence?.length ? `
-                    <div class="evidence">
-                        <div class="evidence-title">Evidence</div>
-                        ${m.evidence.map(e => `<div class="evidence-ref">${e}</div>`).join('')}
-                    </div>
-                ` : '';
-                const mcode = m.mcode ? `<div class="mcode-bar">mCODE: ${m.mcode.snomed} | ${m.mcode.phase}</div>` : '';
-
-                return `
-                    <div class="message">
-                        <div class="msg-header">
-                            <span class="msg-role ${m.role}">${m.role === 'user' ? 'You' : 'MammoChat'}</span>
-                            ${tags}
-                        </div>
-                        <div class="msg-content ${m.role}">
-                            ${m.content}
-                            ${evidence}
-                            ${mcode}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            el.scrollTop = el.scrollHeight;
-        }
-
-        // Build system prompt with context
-        function buildSystemPrompt() {
-            let prompt = SYSTEM_PROMPT;
-            if (ctx.histology !== 'UNKNOWN') {
-                prompt += `\n\nPatient Context:\n- Histology: ${MCODE[ctx.histology].desc}\n- Phase: ${ctx.phase}`;
-            }
-            return prompt;
-        }
-
-        async function send() {
-            const input = document.getElementById('input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            input.value = '';
-            input.disabled = true;
-
-            // Switch to chat panel
-            showPanel('chat');
-
-            const mc = { snomed: MCODE[ctx.histology].snomed, phase: ctx.phase };
-            messages.push({ role: 'user', content: text, mcode: mc });
-            chatHistory.push({ role: 'user', content: text });
-            render();
-
-            // Show typing indicator
-            const typingMsg = { role: 'assistant', content: '<em>Thinking...</em>', tags: [] };
-            messages.push(typingMsg);
-            render();
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: text,
-                        history: chatHistory.slice(-10),
-                        system: buildSystemPrompt()
-                    })
-                });
-
-                // Remove typing indicator
-                messages.pop();
-
-                if (!response.ok) throw new Error('API error');
-
-                const data = await response.json();
-                const reply = data.message || data.content?.[0]?.text || 'I apologize, but I had trouble processing that. Could you try rephrasing?';
-
-                // Parse reply for tags
-                const tags = [];
-                if (reply.toLowerCase().includes('dcis')) tags.push('DCIS');
-                if (reply.toLowerCase().includes('trial')) tags.push('TRIALS');
-                if (reply.toLowerCase().includes('bi-rads') || reply.toLowerCase().includes('birads')) tags.push('LEARN');
-
-                messages.push({
-                    role: 'assistant',
-                    content: reply.replace(/\n/g, '<br>'),
-                    tags,
-                    evidence: ['NCCN Guidelines', 'ACR BI-RADS'],
-                    mcode: mc
-                });
-                chatHistory.push({ role: 'assistant', content: reply });
-
-            } catch (error) {
-                messages.pop(); // Remove typing indicator
-                messages.push({
-                    role: 'assistant',
-                    content: 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment. 💗',
-                    tags: ['ERROR']
-                });
-            }
-
-            input.disabled = false;
-            input.focus();
-            render();
-        }
-
-        // Initialize
-        render();
-        checkLearning();
-        setInterval(checkLearning, 30000);
-    </script>
+    <footer>
+        <p>MammoChat by <a href="../../">Hadley Lab</a> | <a href="https://github.com/hadleylab-dexter">GitHub</a> | Educational purposes only</p>
+    </footer>
 </body>
 </html>

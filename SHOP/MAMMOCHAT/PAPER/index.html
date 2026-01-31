@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MammoChat Paper — Clinical Trials Matching via Conversational AI</title>
+    <style>
+        :root {
+            --bg: #fefefe;
+            --fg: #1a1a1a;
+            --accent: #ec4899;
+            --dim: #666;
+            --border: #e5e5e5;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f0a0c;
+                --fg: #fdf2f8;
+                --accent: #f472b6;
+                --dim: #9ca3af;
+                --border: #2d1f26;
+            }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.7;
+            padding: 40px 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--accent);
+            color: white;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        h1 { font-size: 36px; margin-bottom: 16px; }
+        h2 { font-size: 24px; margin: 40px 0 16px; color: var(--accent); }
+        p, li { color: var(--dim); margin-bottom: 12px; }
+        .abstract {
+            font-size: 20px;
+            color: var(--fg);
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(236,72,153,0.1), rgba(139,92,246,0.1));
+            border-radius: 12px;
+            margin: 24px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th { color: var(--accent); font-weight: 600; }
+        ul { padding-left: 24px; }
+        .formula {
+            text-align: center;
+            padding: 32px;
+            margin: 40px 0;
+        }
+        .formula-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 40px;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .formula-box span { color: var(--accent); }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .back-link:hover { text-decoration: underline; }
+        footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            color: var(--dim);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <span class="badge">CANONIC VERIFIED</span>
+    <h1>MammoChat Paper</h1>
+    <p><strong>Clinical Trials Matching via Conversational AI</strong></p>
+
+    <div class="abstract">
+        AI-powered clinical trial matching for breast oncology patients using natural language processing and structured eligibility criteria.
+    </div>
+
+    <h2>Status</h2>
+    <table>
+        <tr><th>Field</th><th>Value</th></tr>
+        <tr><td>Status</td><td>In Progress</td></tr>
+        <tr><td>Target</td><td>Journal submission</td></tr>
+        <tr><td>Domain</td><td>MED.ONCO.MAMMO</td></tr>
+    </table>
+
+    <h2>Key Contributions</h2>
+    <ul>
+        <li>Conversational AI for trial eligibility assessment</li>
+        <li>Integration with FHIR R4 patient data</li>
+        <li>Evidence-based matching with IDF citations</li>
+    </ul>
+
+    <h2>References</h2>
+    <ul>
+        <li><strong>IDF-039:</strong> Genomic profile matching</li>
+        <li><strong>IDF-040:</strong> Patient-reported outcomes integration</li>
+        <li><strong>IDF-041:</strong> Tumor size + Ki-67 prediction</li>
+    </ul>
+
+    <h2>Evidence</h2>
+    <table>
+        <tr><th>Claim</th><th>Authority</th><th>Source</th></tr>
+        <tr><td>Trial matching</td><td>SILVER</td><td>MAMMOCHAT logs</td></tr>
+        <tr><td>Patient outcomes</td><td>SILVER</td><td>Pilot data</td></tr>
+    </table>
+
+    <div class="formula">
+        <div class="formula-box">
+            APP <span>+</span> PAPER <span>=</span> CANONIC
+        </div>
+    </div>
+
+    <a href="../../../MAMMOCHAT/" class="back-link">&larr; Back to MammoChat App</a>
+
+    <footer>
+        MAMMOCHAT-PAPER | MED.ONCO.MAMMO | <a href="../../../../" style="color: var(--accent);">Hadley Lab</a>
+    </footer>
+</body>
+</html>
