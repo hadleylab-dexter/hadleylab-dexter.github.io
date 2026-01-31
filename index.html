@@ -20,6 +20,8 @@
             --shadow: 0 4px 24px rgba(37, 99, 235, 0.08);
             --shadow-lg: 0 20px 60px rgba(37, 99, 235, 0.15);
             --radius: 24px;
+            --pink: #db2777;
+            --pink-light: #f472b6;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -189,6 +191,17 @@
         .btn-secondary:hover {
             background: var(--bg-alt);
             border-color: var(--blue-light);
+        }
+
+        .btn-pink {
+            background: linear-gradient(135deg, var(--pink-light) 0%, var(--pink) 100%);
+            color: white;
+            box-shadow: 0 4px 14px rgba(219, 39, 119, 0.4);
+        }
+
+        .btn-pink:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(219, 39, 119, 0.5);
         }
 
         /* Device Frame */
@@ -679,7 +692,7 @@
                 <h1>Translating big data into <span>precision medicine</span></h1>
                 <p>MammoChat delivers evidence-based breast health information with BI-RADS categorization and NCCN guideline integration. Every response cited. Every claim validated.</p>
                 <div class="hero-cta">
-                    <a href="SHOP/MAMMOCHAT/CHAT/" class="btn btn-primary">Chat Now</a>
+                    <a href="SHOP/MAMMOCHAT/CHAT/" class="btn btn-pink">Chat Now</a>
                     <a href="SHOP/MAMMOCHAT/" class="btn btn-secondary">Learn More</a>
                 </div>
             </div>
