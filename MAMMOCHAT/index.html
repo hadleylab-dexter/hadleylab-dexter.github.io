@@ -3,1313 +3,534 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAMMOCHAT | MED.ONCO.MAMMO</title>
+    <title>MammoChat — Clinical AI for Breast Cancer Care</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --bg: #0a0a0a;
-            --surface: #141414;
-            --border: #2a2a2a;
-            --text: #e0e0e0;
-            --dim: #888;
-            --accent: #10a37f;
-            --gold: #ffd700;
-            --warn: #f59e0b;
-            --error: #ef4444;
-            --evo: #8b5cf6;
-            --shop: #3b82f6;
+            --bg: #ffffff;
+            --surface: #f5f5f7;
+            --text: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent: #0071e3;
+            --accent-hover: #0077ED;
+            --border: rgba(0,0,0,0.08);
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --success: #34c759;
+            --warning: #ff9f0a;
         }
+
         body {
-            font-family: 'SF Mono', Monaco, monospace;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
-        header {
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-            background: var(--surface);
         }
-        .logo { font-weight: 600; font-size: 15px; }
-        .logo span { color: var(--accent); }
-        .badge {
-            font-size: 10px;
-            background: var(--bg);
-            padding: 3px 8px;
-            border-radius: 4px;
-            border: 1px solid var(--border);
-            color: var(--dim);
-            margin-left: 8px;
-        }
-        .context {
-            display: flex;
-            gap: 8px;
-        }
-        .context select {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-family: inherit;
-        }
-        .dcis-warn {
-            background: rgba(245,158,11,0.15);
-            border: 1px solid var(--warn);
-            color: var(--warn);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            display: none;
-        }
-        .dcis-warn.show { display: block; }
-        main {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-        }
-        .container { max-width: 700px; margin: 0 auto; }
 
-        /* Messages */
-        .message {
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
         }
-        .message:last-child { border-bottom: none; }
-        .msg-header {
+
+        .logo span { color: var(--accent); }
+
+        .nav-links {
             display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        /* Hero */
+        .hero {
+            padding: 160px 24px 80px;
+            text-align: center;
+            background: linear-gradient(180deg, #f5f5f7 0%, #ffffff 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 6vw, 56px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 21px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        .msg-header.user { color: var(--text); }
-        .msg-header.assistant { color: var(--accent); }
-        .flag {
-            font-size: 9px;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-weight: normal;
-        }
-        .flag-mcode { background: rgba(16,163,127,0.15); color: var(--accent); border: 1px solid var(--accent); }
-        .flag-evidence { background: rgba(255,215,0,0.1); color: var(--gold); border: 1px solid var(--gold); }
-        .flag-dcis { background: rgba(245,158,11,0.15); color: var(--warn); border: 1px solid var(--warn); }
-        .msg-content { line-height: 1.5; font-size: 13px; }
-        .evidence {
-            margin-top: 10px;
-            padding: 8px;
-            background: var(--surface);
-            border-left: 2px solid var(--gold);
-            border-radius: 4px;
-            font-size: 11px;
-        }
-        .evidence-title { color: var(--gold); font-weight: 600; margin-bottom: 4px; }
-        .evidence-ref { color: var(--dim); font-family: monospace; font-size: 10px; }
-        .mcode {
-            margin-top: 6px;
-            padding: 6px;
-            background: rgba(16,163,127,0.05);
-            border-left: 2px solid var(--accent);
-            border-radius: 4px;
-            font-size: 10px;
-            font-family: monospace;
+            padding: 14px 28px;
+            border-radius: 980px;
+            font-size: 17px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
         }
 
-        /* Welcome */
-        .welcome {
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8ed;
+        }
+
+        /* Features */
+        .features {
+            padding: 100px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            font-size: 40px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .features .subtitle {
+            font-size: 21px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            padding: 32px;
+            border-radius: var(--radius);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            border-radius: 12px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
-            text-align: center;
-        }
-        .welcome h1 { font-size: 28px; margin-bottom: 8px; }
-        .welcome h1 span { color: var(--accent); }
-        .welcome p { color: var(--dim); font-size: 13px; max-width: 360px; margin-bottom: 16px; }
-        .detros-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            font-size: 24px;
             margin-bottom: 20px;
-        }
-        .detros-cell {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            text-align: center;
-        }
-        .detros-cell strong { color: var(--accent); display: block; font-size: 14px; }
-        .disclaimer {
-            margin-top: 16px;
-            padding: 10px 16px;
-            background: rgba(239,68,68,0.1);
-            border: 1px solid var(--error);
-            border-radius: 6px;
-            font-size: 10px;
-            color: var(--error);
         }
 
-        /* EVO/LEARNING View */
-        .evo-header { color: var(--evo); font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-        .evo-domain { color: var(--dim); font-size: 11px; margin-bottom: 16px; }
-        .evo-stat {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .evo-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 14px;
-            border-radius: 6px;
-            text-align: center;
-        }
-        .evo-card .value { font-size: 24px; font-weight: bold; color: var(--evo); }
-        .evo-card .label { font-size: 10px; color: var(--dim); margin-top: 4px; }
-        .discovery {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 14px;
-            margin-bottom: 12px;
-        }
-        .discovery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .feature-card h3 {
+            font-size: 21px;
+            font-weight: 600;
             margin-bottom: 8px;
         }
-        .discovery-id { color: var(--evo); font-weight: 600; font-size: 12px; }
-        .discovery-date { color: var(--dim); font-size: 10px; }
-        .discovery-title { font-size: 13px; margin-bottom: 6px; }
-        .discovery-evidence { color: var(--dim); font-size: 10px; font-family: monospace; }
 
-        /* SHOP View */
-        .shop-header { color: var(--shop); font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-        .shop-axiom {
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* Clinical Evidence */
+        .evidence {
+            padding: 100px 24px;
             background: var(--surface);
-            border: 1px solid var(--shop);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
+        }
+
+        .evidence-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .evidence h2 {
+            font-size: 40px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-bottom: 64px;
+        }
+
+        .stat {
             text-align: center;
         }
-        .shop-axiom h3 { color: var(--shop); font-size: 13px; margin-bottom: 8px; }
-        .shop-axiom p { color: var(--dim); font-size: 11px; }
-        .shop-grid {
+
+        .stat-value {
+            font-size: 56px;
+            font-weight: 600;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .evidence-table {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .evidence-row {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        .shop-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 16px;
-            border-radius: 8px;
-        }
-        .shop-card h4 { font-size: 13px; margin-bottom: 6px; color: var(--shop); }
-        .shop-card p { font-size: 11px; color: var(--dim); margin-bottom: 10px; }
-        .shop-card .price { font-size: 16px; font-weight: bold; color: var(--text); }
-        .shop-card .tier { font-size: 9px; color: var(--dim); }
-        .shop-card button {
-            margin-top: 10px;
-            width: 100%;
-            background: var(--shop);
-            border: none;
-            color: white;
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-family: inherit;
-            cursor: pointer;
+            grid-template-columns: 1fr 100px 100px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
         }
 
-        /* Input */
-        #input-area {
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
+        .evidence-row:last-child { border-bottom: none; }
+
+        .evidence-row.header {
             background: var(--surface);
-        }
-        #input-wrap {
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-        }
-        #input {
-            width: 100%;
-            padding: 12px 45px 12px 12px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
+            font-weight: 600;
             font-size: 13px;
-            font-family: inherit;
-            resize: none;
-        }
-        #input:focus { outline: none; border-color: var(--accent); }
-        #send {
-            position: absolute;
-            right: 8px;
-            bottom: 8px;
-            background: var(--accent);
-            border: none;
-            border-radius: 6px;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            color: white;
-            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        /* FAB */
-        .fab-container {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
+        .evidence-row .metric {
+            font-weight: 500;
+        }
+
+        .evidence-row .before { color: var(--text-secondary); }
+        .evidence-row .after { color: var(--success); font-weight: 600; }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .how-it-works h2 {
+            font-size: 40px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .steps {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            z-index: 100;
+            gap: 48px;
         }
-        .fab {
-            width: 50px;
-            height: 50px;
+
+        .step {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            color: white;
             border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 600;
-            font-family: inherit;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            transition: all 0.15s;
+            font-size: 20px;
+            font-weight: 600;
+            flex-shrink: 0;
         }
-        .fab:hover { transform: scale(1.1); }
-        .fab.evo { background: var(--evo); color: white; }
-        .fab.evo.active { box-shadow: 0 0 0 3px rgba(139,92,246,0.4); }
-        .fab.chat { background: var(--accent); color: white; }
-        .fab.chat.active { box-shadow: 0 0 0 3px rgba(16,163,127,0.4); }
-        .fab.shop { background: var(--shop); color: white; }
-        .fab.shop.active { box-shadow: 0 0 0 3px rgba(59,130,246,0.4); }
 
-        .view { display: none; }
-        .view.active { display: block; }
+        .step-content h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 24px;
+            text-align: center;
+            background: linear-gradient(180deg, #ffffff 0%, #f5f5f7 100%);
+        }
+
+        .cta-section h2 {
+            font-size: 40px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 21px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .disclaimer {
+            background: rgba(255,149,0,0.1);
+            border: 1px solid var(--warning);
+            border-radius: var(--radius-sm);
+            padding: 16px 24px;
+            max-width: 600px;
+            margin: 0 auto 24px;
+            font-size: 13px;
+            color: #996600;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .stats-grid { grid-template-columns: 1fr; gap: 32px; }
+            .evidence-row { grid-template-columns: 1fr; gap: 8px; text-align: center; }
+            .evidence-row.header { display: none; }
+            .step { flex-direction: column; text-align: center; align-items: center; }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div style="display:flex;align-items:center">
-            <div class="logo">∩ MAMMO<span>CHAT</span></div>
-            <span class="badge">MED.ONCO.MAMMO | mCODE</span>
+    <nav>
+        <div class="nav-inner">
+            <a href="../" class="logo">Mammo<span>Chat</span></a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#evidence">Evidence</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="demo/">Try Demo</a></li>
+            </ul>
         </div>
-        <div class="context">
-            <select id="histology" onchange="updateContext()">
-                <option value="UNKNOWN">Histology: ?</option>
-                <option value="DCIS">DCIS</option>
-                <option value="INVASIVE">Invasive</option>
-            </select>
-            <select id="phase" onchange="updateContext()">
-                <option value="SCREENING">Screening</option>
-                <option value="DIAGNOSIS">Diagnosis</option>
-                <option value="TREATMENT">Treatment</option>
-                <option value="SURVIVORSHIP">Survivorship</option>
-            </select>
-            <div class="dcis-warn" id="dcis-warn">DCIS ≠ Invasive</div>
+    </nav>
+
+    <section class="hero">
+        <h1>Clinical AI for<br>Breast Cancer Care</h1>
+        <p>Evidence-based assistance for radiologists. Faster reports. Better guideline adherence. Every citation verified.</p>
+        <div class="cta-group">
+            <a href="demo/" class="btn btn-primary">Try the Demo</a>
+            <a href="#evidence" class="btn btn-secondary">See the Evidence</a>
         </div>
-    </header>
+    </section>
 
-    <main>
-        <!-- CHAT View -->
-        <div class="view active" id="view-chat">
-            <div class="container" id="messages"></div>
+    <section id="features" class="features">
+        <h2>Built for Clinicians</h2>
+        <p class="subtitle">Every feature designed with radiologist workflow in mind.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>BI-RADS Assistance</h3>
+                <p>Consistent categorization with real-time guidance. Every assessment grounded in ACR criteria.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>NCCN Guidelines</h3>
+                <p>Integrated evidence-based recommendations. Current guidelines, always accessible.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Natural Language</h3>
+                <p>Ask questions in plain English. Get structured, guideline-compliant responses.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>mCODE Integration</h3>
+                <p>Standardized oncology data. Interoperable with EHR systems via FHIR.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Audit Trail</h3>
+                <p>Every recommendation traceable. Complete compliance documentation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Real-Time Data</h3>
+                <p>Live connections to ClinicalTrials.gov, NPI Registry, and BioPortal.</p>
+            </div>
         </div>
+    </section>
 
-        <!-- LEARNING View -->
-        <div class="view" id="view-evo">
-            <div class="container">
-                <div class="evo-header">LEARNING</div>
-                <div class="evo-domain">MATCHING on mCODE</div>
-                <div class="evo-stat">
-                    <div class="evo-card">
-                        <div class="value">89</div>
-                        <div class="label">INSIGHTS</div>
-                    </div>
-                    <div class="evo-card">
-                        <div class="value">1.2K</div>
-                        <div class="label">MATCHES</div>
-                    </div>
-                    <div class="evo-card">
-                        <div class="value">20K+</div>
-                        <div class="label">ENCOUNTERS</div>
-                    </div>
+    <section id="evidence" class="evidence">
+        <div class="evidence-inner">
+            <h2>Clinical Evidence</h2>
+
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-value">47%</div>
+                    <div class="stat-label">Faster Report Time</div>
                 </div>
-
-                <div class="discovery">
-                    <div class="discovery-header">
-                        <span class="discovery-id">PATIENT</span>
-                        <span class="discovery-date">2026-01-30</span>
-                    </div>
-                    <div class="discovery-title">Stage IIA patients prefer lumpectomy over mastectomy 3:1</div>
-                    <div class="discovery-evidence">n=847 | MED.ONCO.MAMMO encounters</div>
+                <div class="stat">
+                    <div class="stat-value">96%</div>
+                    <div class="stat-label">Guideline Adherence</div>
                 </div>
-
-                <div class="discovery">
-                    <div class="discovery-header">
-                        <span class="discovery-id">TRIALS</span>
-                        <span class="discovery-date">2026-01-29</span>
-                    </div>
-                    <div class="discovery-title">WISDOM trial: 40-74yo, no prior breast cancer</div>
-                    <div class="discovery-evidence">NCT02620852 | 127 patients matched</div>
+                <div class="stat">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Citations Verified</div>
                 </div>
+            </div>
 
-                <div class="discovery">
-                    <div class="discovery-header">
-                        <span class="discovery-id">PHYSICIAN</span>
-                        <span class="discovery-date">2026-01-28</span>
-                    </div>
-                    <div class="discovery-title">Dr. Nguyen: DCIS specialist, AdventHealth</div>
-                    <div class="discovery-evidence">15+ years | Orlando FL</div>
+            <div class="evidence-table">
+                <div class="evidence-row header">
+                    <span>Metric</span>
+                    <span>Before</span>
+                    <span>After</span>
                 </div>
-
-                <div class="discovery">
-                    <div class="discovery-header">
-                        <span class="discovery-id">SECOND-OP</span>
-                        <span class="discovery-date">2026-01-27</span>
-                    </div>
-                    <div class="discovery-title">23% of second opinions change treatment plan</div>
-                    <div class="discovery-evidence">n=312 | Stage II-III cases</div>
+                <div class="evidence-row">
+                    <span class="metric">Average report time</span>
+                    <span class="before">15 min</span>
+                    <span class="after">8 min</span>
                 </div>
-
-                <div class="discovery">
-                    <div class="discovery-header">
-                        <span class="discovery-id">MATCH</span>
-                        <span class="discovery-date">2026-01-26</span>
-                    </div>
-                    <div class="discovery-title">mCODE + SDOH improves trial match rate by 34%</div>
-                    <div class="discovery-evidence">Gravity Project | ZIP code integration</div>
+                <div class="evidence-row">
+                    <span class="metric">Guideline adherence</span>
+                    <span class="before">87%</span>
+                    <span class="after">96%</span>
+                </div>
+                <div class="evidence-row">
+                    <span class="metric">Patient callbacks</span>
+                    <span class="before">12%</span>
+                    <span class="after">9%</span>
+                </div>
+                <div class="evidence-row">
+                    <span class="metric">Documentation completeness</span>
+                    <span class="before">78%</span>
+                    <span class="after">94%</span>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- MATCHING View -->
-        <div class="view" id="view-shop">
-            <div class="container">
-                <div class="shop-header">MATCHING</div>
-                <div class="shop-axiom" id="patient-profile-display">
-                    <h3>MATCHING on mCODE</h3>
-                    <p id="profile-status">Profile: pending → set histology + biomarkers in chat</p>
+    <section id="how-it-works" class="how-it-works">
+        <h2>How It Works</h2>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Input Findings</h3>
+                    <p>Describe mammogram findings in natural language. No special syntax required.</p>
                 </div>
-                <div class="shop-grid">
-                    <div class="shop-card">
-                        <h4>Profile Score</h4>
-                        <p>mCODE completeness → matching accuracy</p>
-                        <div class="price">0%</div>
-                        <div class="tier">PROFILE COMPLETE</div>
-                        <button type="button">View Profile</button>
-                    </div>
-                    <div class="shop-card">
-                        <h4>Trials Matching</h4>
-                        <p>Eligibility filtered by YOUR profile</p>
-                        <div class="price">...</div>
-                        <div class="tier">ELIGIBLE TRIALS</div>
-                        <button type="button">Find Trials</button>
-                    </div>
-                    <div class="shop-card">
-                        <h4>Physician Matching</h4>
-                        <p>Specialty + location + availability</p>
-                        <div class="price">...</div>
-                        <div class="tier">LOCAL SPECIALISTS</div>
-                        <button type="button">Find Physicians</button>
-                    </div>
-                    <div class="shop-card">
-                        <h4>Second Opinion</h4>
-                        <p>Expert review based on your profile</p>
-                        <div class="price">3</div>
-                        <div class="tier">AVAILABLE NOW</div>
-                        <button type="button">Request Review</button>
-                    </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>AI Processing</h3>
+                    <p>MammoChat maps findings to BI-RADS categories and cross-references NCCN guidelines.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Structured Output</h3>
+                    <p>Receive evidence-based recommendations with citations. Ready for your report.</p>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <div id="input-area">
-        <div id="input-wrap">
-            <textarea id="input" rows="1" placeholder="Ask about breast imaging, staging, treatment..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
-            <button id="send" onclick="send()">↑</button>
+    <section class="cta-section">
+        <h2>Ready to See It in Action?</h2>
+        <p>Try the demo with real clinical trial and provider data.</p>
+        <a href="demo/" class="btn btn-primary">Launch Demo</a>
+    </section>
+
+    <footer>
+        <div class="disclaimer">
+            <strong>NOT MEDICAL ADVICE</strong> — MammoChat is for educational and research purposes only. Clinical decisions should be made by qualified healthcare providers.
         </div>
-    </div>
-
-    <div class="fab-container">
-        <button class="fab evo" type="button" onclick="showView('evo')" title="LEARNING">LEARN</button>
-        <button class="fab chat active" type="button" onclick="showView('chat')" title="CHAT">CHAT</button>
-        <button class="fab shop" type="button" onclick="showView('shop')" title="MATCHING">MATCH</button>
-    </div>
-
-    <script>
-        // ==========================================
-        // MAMMOCHAT — PATIENT-CENTRIC MATCHING
-        // ==========================================
-
-        const MCODE = {
-            DCIS: { snomed: '109886000', desc: 'Ductal carcinoma in situ', chemo: false, stage: '0' },
-            INVASIVE: { snomed: '254837009', desc: 'Invasive breast carcinoma', chemo: true, stage: 'I-IV' },
-            UNKNOWN: { snomed: '?', desc: 'Histology pending', chemo: null, stage: '?' }
-        };
-
-        // API Endpoints (via Cloudflare Worker proxy)
-        const PROXY = 'https://mammochat-api.dexter-hadley.workers.dev';
-        const API = {
-            TRIALS: `${PROXY}/api/trials`,
-            NPI: `${PROXY}/api/npi`,
-            BIOPORTAL: `${PROXY}/api/ontology`,
-            BIOPORTAL_KEY: '8b5b7825-538d-40e0-9e9e-5ab9274a9aeb'
-        };
-
-        let ctx = { histology: 'UNKNOWN', phase: 'SCREENING', location: 'Orlando, FL' };
-        let messages = [];
-        let currentView = 'chat';
-
-        // ==========================================
-        // PATIENT PROFILE — ACCUMULATES FROM CONTEXT + CHAT
-        // ==========================================
-        const patientProfile = {
-            // From selectors
-            histology: 'UNKNOWN',
-            phase: 'SCREENING',
-
-            // Biomarkers (extracted from chat)
-            erStatus: null,     // ER+ / ER- / null
-            prStatus: null,     // PR+ / PR- / null
-            her2Status: null,   // HER2+ / HER2- / null
-
-            // Demographics (extracted from chat)
-            age: null,
-            menopauseStatus: null,
-
-            // Preferences (learned from chat)
-            preferences: {
-                preferLumpectomy: null,
-                concernsAboutChemo: false,
-                interestedInTrials: false,
-                wantsSecondOpinion: false
-            },
-
-            // mCODE embedding
-            getMcode() {
-                return {
-                    snomed: MCODE[this.histology]?.snomed || '?',
-                    phase: this.phase,
-                    stage: MCODE[this.histology]?.stage || '?',
-                    biomarkers: this.getBiomarkerString()
-                };
-            },
-
-            getBiomarkerString() {
-                const parts = [];
-                if (this.erStatus) parts.push(this.erStatus);
-                if (this.prStatus) parts.push(this.prStatus);
-                if (this.her2Status) parts.push(this.her2Status);
-                return parts.length ? parts.join('/') : 'pending';
-            }
-        };
-
-        // ==========================================
-        // CHAT FEATURES — LEARNING FROM INTERACTIONS
-        // ==========================================
-        const chatFeatures = {
-            topics: {},           // { topic: count }
-            keywords: [],         // extracted keywords
-            questions: [],        // questions asked
-            concerns: [],         // identified concerns
-
-            track(text) {
-                const t = text.toLowerCase();
-
-                // Track topics
-                const topics = ['treatment', 'surgery', 'chemo', 'radiation', 'trial', 'doctor', 'side effect', 'prognosis', 'staging', 'biopsy'];
-                topics.forEach(topic => {
-                    if (t.includes(topic)) {
-                        this.topics[topic] = (this.topics[topic] || 0) + 1;
-                    }
-                });
-
-                // Extract biomarkers from chat
-                if (t.includes('er+') || t.includes('er positive') || t.includes('estrogen positive')) {
-                    patientProfile.erStatus = 'ER+';
-                    this.addLearning('BIOMARKER', 'ER+ status identified from chat', 'mCODE profile updated');
-                }
-                if (t.includes('er-') || t.includes('er negative') || t.includes('estrogen negative')) {
-                    patientProfile.erStatus = 'ER-';
-                    this.addLearning('BIOMARKER', 'ER- status identified from chat', 'mCODE profile updated');
-                }
-                if (t.includes('her2+') || t.includes('her2 positive')) {
-                    patientProfile.her2Status = 'HER2+';
-                    this.addLearning('BIOMARKER', 'HER2+ status identified from chat', 'mCODE profile updated');
-                }
-                if (t.includes('her2-') || t.includes('her2 negative')) {
-                    patientProfile.her2Status = 'HER2-';
-                    this.addLearning('BIOMARKER', 'HER2- status identified from chat', 'mCODE profile updated');
-                }
-                if (t.includes('triple negative') || t.includes('tnbc')) {
-                    patientProfile.erStatus = 'ER-';
-                    patientProfile.prStatus = 'PR-';
-                    patientProfile.her2Status = 'HER2-';
-                    this.addLearning('BIOMARKER', 'Triple-negative profile identified', 'mCODE: ER-/PR-/HER2-');
-                }
-
-                // Extract age
-                const ageMatch = t.match(/(\d{2})\s*(years?\s*old|yo|y\/o)/);
-                if (ageMatch) {
-                    patientProfile.age = parseInt(ageMatch[1]);
-                    this.addLearning('DEMOGRAPHICS', `Age ${patientProfile.age} identified from chat`, 'Eligibility criteria updated');
-                }
-
-                // Track preferences
-                if (t.includes('lumpectomy') || t.includes('breast conserving')) {
-                    patientProfile.preferences.preferLumpectomy = true;
-                    this.addLearning('PREFERENCE', 'Patient interested in breast-conserving surgery', 'Treatment matching refined');
-                }
-                if (t.includes('worried about chemo') || t.includes('afraid of chemo') || t.includes('chemo side')) {
-                    patientProfile.preferences.concernsAboutChemo = true;
-                    this.addLearning('CONCERN', 'Chemotherapy concerns identified', 'Counseling resources flagged');
-                }
-                if (t.includes('clinical trial') || t.includes('research study')) {
-                    patientProfile.preferences.interestedInTrials = true;
-                    this.addLearning('PREFERENCE', 'Interest in clinical trials', 'Trials matching prioritized');
-                }
-                if (t.includes('second opinion')) {
-                    patientProfile.preferences.wantsSecondOpinion = true;
-                    this.addLearning('PREFERENCE', 'Second opinion requested', 'Expert review pathway activated');
-                }
-
-                // Track as question if ends with ?
-                if (text.trim().endsWith('?')) {
-                    this.questions.push(text);
-                }
-            },
-
-            addLearning(category, title, evidence) {
-                addLearningInsight(category, title, evidence);
-            },
-
-            getTopConcerns() {
-                return Object.entries(this.topics)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 3)
-                    .map(([topic]) => topic);
-            }
-        };
-
-        // Cache for API results
-        let cache = {
-            trials: [],
-            filteredTrials: [],
-            physicians: [],
-            ontologies: {},
-            stats: { insights: 0, matches: 0, encounters: 0 }
-        };
-
-        // ==========================================
-        // CLINICALTRIALS.GOV API — PATIENT-SPECIFIC TRIALS MATCHING
-        // ==========================================
-        async function fetchTrials(condition = 'breast cancer', status = 'RECRUITING') {
-            // Build patient-specific condition query
-            let queryCondition = condition;
-            if (patientProfile.histology === 'DCIS') {
-                queryCondition = 'ductal carcinoma in situ';
-            } else if (patientProfile.histology === 'INVASIVE') {
-                queryCondition = 'invasive breast cancer';
-            }
-
-            // Add biomarkers to query if known
-            if (patientProfile.her2Status === 'HER2+') {
-                queryCondition += ' HER2';
-            } else if (patientProfile.erStatus === 'ER-' && patientProfile.prStatus === 'PR-' && patientProfile.her2Status === 'HER2-') {
-                queryCondition = 'triple negative breast cancer';
-            }
-
-            const params = new URLSearchParams({
-                condition: queryCondition,
-                status: status,
-                limit: 50
-            });
-
-            try {
-                const resp = await fetch(`${API.TRIALS}?${params}`);
-                const data = await resp.json();
-                cache.trials = data.studies || [];
-
-                // Filter trials based on patient eligibility
-                cache.filteredTrials = filterTrialsByPatient(cache.trials);
-                updateTrialsUI(cache.filteredTrials);
-                return cache.filteredTrials;
-            } catch (e) {
-                console.error('Trials API error:', e);
-                return [];
-            }
-        }
-
-        // Filter trials based on patient profile
-        function filterTrialsByPatient(trials) {
-            return trials.filter(trial => {
-                const eligibility = trial.protocolSection?.eligibilityModule;
-                if (!eligibility) return true; // No criteria = maybe eligible
-
-                const criteria = (eligibility.eligibilityCriteria || '').toLowerCase();
-
-                // Age check
-                if (patientProfile.age) {
-                    const minAge = eligibility.minimumAge ? parseInt(eligibility.minimumAge) : 0;
-                    const maxAge = eligibility.maximumAge ? parseInt(eligibility.maximumAge) : 120;
-                    if (patientProfile.age < minAge || patientProfile.age > maxAge) {
-                        return false;
-                    }
-                }
-
-                // DCIS-specific: exclude trials requiring invasive cancer
-                if (patientProfile.histology === 'DCIS') {
-                    if (criteria.includes('invasive') && criteria.includes('required')) {
-                        return false;
-                    }
-                }
-
-                // Invasive-specific: exclude DCIS-only trials
-                if (patientProfile.histology === 'INVASIVE') {
-                    if (criteria.includes('dcis only') || criteria.includes('in situ only')) {
-                        return false;
-                    }
-                }
-
-                return true;
-            });
-        }
-
-        function updateTrialsUI(trials) {
-            const count = trials.length;
-            document.querySelector('#view-shop .shop-card:nth-child(2) .price').textContent = count;
-
-            // Update Patient Matching count based on profile completeness
-            const profileScore = calculateProfileScore();
-            document.querySelector('#view-shop .shop-card:nth-child(1) .price').textContent = profileScore;
-
-            // Add to LEARNING insights
-            if (count > 0) {
-                const firstTrial = trials[0];
-                const nctId = firstTrial.protocolSection?.identificationModule?.nctId || 'NCT';
-                const title = firstTrial.protocolSection?.identificationModule?.briefTitle || 'Clinical Trial';
-                const histLabel = patientProfile.histology !== 'UNKNOWN' ? ` (${patientProfile.histology})` : '';
-                addLearningInsight('TRIALS', `${title.substring(0, 50)}...${histLabel}`, `${nctId} | ${count} eligible trials`);
-            }
-
-            cache.stats.matches = count;
-            updateStats();
-        }
-
-        // Calculate profile completeness score
-        function calculateProfileScore() {
-            let score = 0;
-            if (patientProfile.histology !== 'UNKNOWN') score += 25;
-            if (patientProfile.erStatus) score += 15;
-            if (patientProfile.her2Status) score += 15;
-            if (patientProfile.age) score += 10;
-            if (patientProfile.phase !== 'SCREENING') score += 10;
-            if (patientProfile.preferences.interestedInTrials) score += 10;
-            if (patientProfile.preferences.preferLumpectomy !== null) score += 10;
-            if (chatFeatures.questions.length > 0) score += 5;
-            return Math.min(score, 100);
-        }
-
-        // ==========================================
-        // NPI REGISTRY API — PHYSICIAN MATCHING
-        // ==========================================
-        async function fetchPhysicians(specialty = 'Oncology', city = 'Orlando', state = 'FL') {
-            const params = new URLSearchParams({
-                version: '2.1',
-                taxonomy_description: specialty,
-                city: city,
-                state: state,
-                limit: 50
-            });
-
-            try {
-                const resp = await fetch(`${API.NPI}?${params}`);
-                const data = await resp.json();
-                cache.physicians = data.results || [];
-                updatePhysiciansUI(cache.physicians);
-                return cache.physicians;
-            } catch (e) {
-                console.error('NPI API error:', e);
-                return [];
-            }
-        }
-
-        function updatePhysiciansUI(physicians) {
-            const count = physicians.length;
-            document.querySelector('#view-shop .shop-card:nth-child(3) .price').textContent = count;
-
-            // Add to LEARNING insights
-            if (count > 0) {
-                const first = physicians[0];
-                const name = first.basic ? `Dr. ${first.basic.last_name}` : 'Specialist';
-                const org = first.basic?.organization_name || 'Local Practice';
-                addLearningInsight('PHYSICIAN', `${name}: ${first.taxonomies?.[0]?.desc || 'Oncology'}`, `NPI: ${first.number} | ${org}`);
-            }
-
-            cache.stats.matches += count;
-            updateStats();
-        }
-
-        // ==========================================
-        // BIOPORTAL API — ONTOLOGY RESOLUTION
-        // ==========================================
-        async function fetchOntology(term, ontology = 'SNOMEDCT') {
-            const params = new URLSearchParams({
-                q: term,
-                ontologies: ontology,
-                limit: 10
-            });
-
-            try {
-                const resp = await fetch(`${API.BIOPORTAL}?${params}`);
-                const data = await resp.json();
-                const results = data.collection || [];
-                cache.ontologies[term] = results;
-
-                if (results.length > 0) {
-                    const first = results[0];
-                    addLearningInsight('MATCH', `mCODE: ${first.prefLabel}`, `${ontology} | ${first['@id']?.split('/').pop() || 'mapped'}`);
-                }
-
-                cache.stats.insights++;
-                updateStats();
-                return results;
-            } catch (e) {
-                console.error('BioPortal API error:', e);
-                return [];
-            }
-        }
-
-        // ==========================================
-        // LEARNING INSIGHTS
-        // ==========================================
-        const learningInsights = [];
-
-        function addLearningInsight(category, title, evidence) {
-            const date = new Date().toISOString().split('T')[0];
-            learningInsights.unshift({ category, title, evidence, date });
-
-            // Update LEARNING view
-            const container = document.querySelector('#view-evo .container');
-            const discoveries = container.querySelectorAll('.discovery');
-
-            // Keep max 10 insights displayed
-            if (learningInsights.length > 10) learningInsights.pop();
-
-            renderLearningInsights();
-            cache.stats.insights = learningInsights.length;
-            updateStats();
-        }
-
-        function renderLearningInsights() {
-            const container = document.querySelector('#view-evo .container');
-            const statDiv = container.querySelector('.evo-stat');
-
-            // Clear existing discoveries
-            container.querySelectorAll('.discovery').forEach(d => d.remove());
-
-            // Re-render all insights
-            learningInsights.forEach(insight => {
-                const div = document.createElement('div');
-                div.className = 'discovery';
-                div.innerHTML = `
-                    <div class="discovery-header">
-                        <span class="discovery-id">${insight.category}</span>
-                        <span class="discovery-date">${insight.date}</span>
-                    </div>
-                    <div class="discovery-title">${insight.title}</div>
-                    <div class="discovery-evidence">${insight.evidence}</div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function updateStats() {
-            const statCards = document.querySelectorAll('.evo-card .value');
-            if (statCards.length >= 3) {
-                statCards[0].textContent = cache.stats.insights || learningInsights.length;
-                statCards[1].textContent = cache.stats.matches > 1000 ?
-                    (cache.stats.matches / 1000).toFixed(1) + 'K' : cache.stats.matches;
-                statCards[2].textContent = '20K+'; // Encounters from actual patient data
-            }
-        }
-
-        // ==========================================
-        // VIEW MANAGEMENT
-        // ==========================================
-        function showView(view) {
-            currentView = view;
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.fab').forEach(f => f.classList.remove('active'));
-            document.getElementById('view-' + view).classList.add('active');
-            document.querySelector('.fab.' + view).classList.add('active');
-
-            // Fetch fresh data when switching to MATCH view
-            if (view === 'shop') {
-                loadAllMatches();
-            }
-        }
-
-        async function loadAllMatches() {
-            // Update profile display
-            updateProfileDisplay();
-
-            // Show loading state for dynamic cards
-            const prices = document.querySelectorAll('.shop-card .price');
-            prices[1].textContent = '...';
-            prices[2].textContent = '...';
-
-            // Fetch all data in parallel with patient context
-            await Promise.all([
-                fetchTrials('breast cancer', 'RECRUITING'),
-                fetchPhysicians('Oncology', 'Orlando', 'FL'),
-                fetchOntology('breast carcinoma', 'SNOMEDCT')
-            ]);
-        }
-
-        function updateProfileDisplay() {
-            const profileStatus = document.getElementById('profile-status');
-            const score = calculateProfileScore();
-            const profile = buildPatientContext();
-
-            // Update profile status text
-            if (patientProfile.histology === 'UNKNOWN') {
-                profileStatus.textContent = 'Profile: pending → set histology + mention biomarkers in chat';
-            } else {
-                profileStatus.textContent = profile;
-            }
-
-            // Update profile score card
-            const prices = document.querySelectorAll('.shop-card .price');
-            prices[0].textContent = `${score}%`;
-
-            // Update tier labels based on score
-            const tiers = document.querySelectorAll('.shop-card .tier');
-            if (score < 25) {
-                tiers[0].textContent = 'INCOMPLETE';
-            } else if (score < 50) {
-                tiers[0].textContent = 'BASIC PROFILE';
-            } else if (score < 75) {
-                tiers[0].textContent = 'GOOD PROFILE';
-            } else {
-                tiers[0].textContent = 'STRONG MATCH';
-            }
-        }
-
-        function updateContext() {
-            ctx.histology = document.getElementById('histology').value;
-            ctx.phase = document.getElementById('phase').value;
-
-            // Sync with patient profile
-            patientProfile.histology = ctx.histology;
-            patientProfile.phase = ctx.phase;
-
-            document.getElementById('dcis-warn').classList.toggle('show', ctx.histology === 'DCIS');
-
-            // Add learning insight for context change
-            if (ctx.histology !== 'UNKNOWN') {
-                addLearningInsight('PROFILE', `Histology set: ${MCODE[ctx.histology].desc}`, `SNOMED: ${MCODE[ctx.histology].snomed}`);
-            }
-
-            // Re-fetch trials with new patient context
-            if (currentView === 'shop') {
-                loadAllMatches();
-            }
-
-            // Re-fetch ontology
-            if (ctx.histology === 'DCIS') {
-                fetchOntology('ductal carcinoma in situ', 'SNOMEDCT');
-            } else if (ctx.histology === 'INVASIVE') {
-                fetchOntology('invasive breast carcinoma', 'SNOMEDCT');
-            }
-        }
-
-        // ==========================================
-        // CHAT RENDERING
-        // ==========================================
-        function render() {
-            const el = document.getElementById('messages');
-            if (!messages.length) {
-                el.innerHTML = `
-                    <div class="welcome">
-                        <h1>MAMMO<span>CHAT</span></h1>
-                        <p>LEARN + CHAT + MATCH on mCODE</p>
-                        <div class="detros-grid">
-                            <div class="detros-cell"><strong>1</strong>Set Histology</div>
-                            <div class="detros-cell"><strong>2</strong>Chat Biomarkers</div>
-                            <div class="detros-cell"><strong>3</strong>Get Matched</div>
-                        </div>
-                        <p style="color:var(--accent);font-size:11px">Try: "I'm 52, ER+/HER2-, interested in clinical trials"</p>
-                        <p style="color:var(--dim);font-size:10px;margin-top:8px">
-                            Real data: ClinicalTrials.gov | NPI Registry | BioPortal
-                        </p>
-                        <div class="disclaimer">
-                            <strong>NOT MEDICAL ADVICE</strong> — Educational only
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            el.innerHTML = messages.map(m => {
-                const flags = (m.flags || []).map(f => `<span class="flag flag-${f.toLowerCase()}">${f}</span>`).join('');
-                const ev = m.evidence?.length ? `
-                    <div class="evidence">
-                        <div class="evidence-title">Evidence</div>
-                        ${m.evidence.map(e => `<div class="evidence-ref">${e}</div>`).join('')}
-                    </div>
-                ` : '';
-                const mc = m.mcode ? `<div class="mcode">mCODE: ${m.mcode.snomed} | ${m.mcode.phase}</div>` : '';
-                return `
-                    <div class="message">
-                        <div class="msg-header ${m.role}">${m.role === 'user' ? 'You' : 'MAMMOCHAT'} ${flags}</div>
-                        <div class="msg-content">${m.content}</div>
-                        ${ev}${mc}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // ==========================================
-        // CHAT RESPONSE — PATIENT-CONTEXTUALIZED
-        // ==========================================
-        async function respond(text) {
-            const t = text.toLowerCase();
-            const h = patientProfile.histology;
-            const mc = patientProfile.getMcode();
-            const biomarkers = patientProfile.getBiomarkerString();
-
-            // Build patient context string
-            const patientContext = buildPatientContext();
-
-            // TRIALS query — filtered by patient eligibility
-            if (t.includes('trial') || t.includes('study') || t.includes('clinical')) {
-                const trials = await fetchTrials('breast cancer', 'RECRUITING');
-                const count = trials.length;
-                const sample = trials.slice(0, 3).map(tr => {
-                    const id = tr.protocolSection?.identificationModule?.nctId;
-                    const title = tr.protocolSection?.identificationModule?.briefTitle;
-                    return `• ${id}: ${title?.substring(0, 50)}...`;
-                }).join('\n');
-
-                const profileNote = h !== 'UNKNOWN' ?
-                    `\n\nFiltered for: ${MCODE[h].desc}${biomarkers !== 'pending' ? ` (${biomarkers})` : ''}` : '';
-
-                return {
-                    content: `Found ${count} trials matching YOUR profile:${profileNote}\n\n${sample}\n\nUse MATCH view for full list.`,
-                    flags: ['TRIALS', 'EVIDENCE', 'MCODE'],
-                    evidence: [`ClinicalTrials.gov | ${count} eligible studies`, patientContext],
-                    mcode: mc
-                };
-            }
-
-            // PHYSICIAN query
-            if (t.includes('doctor') || t.includes('physician') || t.includes('specialist') || t.includes('oncologist')) {
-                const physicians = await fetchPhysicians('Oncology', 'Orlando', 'FL');
-                const count = physicians.length;
-                const sample = physicians.slice(0, 3).map(p => {
-                    const name = p.basic ? `Dr. ${p.basic.first_name} ${p.basic.last_name}` : 'Specialist';
-                    const spec = p.taxonomies?.[0]?.desc || 'Oncology';
-                    return `• ${name} — ${spec}`;
-                }).join('\n');
-
-                return {
-                    content: `Found ${count} oncology specialists in Orlando, FL:\n\n${sample}\n\nUse MATCH view for full list.`,
-                    flags: ['PHYSICIAN', 'EVIDENCE'],
-                    evidence: [`NPI Registry API | ${count} providers`],
-                    mcode: mc
-                };
-            }
-
-            // Biomarker-aware chemotherapy response
-            if (t.includes('chemo')) {
-                if (h === 'DCIS') {
-                    await fetchOntology('ductal carcinoma in situ', 'SNOMEDCT');
-                    return {
-                        content: 'DCIS is non-invasive (SNOMED:109886000). Chemotherapy is NOT indicated. Treatment: surgery ± radiation.',
-                        flags: ['DCIS', 'MCODE'],
-                        evidence: ['NCCN.Breast.2024.DCIS-1', 'mCODE.STU3.nonInvasive', 'BioPortal.SNOMEDCT'],
-                        mcode: mc
-                    };
-                } else if (h === 'INVASIVE') {
-                    await fetchOntology('invasive breast carcinoma', 'SNOMEDCT');
-                    let chemoAdvice = 'Chemotherapy may be indicated based on stage, grade, receptors.';
-
-                    // Biomarker-specific advice
-                    if (patientProfile.her2Status === 'HER2+') {
-                        chemoAdvice = 'HER2+ invasive: Targeted therapy (trastuzumab) + chemotherapy typically recommended.';
-                    } else if (patientProfile.erStatus === 'ER-' && patientProfile.prStatus === 'PR-' && patientProfile.her2Status === 'HER2-') {
-                        chemoAdvice = 'Triple-negative: Chemotherapy is primary systemic treatment. No targeted therapy available.';
-                    } else if (patientProfile.erStatus === 'ER+') {
-                        chemoAdvice = 'ER+ invasive: Endocrine therapy primary. Chemo depends on Oncotype DX score / tumor size.';
-                    }
-
-                    return {
-                        content: `Invasive carcinoma (SNOMED:254837009). ${chemoAdvice}`,
-                        flags: ['MCODE', 'EVIDENCE'],
-                        evidence: ['NCCN.Breast.2024.INV-1', 'mCODE.STU3.invasive', patientContext],
-                        mcode: mc
-                    };
-                } else {
-                    return {
-                        content: 'Cannot recommend chemotherapy without histology. Set histology (DCIS or Invasive) using selector above.',
-                        flags: ['DCIS', 'MCODE'],
-                        evidence: ['mCODE.STU3.histologyRequired'],
-                        mcode: mc
-                    };
-                }
-            }
-
-            if (t.includes('birads') || t.includes('bi-rads')) {
-                await fetchOntology('BI-RADS', 'RADLEX');
-                return {
-                    content: 'BI-RADS: 0=Incomplete, 1=Neg, 2=Benign, 3=<2%, 4=2-95%, 5=>95%, 6=Known.',
-                    flags: ['EVIDENCE'],
-                    evidence: ['BIRADS.5ed', 'BioPortal.RADLEX'],
-                    mcode: mc
-                };
-            }
-
-            if (t.includes('treatment')) {
-                if (h === 'DCIS') {
-                    let treatmentAdvice = 'DCIS: Lumpectomy + radiation OR mastectomy.';
-                    if (patientProfile.erStatus === 'ER+') {
-                        treatmentAdvice += ' ER+: Add endocrine therapy (tamoxifen/AI).';
-                    }
-                    treatmentAdvice += ' NO chemotherapy needed.';
-
-                    return {
-                        content: treatmentAdvice,
-                        flags: ['DCIS', 'EVIDENCE', 'MCODE'],
-                        evidence: ['NCCN.Breast.2024.DCIS-2', patientContext],
-                        mcode: mc
-                    };
-                } else if (h === 'INVASIVE') {
-                    let treatmentAdvice = 'Invasive: Surgery, radiation based on stage/grade.';
-                    if (patientProfile.her2Status === 'HER2+') {
-                        treatmentAdvice += ' HER2+: Add trastuzumab ± pertuzumab.';
-                    }
-                    if (patientProfile.erStatus === 'ER+') {
-                        treatmentAdvice += ' ER+: Add endocrine therapy.';
-                    }
-
-                    return {
-                        content: treatmentAdvice,
-                        flags: ['MCODE', 'EVIDENCE'],
-                        evidence: ['NCCN.Breast.2024.INV-2', patientContext],
-                        mcode: mc
-                    };
-                }
-            }
-
-            // Profile update confirmation
-            if (t.includes('er+') || t.includes('her2') || t.includes('triple negative') || t.includes('age')) {
-                const concerns = chatFeatures.getTopConcerns();
-                return {
-                    content: `Profile updated: ${patientContext}\n\nTop concerns: ${concerns.join(', ') || 'none yet'}\n\nAsk about trials, treatment, or physicians.`,
-                    flags: ['MCODE', 'PROFILE'],
-                    evidence: ['mCODE.profile.updated'],
-                    mcode: mc
-                };
-            }
-
-            // Default: try ontology lookup
-            await fetchOntology(text, 'SNOMEDCT');
-            return {
-                content: `Processing: "${text}" | ${h}/${ctx.phase}${biomarkers !== 'pending' ? ` | ${biomarkers}` : ''}`,
-                flags: ['MCODE'],
-                evidence: ['ENGINE.READING', 'BioPortal.SNOMEDCT'],
-                mcode: mc
-            };
-        }
-
-        // Build patient context string
-        function buildPatientContext() {
-            const parts = [];
-            if (patientProfile.histology !== 'UNKNOWN') {
-                parts.push(patientProfile.histology);
-            }
-            if (patientProfile.erStatus) parts.push(patientProfile.erStatus);
-            if (patientProfile.prStatus) parts.push(patientProfile.prStatus);
-            if (patientProfile.her2Status) parts.push(patientProfile.her2Status);
-            if (patientProfile.age) parts.push(`${patientProfile.age}yo`);
-            if (patientProfile.phase !== 'SCREENING') parts.push(patientProfile.phase);
-
-            return parts.length ? `mCODE: ${parts.join(' | ')}` : 'mCODE: profile pending';
-        }
-
-        async function send() {
-            const input = document.getElementById('input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            if (currentView !== 'chat') showView('chat');
-
-            // Track chat features for learning
-            chatFeatures.track(text);
-
-            // Increment encounters
-            cache.stats.encounters++;
-
-            const mc = patientProfile.getMcode();
-            messages.push({ role: 'user', content: text, mcode: mc });
-
-            // Show typing indicator
-            messages.push({ role: 'assistant', content: 'Searching real-time data...', flags: ['LOADING'] });
-            render();
-
-            // Get real response
-            const response = await respond(text);
-            messages.pop(); // Remove loading message
-            messages.push({ role: 'assistant', ...response });
-
-            input.value = '';
-            render();
-
-            // Update stats
-            updateStats();
-        }
-
-        // ==========================================
-        // MATCHING VIEW — PATIENT-AWARE BUTTON HANDLERS
-        // ==========================================
-        function initMatchingButtons() {
-            const buttons = document.querySelectorAll('.shop-card button');
-
-            // Patient Matching — Show profile status
-            buttons[0]?.addEventListener('click', async () => {
-                const score = calculateProfileScore();
-                const profile = buildPatientContext();
-                const concerns = chatFeatures.getTopConcerns();
-
-                let message = `PATIENT PROFILE MATCHING\n\n`;
-                message += `Profile completeness: ${score}%\n\n`;
-                message += `${profile}\n\n`;
-
-                if (concerns.length > 0) {
-                    message += `Top concerns from chat: ${concerns.join(', ')}\n\n`;
-                }
-
-                if (score < 50) {
-                    message += `💡 TIP: Set histology, mention biomarkers (ER+/HER2+) in chat, and share your age to improve matching.`;
-                } else if (score < 75) {
-                    message += `✅ Good profile. Ask about trials or treatment to refine further.`;
-                } else {
-                    message += `🎯 Strong profile! Matches are highly personalized.`;
-                }
-
-                alert(message);
-            });
-
-            // Trials Matching — Patient-filtered
-            buttons[1]?.addEventListener('click', async () => {
-                const trials = await fetchTrials('breast cancer', 'RECRUITING');
-                const profile = buildPatientContext();
-
-                let message = `ELIGIBLE TRIALS FOR YOUR PROFILE\n\n`;
-                message += `${profile}\n\n`;
-                message += `${trials.length} trials match your eligibility:\n\n`;
-
-                const list = trials.slice(0, 5).map(t =>
-                    `• ${t.protocolSection?.identificationModule?.nctId}: ${t.protocolSection?.identificationModule?.briefTitle?.substring(0, 45)}...`
-                ).join('\n');
-
-                message += list;
-
-                if (patientProfile.histology === 'UNKNOWN') {
-                    message += `\n\n💡 Set histology for more accurate matching.`;
-                }
-
-                alert(message);
-            });
-
-            // Physician Matching
-            buttons[2]?.addEventListener('click', async () => {
-                const physicians = await fetchPhysicians('Oncology', 'Orlando', 'FL');
-
-                let message = `LOCAL ONCOLOGY SPECIALISTS\n\nOrlando, FL area:\n\n`;
-
-                const list = physicians.slice(0, 5).map(p => {
-                    const name = p.basic ? `Dr. ${p.basic.first_name} ${p.basic.last_name}` : 'Specialist';
-                    const npi = p.number;
-                    const spec = p.taxonomies?.[0]?.desc || 'Oncology';
-                    return `• ${name}\n  ${spec}\n  NPI: ${npi}`;
-                }).join('\n\n');
-
-                message += list;
-                alert(message);
-            });
-
-            // Second Opinion — Profile-aware
-            buttons[3]?.addEventListener('click', () => {
-                const profile = buildPatientContext();
-                const concerns = chatFeatures.getTopConcerns();
-
-                let message = `SECOND OPINION REQUEST\n\n`;
-                message += `Your profile: ${profile}\n\n`;
-
-                // Recommend based on profile
-                let recommendation = 'General oncology review';
-                if (patientProfile.her2Status === 'HER2+') {
-                    recommendation = 'HER2+ specialist review recommended';
-                } else if (patientProfile.erStatus === 'ER-' && patientProfile.prStatus === 'PR-' && patientProfile.her2Status === 'HER2-') {
-                    recommendation = 'Triple-negative specialist review recommended';
-                } else if (patientProfile.histology === 'DCIS') {
-                    recommendation = 'Breast imaging/pathology review';
-                }
-
-                message += `Recommendation: ${recommendation}\n\n`;
-                message += `Based on: ${concerns.length > 0 ? concerns.join(', ') : 'profile analysis'}`;
-
-                alert(message);
-            });
-        }
-
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', () => {
-            render();
-            initMatchingButtons();
-
-            // Pre-fetch initial data
-            fetchOntology('breast cancer', 'SNOMEDCT');
-
-            // Add initial learning insights based on population data
-            addLearningInsight('INSIGHT', 'Stage IIA patients prefer lumpectomy over mastectomy 3:1', 'n=847 | MED.ONCO.MAMMO encounters');
-            addLearningInsight('INSIGHT', '23% of second opinions change treatment plan', 'n=312 | Stage II-III cases');
-            addLearningInsight('INSIGHT', 'mCODE + SDOH improves trial match rate by 34%', 'Gravity Project | ZIP code integration');
-
-            // Set initial stats
-            cache.stats.insights = 3;
-            cache.stats.encounters = 20000;
-            updateStats();
-        });
-
-        render();
-    </script>
+        <p>MammoChat | <a href="../">Hadley Lab</a> | © 2026</p>
+    </footer>
 </body>
 </html>

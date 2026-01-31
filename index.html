@@ -3,613 +3,729 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HADLEYLAB — App Store</title>
-    <meta name="description" content="Clinical AI Apps. LEARNING Compliance. Evidence-Based.">
+    <title>Hadley Lab — Clinical AI</title>
+    <meta name="description" content="Translating big data into precision medicine and digital health.">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Apple Design System */
         :root {
             --bg: #ffffff;
-            --bg-secondary: #f5f5f7;
-            --fg: #1d1d1f;
-            --fg-secondary: #86868b;
-            --accent: #0071e3;
-            --pink: #ff2d55;
-            --green: #34c759;
-            --orange: #ff9500;
-            --purple: #af52de;
-            --teal: #5ac8fa;
-            --border: rgba(0,0,0,0.08);
-            --card: #ffffff;
-            --shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08);
-            --radius: 20px;
+            --bg-alt: #f8fafc;
+            --text: #1a1a2e;
+            --text-secondary: #64748b;
+            --blue: #2563eb;
+            --blue-light: #3b82f6;
+            --blue-dark: #1d4ed8;
+            --blue-pale: #eff6ff;
+            --border: rgba(37, 99, 235, 0.1);
+            --shadow: 0 4px 24px rgba(37, 99, 235, 0.08);
+            --shadow-lg: 0 20px 60px rgba(37, 99, 235, 0.15);
+            --radius: 24px;
         }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #000000;
-                --bg-secondary: #1d1d1f;
-                --fg: #f5f5f7;
-                --fg-secondary: #86868b;
-                --border: rgba(255,255,255,0.1);
-                --card: #1d1d1f;
-                --shadow: 0 2px 8px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.5);
-            }
-        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            font-family: 'Raleway', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
-            color: var(--fg);
-            line-height: 1.5;
+            color: var(--text);
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Header */
-        .header {
-            padding: 20px 40px;
-            position: sticky;
+        /* Navigation */
+        nav {
+            position: fixed;
             top: 0;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
-            backdrop-filter: blur(20px);
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.9);
             -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
         }
-        .header-content {
+
+        .nav-inner {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 16px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
-            font-size: 21px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo-mark {
+            font-size: 32px;
+            color: var(--blue);
+            transform: rotate(90deg);
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .logo-text {
+            font-size: 20px;
             font-weight: 600;
             letter-spacing: -0.02em;
         }
-        .nav { display: flex; gap: 32px; }
-        .nav a {
-            color: var(--fg-secondary);
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
             text-decoration: none;
             font-size: 14px;
+            font-weight: 500;
             transition: color 0.2s;
         }
-        .nav a:hover { color: var(--fg); }
+
+        .nav-links a:hover { color: var(--blue); }
 
         /* Hero */
         .hero {
-            text-align: center;
-            padding: 120px 24px 80px;
-            max-width: 900px;
+            padding: 160px 24px 100px;
+            background: linear-gradient(180deg, var(--blue-pale) 0%, var(--bg) 100%);
+        }
+
+        .hero-inner {
+            max-width: 1200px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
         }
-        .hero h1 {
-            font-size: 64px;
-            font-weight: 600;
-            letter-spacing: -0.025em;
-            line-height: 1.05;
-            margin-bottom: 24px;
+
+        .hero-content {
+            max-width: 560px;
         }
-        .hero p {
-            font-size: 21px;
-            color: var(--fg-secondary);
-            max-width: 600px;
-            margin: 0 auto 40px;
-        }
-        .cta-btn {
-            display: inline-block;
-            background: var(--accent);
-            color: white;
-            padding: 14px 32px;
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
             border-radius: 100px;
-            font-size: 17px;
+            font-size: 13px;
             font-weight: 500;
+            color: var(--blue);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-badge::before {
+            content: '🏆';
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+
+        .hero h1 span {
+            color: var(--blue);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
             text-decoration: none;
             transition: all 0.2s;
         }
-        .cta-btn:hover {
-            background: #0077ed;
-            transform: scale(1.02);
+
+        .btn-primary {
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
         }
 
-        /* Section */
-        .section {
-            padding: 80px 24px;
-            max-width: 1200px;
+        .btn-primary:hover {
+            background: var(--blue-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-alt);
+            border-color: var(--blue-light);
+        }
+
+        /* Device Frame */
+        .device-container {
+            position: relative;
+        }
+
+        .device-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .iphone {
+            position: relative;
+            width: 300px;
+            height: 620px;
+            background: #1a1a2e;
+            border-radius: 50px;
+            padding: 12px;
             margin: 0 auto;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.1),
+                0 40px 80px rgba(0,0,0,0.25),
+                inset 0 0 0 1px rgba(255,255,255,0.05);
+            z-index: 1;
         }
-        .section-header {
-            text-align: center;
-            margin-bottom: 48px;
+
+        .iphone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 32px;
+            background: #1a1a2e;
+            border-radius: 0 0 18px 18px;
+            z-index: 10;
         }
-        .section-label {
-            font-size: 12px;
+
+        .iphone-screen {
+            width: 100%;
+            height: 100%;
+            background: #0a0a0f;
+            border-radius: 42px;
+            overflow: hidden;
+        }
+
+        .iphone-screen iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .expand-btn {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 14px;
             font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--fg-secondary);
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+            transition: all 0.2s;
+            z-index: 20;
+        }
+
+        .expand-btn:hover {
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 6px 24px rgba(37, 99, 235, 0.5);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 800px;
+            margin: 80px auto 0;
+            padding: 0 24px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 32px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--blue);
+            line-height: 1;
             margin-bottom: 8px;
         }
-        .section-title {
-            font-size: 48px;
-            font-weight: 600;
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Mission */
+        .mission {
+            padding: 120px 24px;
+            text-align: center;
+        }
+
+        .mission h2 {
+            font-size: 40px;
+            font-weight: 700;
+            max-width: 800px;
+            margin: 0 auto 24px;
             letter-spacing: -0.02em;
         }
 
-        /* App Grid */
+        .mission p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Apps Section */
+        .apps-section {
+            padding: 100px 24px;
+            background: var(--bg-alt);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-eyebrow {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
         .apps-grid {
+            max-width: 1000px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 24px;
         }
+
         .app-card {
-            background: var(--card);
+            background: white;
             border-radius: var(--radius);
             padding: 32px;
             box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             text-decoration: none;
             color: inherit;
-            display: block;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
         }
+
         .app-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            box-shadow: var(--shadow-lg);
         }
+
         .app-icon {
-            width: 64px;
-            height: 64px;
+            width: 60px;
+            height: 60px;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
-            margin-bottom: 20px;
+            font-size: 28px;
+            flex-shrink: 0;
         }
-        .app-name {
-            font-size: 21px;
+
+        .app-icon.mammo { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .app-icon.med { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .app-icon.onco { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+
+        .app-info h3 {
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
-        .app-desc {
-            color: var(--fg-secondary);
-            font-size: 15px;
+
+        .app-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
             line-height: 1.5;
-            margin-bottom: 16px;
         }
+
         .app-badge {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 500;
-            background: var(--bg-secondary);
+            margin-top: 12px;
+            padding: 4px 10px;
+            background: var(--blue-pale);
+            color: var(--blue);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
         }
 
-        /* Featured */
-        .featured {
-            background: linear-gradient(135deg, #1d1d1f 0%, #2d2d2f 100%);
-            border-radius: var(--radius);
-            padding: 64px;
-            margin-bottom: 48px;
-            color: white;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        /* About */
+        .about-section {
+            padding: 100px 24px;
+        }
+
+        .about-card {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
             gap: 48px;
             align-items: center;
-        }
-        @media (max-width: 768px) {
-            .featured { grid-template-columns: 1fr; padding: 40px 24px; }
-        }
-        .featured h2 {
-            font-size: 48px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-        }
-        .featured p {
-            font-size: 17px;
-            opacity: 0.8;
-            margin-bottom: 24px;
-        }
-        .featured-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-        .stat { text-align: center; }
-        .stat-value {
-            font-size: 36px;
-            font-weight: 600;
-            color: var(--accent);
-        }
-        .stat-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            opacity: 0.6;
+            background: white;
+            padding: 48px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
         }
 
-        /* VITAE Card */
-        .vitae-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: 48px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 32px;
-            align-items: center;
-            margin-bottom: 48px;
-        }
-        @media (max-width: 768px) {
-            .vitae-card { grid-template-columns: 1fr; text-align: center; }
-        }
-        .vitae-avatar {
-            width: 120px;
-            height: 120px;
+        .about-avatar {
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--purple));
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 48px;
             color: white;
-        }
-        .vitae-name {
-            font-size: 32px;
             font-weight: 600;
-            margin-bottom: 4px;
+            flex-shrink: 0;
         }
-        .vitae-role {
-            color: var(--fg-secondary);
-            font-size: 17px;
-            margin-bottom: 16px;
+
+        .about-info h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
-        .vitae-tags {
+
+        .about-role {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .about-tags {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
-        .vitae-tag {
-            background: var(--bg-secondary);
-            padding: 6px 14px;
-            border-radius: 100px;
+
+        .about-tag {
+            background: var(--bg-alt);
+            padding: 8px 16px;
+            border-radius: 8px;
             font-size: 13px;
             font-weight: 500;
         }
 
-        /* BLOGS Section */
-        .blog-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        .blog-card:hover {
-            transform: translateY(-4px);
-        }
-        .blog-header {
-            padding: 24px;
-            background: linear-gradient(135deg, var(--pink), var(--orange));
-            color: white;
-        }
-        .blog-content {
-            padding: 24px;
-        }
-        .blog-title {
-            font-size: 21px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .blog-excerpt {
-            color: var(--fg-secondary);
-            font-size: 15px;
-        }
-        .blog-meta {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-            font-size: 13px;
-            color: var(--fg-secondary);
-        }
-
         /* Footer */
         footer {
-            text-align: center;
-            padding: 64px 24px;
             border-top: 1px solid var(--border);
-            color: var(--fg-secondary);
-            font-size: 12px;
+            padding: 48px 24px;
+            text-align: center;
         }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 32px;
             margin-bottom: 16px;
         }
+
         .footer-links a {
-            color: var(--fg-secondary);
+            color: var(--text-secondary);
             text-decoration: none;
+            font-size: 14px;
         }
-        .footer-links a:hover { color: var(--fg); }
+
+        .footer-links a:hover { color: var(--blue); }
+
+        footer p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Fullscreen Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            padding: 24px;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            width: 100%;
+            max-width: 800px;
+            height: 100%;
+            max-height: 90vh;
+            margin: auto;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--text);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 40px; }
-            .section-title { font-size: 32px; }
-            .header { padding: 16px 20px; }
-            .nav { display: none; }
+        @media (max-width: 900px) {
+            .hero-inner { grid-template-columns: 1fr; text-align: center; }
+            .hero-content { max-width: 100%; margin: 0 auto; }
+            .hero-cta { justify-content: center; }
+            .device-container { margin-top: 48px; }
+            .stats { grid-template-columns: 1fr; }
+            .about-card { flex-direction: column; text-align: center; }
+            .about-tags { justify-content: center; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 36px; }
+            .section-title { font-size: 28px; }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">HADLEYLAB</div>
-            <nav class="nav">
-                <a href="#apps">Apps</a>
-                <a href="#blogs">Blogs</a>
-                <a href="#vitae">About</a>
-                <a href="MAMMOCHAT/demo/">Demo</a>
-            </nav>
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <span class="logo-mark">☲</span>
+                <span class="logo-text">Hadley Lab</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#apps">Apps</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ">Publications</a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
 
     <section class="hero">
-        <h1>Clinical AI.<br>Evidence-Based.</h1>
-        <p>Healthcare applications powered by LEARNING compliance. Every response validated. Every source cited.</p>
-        <a href="MAMMOCHAT/demo/" class="cta-btn">Try MammoChat</a>
-    </section>
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge">Award-Winning Clinical AI</div>
+                <h1>Translating big data into <span>precision medicine</span></h1>
+                <p>MammoChat delivers evidence-based breast health information with BI-RADS categorization and NCCN guideline integration. Every response cited. Every claim validated.</p>
+                <div class="hero-cta">
+                    <button class="btn btn-primary" onclick="openModal()">Try MammoChat</button>
+                    <a href="MAMMOCHAT/" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
 
-    <section class="section" id="apps">
-        <div class="section-header">
-            <div class="section-label">Applications</div>
-            <div class="section-title">CHAT Apps</div>
+            <div class="device-container">
+                <div class="device-glow"></div>
+                <div class="iphone">
+                    <div class="iphone-screen">
+                        <iframe src="MAMMOCHAT/demo/" title="MammoChat"></iframe>
+                    </div>
+                </div>
+                <button class="expand-btn" onclick="openModal()">↗ Expand</button>
+            </div>
         </div>
 
-        <div class="featured">
-            <div>
-                <h2>MammoChat</h2>
-                <p>AI-powered breast health information with BI-RADS and NCCN guideline integration. Reduces time-to-diagnosis through evidence-based assistance.</p>
-                <a href="MAMMOCHAT/demo/" class="cta-btn">Launch Demo</a>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">47%</div>
+                <div class="stat-label">Faster Reports</div>
             </div>
-            <div class="featured-stats">
-                <div class="stat">
-                    <div class="stat-value">47%</div>
-                    <div class="stat-label">Faster Reports</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">96%</div>
-                    <div class="stat-label">Guideline Adherence</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">100%</div>
-                    <div class="stat-label">Citations</div>
-                </div>
+            <div class="stat">
+                <div class="stat-value">96%</div>
+                <div class="stat-label">Guideline Adherence</div>
             </div>
+            <div class="stat">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Verified Citations</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission">
+        <h2>Deep learning on multi-modal datasets for screening, diagnosis, and therapy.</h2>
+        <p>We build clinical AI systems that respect boundaries, cite sources, and improve patient outcomes through evidence-based intelligence.</p>
+    </section>
+
+    <section class="apps-section" id="apps">
+        <div class="section-header">
+            <div class="section-eyebrow">Applications</div>
+            <div class="section-title">Clinical AI Suite</div>
         </div>
 
         <div class="apps-grid">
             <a href="MAMMOCHAT/" class="app-card">
-                <div class="app-icon" style="background: linear-gradient(135deg, #ff2d55, #ff6b8a);">🎀</div>
-                <div class="app-name">MammoChat</div>
-                <div class="app-desc">Breast health information with BI-RADS categorization and NCCN guidelines.</div>
-                <span class="app-badge">MED.ONCO.MAMMO</span>
+                <div class="app-icon mammo">🎀</div>
+                <div class="app-info">
+                    <h3>MammoChat</h3>
+                    <p>Breast health AI with BI-RADS categorization and NCCN guidelines integration.</p>
+                    <span class="app-badge">AVAILABLE NOW</span>
+                </div>
             </a>
 
-            <a href="#" class="app-card">
-                <div class="app-icon" style="background: linear-gradient(135deg, #ff9500, #ffb340);">🩺</div>
-                <div class="app-name">MedChat</div>
-                <div class="app-desc">General medical information assistant with clinical decision support.</div>
-                <span class="app-badge">MED</span>
-            </a>
-
-            <a href="#" class="app-card">
-                <div class="app-icon" style="background: linear-gradient(135deg, #af52de, #c77dff);">🧬</div>
-                <div class="app-name">OncoChat</div>
-                <div class="app-desc">Oncology-focused assistant with cancer staging and treatment protocols.</div>
-                <span class="app-badge">MED.ONCO</span>
-            </a>
-
-            <a href="#" class="app-card">
-                <div class="app-icon" style="background: linear-gradient(135deg, #34c759, #63d97a);">💰</div>
-                <div class="app-name">FinChat</div>
-                <div class="app-desc">Financial analysis with regulatory compliance and audit trails.</div>
-                <span class="app-badge">FIN</span>
-            </a>
-
-            <a href="#" class="app-card">
-                <div class="app-icon" style="background: linear-gradient(135deg, #5ac8fa, #7dd3fc);">⚖️</div>
-                <div class="app-name">LawChat</div>
-                <div class="app-desc">Legal research assistant with case citations and precedent analysis.</div>
-                <span class="app-badge">LAW</span>
-            </a>
-
-            <a href="#" class="app-card">
-                <div class="app-icon" style="background: linear-gradient(135deg, #0071e3, #40a9ff);">📱</div>
-                <div class="app-name">Blog App</div>
-                <div class="app-desc">Create IP-aware blogs from your discoveries. Read free, write with COIN.</div>
-                <span class="app-badge">SHOP</span>
-            </a>
-        </div>
-    </section>
-
-    <section class="section" id="blogs">
-        <div class="section-header">
-            <div class="section-label">Insights</div>
-            <div class="section-title">BLOGS</div>
-        </div>
-
-        <div class="apps-grid">
-            <div class="blog-card">
-                <div class="blog-header">
-                    <span>MAMMOCHAT</span>
-                </div>
-                <div class="blog-content">
-                    <div class="blog-title">Clinical Impact of AI-Assisted Breast Cancer Screening</div>
-                    <div class="blog-excerpt">How MammoChat reduces time-to-diagnosis through evidence-based AI assistance with BI-RADS and NCCN integration.</div>
-                    <div class="blog-meta">
-                        <span>DISCLOSED</span>
-                        <span>Clinical</span>
-                        <span>2025-01-30</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="blog-card">
-                <div class="blog-header" style="background: linear-gradient(135deg, var(--accent), var(--purple));">
-                    <span>CANONIC</span>
-                </div>
-                <div class="blog-content">
-                    <div class="blog-title">DETROS: Bitwise Governance for AI Systems</div>
-                    <div class="blog-excerpt">D|E|T|R|O|S = 63. The six dimensions of compliant AI: Declarative, Evidential, Temporal, Relational, Operational, Structural.</div>
-                    <div class="blog-meta">
-                        <span>DISCLOSED</span>
-                        <span>Technical</span>
-                        <span>2025-01-30</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="vitae">
-        <div class="section-header">
-            <div class="section-label">Creator</div>
-            <div class="section-title">VITAE</div>
-        </div>
-
-        <div class="vitae-card">
-            <div class="vitae-avatar">DH</div>
-            <div>
-                <div class="vitae-name">Dexter Hadley, MD PhD</div>
-                <div class="vitae-role">Founder & Chief Architect, CANONIC Foundation</div>
-                <div class="vitae-tags">
-                    <span class="vitae-tag">38+ Patents</span>
-                    <span class="vitae-tag">54 Publications</span>
-                    <span class="vitae-tag">$38M+ Grants</span>
-                    <span class="vitae-tag">Stanford → UCSF → UCF</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="featured" style="background: linear-gradient(135deg, #0071e3, #40a9ff);">
-            <div>
-                <h2>Building the canonical governance layer for AI-human collaboration.</h2>
-                <p>CANONIC = LANGUAGE + COMPLIANCE. Every claim evidence-backed. Every boundary respected.</p>
-            </div>
-            <div class="featured-stats">
-                <div class="stat">
-                    <div class="stat-value" style="color: white;">555</div>
-                    <div class="stat-label">IDFs Discovered</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value" style="color: white;">7</div>
-                    <div class="stat-label">Domains</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value" style="color: white;">63</div>
-                    <div class="stat-label">DETROS Bits</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="primitives">
-        <div class="section-header">
-            <div class="section-label">Platform</div>
-            <div class="section-title">EVO + CHAT + SHOP</div>
-        </div>
-
-        <div class="apps-grid">
             <div class="app-card">
-                <div class="app-icon" style="background: linear-gradient(135deg, #34c759, #63d97a);">📈</div>
-                <div class="app-name">EVO</div>
-                <div class="app-desc">Ledger timeline. Track everything that happens. LEARNING starts here.</div>
-                <span class="app-badge">Timeline</span>
+                <div class="app-icon med">🩺</div>
+                <div class="app-info">
+                    <h3>MedChat</h3>
+                    <p>General medical assistant with clinical decision support.</p>
+                    <span class="app-badge" style="background: #fef3c7; color: #92400e;">COMING SOON</span>
+                </div>
             </div>
 
             <div class="app-card">
-                <div class="app-icon" style="background: linear-gradient(135deg, #5ac8fa, #7dd3fc);">💬</div>
-                <div class="app-name">CHAT</div>
-                <div class="app-desc">Natural language interface. Evidence-based responses. Always cited.</div>
-                <span class="app-badge">Interface</span>
-            </div>
-
-            <div class="app-card">
-                <div class="app-icon" style="background: linear-gradient(135deg, #ff9500, #ffb340);">🛒</div>
-                <div class="app-name">SHOP</div>
-                <div class="app-desc">Commerce primitive. COIN = WORK. Buy apps, licenses, and content.</div>
-                <span class="app-badge">Commerce</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="books">
-        <div class="section-header">
-            <div class="section-label">Coming Soon</div>
-            <div class="section-title">BOOKS</div>
-        </div>
-
-        <div class="featured" style="background: linear-gradient(135deg, #1d1d1f, #3d3d3f);">
-            <div>
-                <h2>Long-form synthesis.</h2>
-                <p>BLOGS → PAPERS → BOOKS. The learning chain continues. Deep technical explorations of CANONIC, DETROS, and clinical AI.</p>
-                <div style="display: flex; gap: 16px; margin-top: 24px;">
-                    <span class="app-badge" style="background: rgba(255,255,255,0.1); color: white;">CANONIC: The Book</span>
-                    <span class="app-badge" style="background: rgba(255,255,255,0.1); color: white;">Clinical AI Governance</span>
+                <div class="app-icon onco">🧬</div>
+                <div class="app-info">
+                    <h3>OncoChat</h3>
+                    <p>Oncology-focused AI with staging and treatment protocols.</p>
+                    <span class="app-badge" style="background: #fef3c7; color: #92400e;">COMING SOON</span>
                 </div>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 120px; opacity: 0.3;">📚</div>
-                <div style="color: var(--accent); font-size: 14px; font-weight: 600;">LEARNING IN PROGRESS</div>
-            </div>
         </div>
     </section>
 
-    <section class="section" id="token">
-        <div class="section-header">
-            <div class="section-label">Economics</div>
-            <div class="section-title">COIN = WORK</div>
-        </div>
-
-        <div class="apps-grid">
-            <div class="app-card" style="text-align: center;">
-                <div style="font-size: 48px; margin-bottom: 16px;">📖</div>
-                <div class="app-name">READ</div>
-                <div class="app-desc">Free. Public discourse for everyone.</div>
-                <div style="font-size: 32px; font-weight: 600; color: var(--green); margin-top: 16px;">0 COIN</div>
-            </div>
-
-            <div class="app-card" style="text-align: center;">
-                <div style="font-size: 48px; margin-bottom: 16px;">✍️</div>
-                <div class="app-name">WRITE</div>
-                <div class="app-desc">Create content. Contribute to the ecosystem.</div>
-                <div style="font-size: 32px; font-weight: 600; color: var(--orange); margin-top: 16px;">10 COIN</div>
-            </div>
-
-            <div class="app-card" style="text-align: center;">
-                <div style="font-size: 48px; margin-bottom: 16px;">📱</div>
-                <div class="app-name">APP</div>
-                <div class="app-desc">Unlimited writes. Own your blogging tool.</div>
-                <div style="font-size: 32px; font-weight: 600; color: var(--accent); margin-top: 16px;">100 COIN</div>
+    <section class="about-section" id="about">
+        <div class="about-card">
+            <div class="about-avatar">DH</div>
+            <div class="about-info">
+                <h3>Dexter Hadley, MD PhD</h3>
+                <p class="about-role">Founder & Chief Architect</p>
+                <div class="about-tags">
+                    <span class="about-tag">38+ Patents</span>
+                    <span class="about-tag">54 Publications</span>
+                    <span class="about-tag">$38M+ Grants</span>
+                    <span class="about-tag">Stanford → UCSF → UCF</span>
+                </div>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="footer-links">
-            <a href="https://github.com/canonic-foundation">GitHub</a>
-            <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ">Publications</a>
-            <a href="MAMMOCHAT/demo/">Demo</a>
+        <div class="footer-logo">
+            <span class="logo-mark" style="font-size: 24px; color: var(--blue); transform: rotate(90deg);">☲</span>
+            <span style="font-size: 16px; font-weight: 600;">Hadley Lab</span>
         </div>
-        <p>HADLEYLAB | CANONIC Foundation | Built with DETROS</p>
-        <p style="margin-top: 8px; font-size: 11px;">AGENT = EVO + CHAT + SHOP</p>
+        <div class="footer-links">
+            <a href="https://github.com/hadleylab-dexter">GitHub</a>
+            <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ">Publications</a>
+            <a href="MAMMOCHAT/demo/">MammoChat</a>
+        </div>
+        <p>Translating big data into precision medicine and digital health.</p>
     </footer>
+
+    <!-- Fullscreen Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <iframe src="MAMMOCHAT/demo/" title="MammoChat"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
 </body>
 </html>
