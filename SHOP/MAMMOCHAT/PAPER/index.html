@@ -94,6 +94,24 @@
             color: var(--dim);
             font-size: 14px;
         }
+        .compliance-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #8b5cf6;
+            color: white;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 12px;
+            transition: all 0.2s;
+        }
+        .compliance-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -144,6 +162,7 @@
 
     <footer>
         MAMMOCHAT-PAPER | MED.ONCO.MAMMO | <a href="../../../" style="color: var(--accent);">Hadley Lab</a>
+        <a href="https://github.com/canonic-foundation/canonic-foundation" class="compliance-badge">🛡️ ENTERPRISE</a>
     </footer>
 </body>
 </html>
