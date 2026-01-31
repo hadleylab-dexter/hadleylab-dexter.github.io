@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HADLEYLAB — App Store</title>
+    <meta name="description" content="Clinical AI Apps. LEARNING Compliance. Evidence-Based.">
+    <style>
+        /* Apple Design System */
+        :root {
+            --bg: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --fg: #1d1d1f;
+            --fg-secondary: #86868b;
+            --accent: #0071e3;
+            --pink: #ff2d55;
+            --green: #34c759;
+            --orange: #ff9500;
+            --purple: #af52de;
+            --teal: #5ac8fa;
+            --border: rgba(0,0,0,0.08);
+            --card: #ffffff;
+            --shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08);
+            --radius: 20px;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #000000;
+                --bg-secondary: #1d1d1f;
+                --fg: #f5f5f7;
+                --fg-secondary: #86868b;
+                --border: rgba(255,255,255,0.1);
+                --card: #1d1d1f;
+                --shadow: 0 2px 8px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.5);
+            }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .header {
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        .nav { display: flex; gap: 32px; }
+        .nav a {
+            color: var(--fg-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .nav a:hover { color: var(--fg); }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 120px 24px 80px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.05;
+            margin-bottom: 24px;
+        }
+        .hero p {
+            font-size: 21px;
+            color: var(--fg-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-size: 17px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .cta-btn:hover {
+            background: #0077ed;
+            transform: scale(1.02);
+        }
+
+        /* Section */
+        .section {
+            padding: 80px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--fg-secondary);
+            margin-bottom: 8px;
+        }
+        .section-title {
+            font-size: 48px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        /* App Grid */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .app-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .app-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .app-name {
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .app-desc {
+            color: var(--fg-secondary);
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        .app-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+            background: var(--bg-secondary);
+        }
+
+        /* Featured */
+        .featured {
+            background: linear-gradient(135deg, #1d1d1f 0%, #2d2d2f 100%);
+            border-radius: var(--radius);
+            padding: 64px;
+            margin-bottom: 48px;
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .featured { grid-template-columns: 1fr; padding: 40px 24px; }
+        }
+        .featured h2 {
+            font-size: 48px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        .featured p {
+            font-size: 17px;
+            opacity: 0.8;
+            margin-bottom: 24px;
+        }
+        .featured-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .stat { text-align: center; }
+        .stat-value {
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.6;
+        }
+
+        /* VITAE Card */
+        .vitae-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 48px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 32px;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+        @media (max-width: 768px) {
+            .vitae-card { grid-template-columns: 1fr; text-align: center; }
+        }
+        .vitae-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+        .vitae-name {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .vitae-role {
+            color: var(--fg-secondary);
+            font-size: 17px;
+            margin-bottom: 16px;
+        }
+        .vitae-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .vitae-tag {
+            background: var(--bg-secondary);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* BLOGS Section */
+        .blog-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .blog-card:hover {
+            transform: translateY(-4px);
+        }
+        .blog-header {
+            padding: 24px;
+            background: linear-gradient(135deg, var(--pink), var(--orange));
+            color: white;
+        }
+        .blog-content {
+            padding: 24px;
+        }
+        .blog-title {
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .blog-excerpt {
+            color: var(--fg-secondary);
+            font-size: 15px;
+        }
+        .blog-meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--fg-secondary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 64px 24px;
+            border-top: 1px solid var(--border);
+            color: var(--fg-secondary);
+            font-size: 12px;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 16px;
+        }
+        .footer-links a {
+            color: var(--fg-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--fg); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 40px; }
+            .section-title { font-size: 32px; }
+            .header { padding: 16px 20px; }
+            .nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">HADLEYLAB</div>
+            <nav class="nav">
+                <a href="#apps">Apps</a>
+                <a href="#blogs">Blogs</a>
+                <a href="#vitae">About</a>
+                <a href="MAMMOCHAT/demo/">Demo</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Clinical AI.<br>Evidence-Based.</h1>
+        <p>Healthcare applications powered by LEARNING compliance. Every response validated. Every source cited.</p>
+        <a href="MAMMOCHAT/demo/" class="cta-btn">Try MammoChat</a>
+    </section>
+
+    <section class="section" id="apps">
+        <div class="section-header">
+            <div class="section-label">Applications</div>
+            <div class="section-title">CHAT Apps</div>
+        </div>
+
+        <div class="featured">
+            <div>
+                <h2>MammoChat</h2>
+                <p>AI-powered breast health information with BI-RADS and NCCN guideline integration. Reduces time-to-diagnosis through evidence-based assistance.</p>
+                <a href="MAMMOCHAT/demo/" class="cta-btn">Launch Demo</a>
+            </div>
+            <div class="featured-stats">
+                <div class="stat">
+                    <div class="stat-value">47%</div>
+                    <div class="stat-label">Faster Reports</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">96%</div>
+                    <div class="stat-label">Guideline Adherence</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Citations</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="apps-grid">
+            <a href="MAMMOCHAT/" class="app-card">
+                <div class="app-icon" style="background: linear-gradient(135deg, #ff2d55, #ff6b8a);">🎀</div>
+                <div class="app-name">MammoChat</div>
+                <div class="app-desc">Breast health information with BI-RADS categorization and NCCN guidelines.</div>
+                <span class="app-badge">MED.ONCO.MAMMO</span>
+            </a>
+
+            <a href="#" class="app-card">
+                <div class="app-icon" style="background: linear-gradient(135deg, #ff9500, #ffb340);">🩺</div>
+                <div class="app-name">MedChat</div>
+                <div class="app-desc">General medical information assistant with clinical decision support.</div>
+                <span class="app-badge">MED</span>
+            </a>
+
+            <a href="#" class="app-card">
+                <div class="app-icon" style="background: linear-gradient(135deg, #af52de, #c77dff);">🧬</div>
+                <div class="app-name">OncoChat</div>
+                <div class="app-desc">Oncology-focused assistant with cancer staging and treatment protocols.</div>
+                <span class="app-badge">MED.ONCO</span>
+            </a>
+
+            <a href="#" class="app-card">
+                <div class="app-icon" style="background: linear-gradient(135deg, #34c759, #63d97a);">💰</div>
+                <div class="app-name">FinChat</div>
+                <div class="app-desc">Financial analysis with regulatory compliance and audit trails.</div>
+                <span class="app-badge">FIN</span>
+            </a>
+
+            <a href="#" class="app-card">
+                <div class="app-icon" style="background: linear-gradient(135deg, #5ac8fa, #7dd3fc);">⚖️</div>
+                <div class="app-name">LawChat</div>
+                <div class="app-desc">Legal research assistant with case citations and precedent analysis.</div>
+                <span class="app-badge">LAW</span>
+            </a>
+
+            <a href="#" class="app-card">
+                <div class="app-icon" style="background: linear-gradient(135deg, #0071e3, #40a9ff);">📱</div>
+                <div class="app-name">Blog App</div>
+                <div class="app-desc">Create IP-aware blogs from your discoveries. Read free, write with COIN.</div>
+                <span class="app-badge">SHOP</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="section" id="blogs">
+        <div class="section-header">
+            <div class="section-label">Insights</div>
+            <div class="section-title">BLOGS</div>
+        </div>
+
+        <div class="apps-grid">
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span>MAMMOCHAT</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-title">Clinical Impact of AI-Assisted Breast Cancer Screening</div>
+                    <div class="blog-excerpt">How MammoChat reduces time-to-diagnosis through evidence-based AI assistance with BI-RADS and NCCN integration.</div>
+                    <div class="blog-meta">
+                        <span>DISCLOSED</span>
+                        <span>Clinical</span>
+                        <span>2025-01-30</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="blog-header" style="background: linear-gradient(135deg, var(--accent), var(--purple));">
+                    <span>CANONIC</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-title">DETROS: Bitwise Governance for AI Systems</div>
+                    <div class="blog-excerpt">D|E|T|R|O|S = 63. The six dimensions of compliant AI: Declarative, Evidential, Temporal, Relational, Operational, Structural.</div>
+                    <div class="blog-meta">
+                        <span>DISCLOSED</span>
+                        <span>Technical</span>
+                        <span>2025-01-30</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="vitae">
+        <div class="section-header">
+            <div class="section-label">Creator</div>
+            <div class="section-title">VITAE</div>
+        </div>
+
+        <div class="vitae-card">
+            <div class="vitae-avatar">DH</div>
+            <div>
+                <div class="vitae-name">Dexter Hadley, MD PhD</div>
+                <div class="vitae-role">Founder & Chief Architect, CANONIC Foundation</div>
+                <div class="vitae-tags">
+                    <span class="vitae-tag">38+ Patents</span>
+                    <span class="vitae-tag">54 Publications</span>
+                    <span class="vitae-tag">$38M+ Grants</span>
+                    <span class="vitae-tag">Stanford → UCSF → UCF</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="featured" style="background: linear-gradient(135deg, #0071e3, #40a9ff);">
+            <div>
+                <h2>Building the canonical governance layer for AI-human collaboration.</h2>
+                <p>CANONIC = LANGUAGE + COMPLIANCE. Every claim evidence-backed. Every boundary respected.</p>
+            </div>
+            <div class="featured-stats">
+                <div class="stat">
+                    <div class="stat-value" style="color: white;">555</div>
+                    <div class="stat-label">IDFs Discovered</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" style="color: white;">7</div>
+                    <div class="stat-label">Domains</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" style="color: white;">63</div>
+                    <div class="stat-label">DETROS Bits</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="primitives">
+        <div class="section-header">
+            <div class="section-label">Platform</div>
+            <div class="section-title">EVO + CHAT + SHOP</div>
+        </div>
+
+        <div class="apps-grid">
+            <div class="app-card">
+                <div class="app-icon" style="background: linear-gradient(135deg, #34c759, #63d97a);">📈</div>
+                <div class="app-name">EVO</div>
+                <div class="app-desc">Ledger timeline. Track everything that happens. LEARNING starts here.</div>
+                <span class="app-badge">Timeline</span>
+            </div>
+
+            <div class="app-card">
+                <div class="app-icon" style="background: linear-gradient(135deg, #5ac8fa, #7dd3fc);">💬</div>
+                <div class="app-name">CHAT</div>
+                <div class="app-desc">Natural language interface. Evidence-based responses. Always cited.</div>
+                <span class="app-badge">Interface</span>
+            </div>
+
+            <div class="app-card">
+                <div class="app-icon" style="background: linear-gradient(135deg, #ff9500, #ffb340);">🛒</div>
+                <div class="app-name">SHOP</div>
+                <div class="app-desc">Commerce primitive. COIN = WORK. Buy apps, licenses, and content.</div>
+                <span class="app-badge">Commerce</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="books">
+        <div class="section-header">
+            <div class="section-label">Coming Soon</div>
+            <div class="section-title">BOOKS</div>
+        </div>
+
+        <div class="featured" style="background: linear-gradient(135deg, #1d1d1f, #3d3d3f);">
+            <div>
+                <h2>Long-form synthesis.</h2>
+                <p>BLOGS → PAPERS → BOOKS. The learning chain continues. Deep technical explorations of CANONIC, DETROS, and clinical AI.</p>
+                <div style="display: flex; gap: 16px; margin-top: 24px;">
+                    <span class="app-badge" style="background: rgba(255,255,255,0.1); color: white;">CANONIC: The Book</span>
+                    <span class="app-badge" style="background: rgba(255,255,255,0.1); color: white;">Clinical AI Governance</span>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 120px; opacity: 0.3;">📚</div>
+                <div style="color: var(--accent); font-size: 14px; font-weight: 600;">LEARNING IN PROGRESS</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="token">
+        <div class="section-header">
+            <div class="section-label">Economics</div>
+            <div class="section-title">COIN = WORK</div>
+        </div>
+
+        <div class="apps-grid">
+            <div class="app-card" style="text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 16px;">📖</div>
+                <div class="app-name">READ</div>
+                <div class="app-desc">Free. Public discourse for everyone.</div>
+                <div style="font-size: 32px; font-weight: 600; color: var(--green); margin-top: 16px;">0 COIN</div>
+            </div>
+
+            <div class="app-card" style="text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 16px;">✍️</div>
+                <div class="app-name">WRITE</div>
+                <div class="app-desc">Create content. Contribute to the ecosystem.</div>
+                <div style="font-size: 32px; font-weight: 600; color: var(--orange); margin-top: 16px;">10 COIN</div>
+            </div>
+
+            <div class="app-card" style="text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 16px;">📱</div>
+                <div class="app-name">APP</div>
+                <div class="app-desc">Unlimited writes. Own your blogging tool.</div>
+                <div style="font-size: 32px; font-weight: 600; color: var(--accent); margin-top: 16px;">100 COIN</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://github.com/canonic-foundation">GitHub</a>
+            <a href="https://scholar.google.com/citations?user=2o8ORCAAAAAJ">Publications</a>
+            <a href="MAMMOCHAT/demo/">Demo</a>
+        </div>
+        <p>HADLEYLAB | CANONIC Foundation | Built with DETROS</p>
+        <p style="margin-top: 8px; font-size: 11px;">AGENT = EVO + CHAT + SHOP</p>
+    </footer>
+</body>
+</html>
