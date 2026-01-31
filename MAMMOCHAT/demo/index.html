@@ -3,321 +3,713 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MammoChat</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>MammoChat — Your Breast Cancer Journey Companion</title>
+    <meta name="description" content="I'm here to support you on your breast cancer journey">
+    <meta name="theme-color" content="#ec4899">
     <style>
         :root {
-            --bg: #ffffff;
-            --bg-chat: #fdf2f8;
-            --text: #1a1a1a;
-            --text-secondary: #6b6b6b;
+            --bg: #fffbfc;
+            --bg-alt: #ffffff;
+            --fg: #1a1a1a;
+            --fg-soft: #4a4a4a;
+            --dim: #888;
+            --accent: #db2777;
+            --accent-soft: rgba(219, 39, 119, 0.08);
+            --accent-glow: rgba(236, 72, 153, 0.2);
             --border: #fce7f3;
-            --pink: #ec4899;
-            --pink-dark: #db2777;
-            --pink-light: #fdf2f8;
-            --pink-pale: #fce7f3;
-            --green: #10b981;
-            --amber: #f59e0b;
+            --card: #ffffff;
+            --shadow: 0 4px 24px rgba(219, 39, 119, 0.08);
+            --warm: #f9a8d4;
+            --warm-soft: rgba(249, 168, 212, 0.2);
+            --warn: #f59e0b;
+            --warn-soft: rgba(245, 158, 11, 0.1);
+            --error: #ef4444;
+            --error-soft: rgba(239, 68, 68, 0.1);
+            --evo: #8b5cf6;
+            --evo-soft: rgba(139, 92, 246, 0.1);
+            --shop: #3b82f6;
+            --shop-soft: rgba(59, 130, 246, 0.1);
+            --hope: #10b981;
+            --hope-soft: rgba(16, 185, 129, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f0a0c;
+                --bg-alt: #1a1015;
+                --fg: #fdf2f8;
+                --fg-soft: #f9a8d4;
+                --dim: #9ca3af;
+                --accent: #f472b6;
+                --accent-soft: rgba(244, 114, 182, 0.12);
+                --accent-glow: rgba(244, 114, 182, 0.25);
+                --border: #2d1f26;
+                --card: #1f1318;
+                --shadow: 0 4px 24px rgba(0,0,0,0.4);
+                --warm: #be185d;
+                --warm-soft: rgba(190, 24, 93, 0.2);
+                --warn-soft: rgba(245, 158, 11, 0.15);
+                --error-soft: rgba(239, 68, 68, 0.15);
+                --evo-soft: rgba(139, 92, 246, 0.15);
+                --shop-soft: rgba(59, 130, 246, 0.15);
+                --hope-soft: rgba(16, 185, 129, 0.15);
+            }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             background: var(--bg);
-            color: var(--text);
+            color: var(--fg);
             height: 100vh;
             display: flex;
             flex-direction: column;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Header */
         header {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            background: var(--bg);
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: var(--bg-alt);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        @supports (backdrop-filter: blur(20px)) {
+            header {
+                background: transparent;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+            }
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--pink), #f472b6);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
+        .logo-symbol {
+            font-size: 24px;
+            font-weight: 300;
+            color: var(--accent);
         }
 
         .logo-text {
-            font-weight: 600;
             font-size: 16px;
+            font-weight: 600;
         }
 
-        .context {
+        .logo-text span { color: var(--accent); }
+
+        .logo-badge {
+            font-size: 10px;
+            padding: 4px 8px;
+            background: var(--accent-soft);
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .header-controls {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 12px;
         }
 
-        .context select {
-            background: var(--bg-chat);
+        select {
+            background: var(--card);
             border: 1px solid var(--border);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 12px;
+            color: var(--fg);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
             font-family: inherit;
-            color: var(--text);
             cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .context select:focus {
-            outline: none;
-            border-color: var(--pink);
+        select:hover { border-color: var(--accent); }
+        select:focus { outline: none; border-color: var(--accent); }
+
+        .dcis-badge {
+            display: none;
+            padding: 8px 14px;
+            background: var(--warn-soft);
+            border: 1px solid var(--warn);
+            border-radius: 10px;
+            color: var(--warn);
+            font-size: 12px;
+            font-weight: 500;
         }
 
-        /* Messages */
+        .dcis-badge.show { display: flex; align-items: center; gap: 6px; }
+
+        /* Main */
         main {
             flex: 1;
             overflow-y: auto;
-            background: var(--bg);
+            display: flex;
+            flex-direction: column;
         }
 
+        /* Messages */
         .messages {
-            max-width: 720px;
+            flex: 1;
+            padding: 24px;
+            max-width: 800px;
+            width: 100%;
             margin: 0 auto;
-            padding: 24px 16px;
         }
 
         .message {
             margin-bottom: 24px;
+            animation: fadeUp 0.3s ease-out;
         }
 
-        .message-header {
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .msg-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 8px;
         }
 
-        .avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
+        .msg-role {
+            font-size: 13px;
             font-weight: 600;
         }
 
-        .avatar.user {
-            background: var(--pink);
-            color: white;
+        .msg-role.user { color: var(--fg); }
+        .msg-role.assistant { color: var(--accent); }
+
+        .msg-tag {
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 500;
         }
 
-        .avatar.assistant {
-            background: linear-gradient(135deg, var(--pink), #f472b6);
-            color: white;
-        }
+        .msg-tag.dcis { background: var(--warn-soft); color: var(--warn); border: 1px solid var(--warn); }
+        .msg-tag.mcode { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
+        .msg-tag.evo { background: var(--evo-soft); color: var(--evo); border: 1px solid var(--evo); }
+        .msg-tag.shop { background: var(--shop-soft); color: var(--shop); border: 1px solid var(--shop); }
+        .msg-tag.hope { background: var(--hope-soft); color: var(--hope); border: 1px solid var(--hope); }
+        .msg-tag.support { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
+        .msg-tag.question { background: var(--warm-soft); color: var(--accent); border: 1px solid var(--warm); }
+        .msg-tag.trials { background: var(--shop-soft); color: var(--shop); border: 1px solid var(--shop); }
+        .msg-tag.learn { background: var(--evo-soft); color: var(--evo); border: 1px solid var(--evo); }
+        .msg-tag.listening { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
 
-        .message-role {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .message-content {
-            padding-left: 40px;
+        .msg-content {
             font-size: 15px;
             line-height: 1.6;
-            color: var(--text);
+            color: var(--fg-soft);
+            padding: 16px 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
         }
 
-        .evidence-box {
+        .msg-content.assistant {
+            border-left: 3px solid var(--accent);
+        }
+
+        .evidence {
             margin-top: 12px;
             padding: 12px 16px;
-            background: var(--pink-light);
-            border-radius: 8px;
-            border-left: 3px solid var(--pink);
+            background: var(--bg);
+            border-radius: 12px;
         }
 
-        .evidence-label {
+        .evidence-title {
             font-size: 11px;
             font-weight: 600;
-            color: var(--pink);
+            color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 6px;
         }
 
-        .evidence-item {
+        .evidence-ref {
             font-size: 12px;
-            color: var(--text-secondary);
+            color: var(--dim);
             font-family: 'SF Mono', Monaco, monospace;
+            padding: 2px 0;
         }
 
-        .mcode-box {
-            margin-top: 8px;
+        .mcode-bar {
+            margin-top: 12px;
             padding: 8px 12px;
-            background: var(--bg-chat);
-            border-radius: 6px;
+            background: var(--accent-soft);
+            border-radius: 8px;
             font-size: 11px;
             font-family: 'SF Mono', Monaco, monospace;
-            color: var(--text-secondary);
+            color: var(--accent);
         }
 
         /* Welcome */
         .welcome {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
             text-align: center;
             padding: 48px 24px;
+            max-width: 640px;
+            margin: 0 auto;
         }
 
-        .welcome-icon {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, var(--pink), #f472b6);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
+        .welcome-heart {
+            font-size: 64px;
             margin-bottom: 24px;
+            animation: pulse-heart 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-heart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
         }
 
         .welcome h1 {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 600;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .welcome h1 span { color: var(--accent); }
+
+        .welcome-message {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--fg-soft);
+            margin-bottom: 40px;
+        }
+
+        .welcome-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 500px) {
+            .welcome-features { grid-template-columns: 1fr; }
+        }
+
+        .feature-card {
+            padding: 20px 24px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            text-align: left;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            font-size: 24px;
             margin-bottom: 8px;
         }
 
-        .welcome p {
-            color: var(--text-secondary);
+        .feature-title {
             font-size: 14px;
-            max-width: 360px;
-            margin-bottom: 24px;
+            font-weight: 600;
+            color: var(--fg);
+            margin-bottom: 4px;
         }
 
-        .suggestions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
+        .feature-desc {
+            font-size: 12px;
+            color: var(--dim);
+            line-height: 1.5;
+        }
+
+        .welcome-prompt {
+            padding: 16px 24px;
+            background: var(--accent-soft);
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+
+        .welcome-prompt-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .welcome-prompt-text {
+            font-size: 14px;
+            color: var(--fg-soft);
+            font-style: italic;
+        }
+
+        .welcome-footer {
+            font-size: 13px;
+            color: var(--dim);
+            margin-bottom: 20px;
+        }
+
+        .welcome-footer strong { color: var(--accent); }
+
+        .disclaimer {
+            padding: 12px 20px;
+            background: var(--warm-soft);
+            border: 1px solid var(--warm);
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--fg-soft);
             max-width: 400px;
         }
 
-        .suggestion {
-            background: var(--bg-chat);
-            border: 1px solid var(--border);
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .suggestion:hover {
-            background: var(--pink-light);
-            border-color: var(--pink);
-            color: var(--pink);
-        }
-
-        .disclaimer {
-            margin-top: 32px;
-            padding: 12px 16px;
-            background: #fef3c7;
-            border: 1px solid #fbbf24;
-            border-radius: 8px;
-            font-size: 11px;
-            color: #92400e;
-        }
+        .disclaimer strong { color: var(--accent); }
 
         /* Input */
         .input-area {
-            padding: 16px;
+            padding: 16px 24px 24px;
+            background: var(--bg-alt);
             border-top: 1px solid var(--border);
-            background: var(--bg);
         }
 
-        .input-container {
-            max-width: 720px;
+        .input-wrap {
+            max-width: 800px;
             margin: 0 auto;
             position: relative;
         }
 
-        .input-box {
+        .input-field {
             width: 100%;
-            padding: 14px 52px 14px 16px;
-            background: var(--bg-chat);
+            padding: 16px 60px 16px 20px;
+            background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            font-size: 14px;
+            border-radius: 16px;
+            color: var(--fg);
+            font-size: 15px;
             font-family: inherit;
             resize: none;
-            line-height: 1.5;
+            transition: all 0.2s;
         }
 
-        .input-box:focus {
+        .input-field:focus {
             outline: none;
-            border-color: var(--pink);
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
         }
 
         .send-btn {
             position: absolute;
-            right: 8px;
-            bottom: 8px;
-            width: 36px;
-            height: 36px;
-            background: var(--pink);
+            right: 12px;
+            bottom: 12px;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #f472b6 0%, #db2777 100%);
             border: none;
-            border-radius: 8px;
+            border-radius: 50%;
             color: white;
             cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .send-btn:hover {
-            background: var(--pink-dark);
+            box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
         }
 
         .send-btn svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
+            stroke: white;
         }
 
-        .input-hint {
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(219, 39, 119, 0.4);
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 50;
+        }
+
+        .tab-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: none;
+            background: var(--card);
+            color: var(--dim);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .tab-btn::before {
+            content: attr(data-label);
+            position: absolute;
+            right: 60px;
+            background: var(--fg);
+            color: var(--bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.2s;
+            pointer-events: none;
+        }
+
+        .tab-btn:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .tab-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.16);
+        }
+
+        .tab-btn:active {
+            transform: scale(0.95);
+        }
+
+        .tab-btn.evo {
+            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+            color: white;
+        }
+        .tab-btn.evo:hover {
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+        }
+        .tab-btn.evo.active {
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3), 0 8px 24px rgba(139, 92, 246, 0.4);
+        }
+
+        .tab-btn.chat {
+            background: linear-gradient(135deg, #f472b6 0%, #db2777 100%);
+            color: white;
+        }
+        .tab-btn.chat:hover {
+            box-shadow: 0 8px 24px rgba(219, 39, 119, 0.4);
+        }
+        .tab-btn.chat.active {
+            box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.3), 0 8px 24px rgba(219, 39, 119, 0.4);
+        }
+
+        .tab-btn.shop {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            color: white;
+        }
+        .tab-btn.shop:hover {
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+        .tab-btn.shop.active {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3), 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+
+        .tab-btn .icon {
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        /* Panels */
+        .panel { display: none; }
+        .panel.active { display: flex; flex-direction: column; flex: 1; }
+
+        /* EVO Panel */
+        .evo-content {
+            padding: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .evo-header {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--evo);
+            margin-bottom: 24px;
+        }
+
+        .evo-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .evo-stat {
+            padding: 24px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
             text-align: center;
-            margin-top: 8px;
+        }
+
+        .evo-stat .value {
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--evo);
+        }
+
+        .evo-stat .label {
             font-size: 11px;
-            color: var(--text-secondary);
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        .evo-list {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .evo-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .evo-item:last-child { border-bottom: none; }
+        .evo-item .time { color: var(--dim); margin-right: 12px; }
+        .evo-item .learned { color: var(--evo); }
+
+        /* SHOP Panel */
+        .shop-content {
+            padding: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .shop-header {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--shop);
+            margin-bottom: 24px;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .shop-grid { grid-template-columns: 1fr; }
+        }
+
+        .shop-card {
+            padding: 28px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .shop-card:hover {
+            border-color: var(--shop);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .shop-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--shop);
+            margin-bottom: 8px;
+        }
+
+        .shop-card p {
+            font-size: 13px;
+            color: var(--dim);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .shop-card .price {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--fg);
+        }
+
+        .shop-card .tier {
+            font-size: 11px;
+            color: var(--dim);
+            margin-top: 4px;
+        }
+
+        .shop-card button {
+            margin-top: 16px;
+            width: 100%;
+            padding: 12px;
+            background: var(--shop);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .shop-card button:hover {
+            transform: scale(1.02);
         }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">
-            <div class="logo-icon">💗</div>
-            <span class="logo-text">MammoChat</span>
+            <span class="logo-symbol">💗</span>
+            <span class="logo-text">Mammo<span>Chat</span></span>
+            <span class="logo-badge">mCODE Verified</span>
         </div>
-        <div class="context">
+        <div class="header-controls">
             <select id="histology" onchange="updateContext()">
-                <option value="UNKNOWN">Histology</option>
+                <option value="UNKNOWN">Histology: ?</option>
                 <option value="DCIS">DCIS</option>
                 <option value="INVASIVE">Invasive</option>
             </select>
@@ -325,63 +717,196 @@
                 <option value="SCREENING">Screening</option>
                 <option value="DIAGNOSIS">Diagnosis</option>
                 <option value="TREATMENT">Treatment</option>
+                <option value="SURVIVORSHIP">Survivorship</option>
             </select>
+            <div class="dcis-badge" id="dcis-badge">⚠️ DCIS ≠ Invasive</div>
         </div>
     </header>
 
     <main>
-        <div class="messages" id="messages"></div>
+        <!-- CHAT Panel -->
+        <div class="panel active" id="panel-chat">
+            <div class="messages" id="messages"></div>
+        </div>
+
+        <!-- EVO Panel -->
+        <div class="panel" id="panel-evo">
+            <div class="evo-content">
+                <div class="evo-header">◈ Learning Ledger</div>
+                <div class="evo-stats">
+                    <div class="evo-stat">
+                        <div class="value">528</div>
+                        <div class="label">Axioms</div>
+                    </div>
+                    <div class="evo-stat">
+                        <div class="value">38</div>
+                        <div class="label">IDFs</div>
+                    </div>
+                    <div class="evo-stat">
+                        <div class="value">20K+</div>
+                        <div class="label">Encounters</div>
+                    </div>
+                </div>
+                <div class="evo-list">
+                    <div class="evo-item"><span class="time">2026-01-30</span><span class="learned">→ Learned: DCIS ≠ Invasive distinction (Minh feedback)</span></div>
+                    <div class="evo-item"><span class="time">2026-01-29</span><span class="learned">→ Learned: mCODE embedding for histology</span></div>
+                    <div class="evo-item"><span class="time">2026-01-28</span><span class="learned">→ Learned: BI-RADS 5ed classification</span></div>
+                    <div class="evo-item"><span class="time">2026-01-27</span><span class="learned">→ Learned: NCCN 2024 treatment pathways</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SHOP Panel -->
+        <div class="panel" id="panel-shop">
+            <div class="shop-content">
+                <div class="shop-header">◆ MammoChat Services</div>
+                <div class="shop-grid">
+                    <div class="shop-card">
+                        <h3>Personal</h3>
+                        <p>Patient education, risk assessment, community support</p>
+                        <div class="price">Free</div>
+                        <div class="tier">COMMUNITY tier</div>
+                        <button>Active</button>
+                    </div>
+                    <div class="shop-card">
+                        <h3>Clinical</h3>
+                        <p>Epic EHR integration, mCODE extraction, clinical decision support</p>
+                        <div class="price">$50K/yr</div>
+                        <div class="tier">BUSINESS tier</div>
+                        <button>Contact Sales</button>
+                    </div>
+                    <div class="shop-card">
+                        <h3>TrialsChat</h3>
+                        <p>Clinical trials matching, eligibility parsing, site finder</p>
+                        <div class="price">$25K/yr</div>
+                        <div class="tier">BUSINESS tier</div>
+                        <button>Coming Q2</button>
+                    </div>
+                    <div class="shop-card">
+                        <h3>VaaS Enterprise</h3>
+                        <p>Validation as a Service, DETROS compliance, custom domains</p>
+                        <div class="price">$100K/yr</div>
+                        <div class="tier">ENTERPRISE tier</div>
+                        <button>Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn evo" onclick="showPanel('evo')" data-label="Learning"><span class="icon">🧠</span></button>
+        <button class="tab-btn chat active" onclick="showPanel('chat')" data-label="Chat"><span class="icon">💬</span></button>
+        <button class="tab-btn shop" onclick="showPanel('shop')" data-label="Services"><span class="icon">✨</span></button>
+    </div>
+
+    <!-- Input -->
     <div class="input-area">
-        <div class="input-container">
-            <textarea
-                class="input-box"
-                id="input"
-                rows="1"
-                placeholder="Ask about breast imaging, screening, or treatment..."
-                onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"
-            ></textarea>
-            <button type="button" class="send-btn" onclick="send()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-                </svg>
-            </button>
+        <div class="input-wrap">
+            <textarea class="input-field" id="input" rows="1" placeholder="What's on your mind? I'm here to help..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
+            <button class="send-btn" onclick="send()" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
         </div>
-        <div class="input-hint">MammoChat provides educational information only. Not medical advice.</div>
     </div>
 
     <script>
+        // API Configuration
+        const API_URL = 'https://mammochat-api.dexter-hadley.workers.dev';
+        const LEARNING_URL = 'http://localhost:3334';
+
         const MCODE = {
-            DCIS: { snomed: '109886000', desc: 'Ductal carcinoma in situ' },
-            INVASIVE: { snomed: '254837009', desc: 'Invasive breast carcinoma' },
-            UNKNOWN: { snomed: '?', desc: 'Histology pending' }
+            DCIS: { snomed: '109886000', desc: 'Ductal carcinoma in situ', chemo: false },
+            INVASIVE: { snomed: '254837009', desc: 'Invasive breast carcinoma', chemo: true },
+            UNKNOWN: { snomed: '?', desc: 'Histology pending', chemo: null }
         };
+
+        const SYSTEM_PROMPT = `You are MammoChat, a compassionate breast health information assistant specializing in mammography and breast cancer.
+
+Role: Explain mammography screening (2D/3D), BI-RADS categories, breast cancer types, staging, and treatment options.
+Guidelines:
+- Be warm, supportive, and empathetic
+- Recommend consulting healthcare providers for medical decisions
+- Reference ACR BI-RADS, NCCN guidelines, NCI, breastcancer.org
+- Distinguish clearly between DCIS (non-invasive) and invasive cancer
+- Format responses with clear structure using bullet points when helpful
+
+IMPORTANT: DCIS does NOT typically require chemotherapy. Always clarify this distinction.`;
 
         let ctx = { histology: 'UNKNOWN', phase: 'SCREENING' };
         let messages = [];
+        let chatHistory = [];
+        let learningOnline = false;
+
+        function showPanel(panel) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('panel-' + panel).classList.add('active');
+            document.querySelector('.tab-btn.' + panel).classList.add('active');
+        }
 
         function updateContext() {
             ctx.histology = document.getElementById('histology').value;
             ctx.phase = document.getElementById('phase').value;
+            document.getElementById('dcis-badge').classList.toggle('show', ctx.histology === 'DCIS');
+        }
+
+        // Check LEARNING engine status
+        async function checkLearning() {
+            try {
+                const res = await fetch(`${LEARNING_URL}/api/stats`);
+                if (res.ok) {
+                    const data = await res.json();
+                    learningOnline = true;
+                    // Update EVO stats if available
+                    const axiomEl = document.querySelector('.evo-stat .value');
+                    if (axiomEl && data.total) axiomEl.textContent = data.total;
+                }
+            } catch (e) {
+                learningOnline = false;
+            }
         }
 
         function render() {
             const el = document.getElementById('messages');
-
             if (!messages.length) {
                 el.innerHTML = `
                     <div class="welcome">
-                        <div class="welcome-icon">💗</div>
-                        <h1>MammoChat</h1>
-                        <p>Evidence-based breast health information with BI-RADS and NCCN guideline integration.</p>
-                        <div class="suggestions">
-                            <div class="suggestion" onclick="askQuestion('What is BI-RADS?')">What is BI-RADS?</div>
-                            <div class="suggestion" onclick="askQuestion('DCIS treatment options')">DCIS treatment</div>
-                            <div class="suggestion" onclick="askQuestion('When is chemotherapy needed?')">Chemotherapy</div>
+                        <div class="welcome-heart">💗</div>
+                        <h1>I'm here to support you on your <span>breast cancer journey</span></h1>
+                        <p class="welcome-message">
+                            I understand this is a difficult time. Whether you're newly diagnosed,
+                            in treatment, or in survivorship — I'm here to walk alongside you
+                            every step of the way.
+                        </p>
+                        <div class="welcome-features">
+                            <div class="feature-card">
+                                <div class="feature-icon">🔬</div>
+                                <div class="feature-title">Find Clinical Trials</div>
+                                <div class="feature-desc">Discover trials matched to your specific cancer type and situation</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">👥</div>
+                                <div class="feature-title">Connect with Peers</div>
+                                <div class="feature-desc">Find others who share your journey and understand what you're going through</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">💊</div>
+                                <div class="feature-title">Navigate Treatment</div>
+                                <div class="feature-desc">Understand your options with evidence-based information</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">💪</div>
+                                <div class="feature-title">Make Informed Decisions</div>
+                                <div class="feature-desc">Feel empowered with knowledge about your care</div>
+                            </div>
                         </div>
+                        <div class="welcome-prompt">
+                            <div class="welcome-prompt-label">Try asking me</div>
+                            <div class="welcome-prompt-text">"I'm 52, ER+/HER2-, and want to understand my treatment options"</div>
+                        </div>
+                        <p class="welcome-footer">I remember our conversations and your <strong>unique situation</strong></p>
                         <div class="disclaimer">
-                            <strong>Not medical advice</strong> — For educational purposes only. Consult your healthcare provider.
+                            <strong>Educational support only</strong> — Always consult your care team for medical decisions
                         </div>
                     </div>
                 `;
@@ -389,24 +914,22 @@
             }
 
             el.innerHTML = messages.map(m => {
+                const tags = (m.tags || []).map(t => `<span class="msg-tag ${t.toLowerCase()}">${t}</span>`).join('');
                 const evidence = m.evidence?.length ? `
-                    <div class="evidence-box">
-                        <div class="evidence-label">Evidence</div>
-                        ${m.evidence.map(e => `<div class="evidence-item">${e}</div>`).join('')}
+                    <div class="evidence">
+                        <div class="evidence-title">Evidence</div>
+                        ${m.evidence.map(e => `<div class="evidence-ref">${e}</div>`).join('')}
                     </div>
                 ` : '';
-
-                const mcode = m.mcode ? `
-                    <div class="mcode-box">mCODE: ${m.mcode.snomed} | ${m.mcode.phase}</div>
-                ` : '';
+                const mcode = m.mcode ? `<div class="mcode-bar">mCODE: ${m.mcode.snomed} | ${m.mcode.phase}</div>` : '';
 
                 return `
                     <div class="message">
-                        <div class="message-header">
-                            <div class="avatar ${m.role}">${m.role === 'user' ? 'U' : 'M'}</div>
-                            <span class="message-role">${m.role === 'user' ? 'You' : 'MammoChat'}</span>
+                        <div class="msg-header">
+                            <span class="msg-role ${m.role}">${m.role === 'user' ? 'You' : 'MammoChat'}</span>
+                            ${tags}
                         </div>
-                        <div class="message-content">
+                        <div class="msg-content ${m.role}">
                             ${m.content}
                             ${evidence}
                             ${mcode}
@@ -418,115 +941,88 @@
             el.scrollTop = el.scrollHeight;
         }
 
-        function respond(text) {
-            const t = text.toLowerCase();
-            const h = ctx.histology;
-            const mc = { snomed: MCODE[h].snomed, phase: ctx.phase };
-
-            if (t.includes('birads') || t.includes('bi-rads')) {
-                return {
-                    content: `<strong>BI-RADS Categories:</strong><br><br>
-                        <strong>0</strong> — Incomplete, need additional imaging<br>
-                        <strong>1</strong> — Negative, routine screening<br>
-                        <strong>2</strong> — Benign finding<br>
-                        <strong>3</strong> — Probably benign (<2% malignancy)<br>
-                        <strong>4</strong> — Suspicious (2-95% malignancy)<br>
-                        <strong>5</strong> — Highly suggestive (>95% malignancy)<br>
-                        <strong>6</strong> — Known biopsy-proven malignancy`,
-                    evidence: ['ACR BI-RADS Atlas 5th Edition', 'NCCN.Breast.2024'],
-                    mcode: mc
-                };
+        // Build system prompt with context
+        function buildSystemPrompt() {
+            let prompt = SYSTEM_PROMPT;
+            if (ctx.histology !== 'UNKNOWN') {
+                prompt += `\n\nPatient Context:\n- Histology: ${MCODE[ctx.histology].desc}\n- Phase: ${ctx.phase}`;
             }
-
-            if (t.includes('chemo') && h === 'DCIS') {
-                return {
-                    content: `<strong>DCIS does not require chemotherapy.</strong><br><br>
-                        DCIS (Ductal Carcinoma In Situ) is non-invasive. Standard treatment includes surgery (lumpectomy or mastectomy) ± radiation therapy. Endocrine therapy may be recommended for hormone receptor-positive DCIS.`,
-                    evidence: ['NCCN.Breast.2024.DCIS-1', 'SNOMED:109886000'],
-                    mcode: mc
-                };
-            }
-
-            if (t.includes('chemo') && h === 'INVASIVE') {
-                return {
-                    content: `<strong>Chemotherapy may be indicated for invasive breast cancer.</strong><br><br>
-                        Recommendations depend on tumor size, grade, lymph node status, and receptor status (ER, PR, HER2). Genomic testing (Oncotype DX, MammaPrint) can help determine benefit.`,
-                    evidence: ['NCCN.Breast.2024.INV-1', 'SNOMED:254837009'],
-                    mcode: mc
-                };
-            }
-
-            if (t.includes('chemo')) {
-                return {
-                    content: `<strong>Chemotherapy recommendations require histology.</strong><br><br>
-                        Please select a histology type (DCIS or Invasive) to receive specific guidance. DCIS typically does not require chemotherapy, while invasive cancer may.`,
-                    evidence: ['NCCN.Breast.2024'],
-                    mcode: mc
-                };
-            }
-
-            if (t.includes('dcis') || t.includes('treatment')) {
-                if (h === 'DCIS') {
-                    return {
-                        content: `<strong>DCIS Treatment Options:</strong><br><br>
-                            • <strong>Lumpectomy + Radiation</strong> — breast-conserving approach<br>
-                            • <strong>Mastectomy</strong> — may be chosen for large or multicentric DCIS<br>
-                            • <strong>Endocrine therapy</strong> — for ER-positive DCIS to reduce recurrence<br><br>
-                            Chemotherapy is NOT indicated for DCIS.`,
-                        evidence: ['NCCN.Breast.2024.DCIS-2', 'SNOMED:109886000'],
-                        mcode: mc
-                    };
-                }
-                return {
-                    content: `<strong>DCIS (Ductal Carcinoma In Situ)</strong><br><br>
-                        DCIS is a non-invasive condition where abnormal cells are found in the milk duct lining. It's considered Stage 0 breast cancer. Select "DCIS" in histology for specific treatment guidance.`,
-                    evidence: ['NCCN.Breast.2024', 'SNOMED:109886000'],
-                    mcode: mc
-                };
-            }
-
-            if (t.includes('screening') || t.includes('mammogram')) {
-                return {
-                    content: `<strong>Breast Cancer Screening Guidelines:</strong><br><br>
-                        • <strong>Average risk:</strong> Annual mammogram starting at age 40<br>
-                        • <strong>High risk:</strong> Annual MRI + mammogram, starting earlier<br>
-                        • <strong>Very high risk:</strong> Consider risk-reducing options<br><br>
-                        Risk assessment tools: Tyrer-Cuzick, Gail Model`,
-                    evidence: ['NCCN.Breast.Screening.2024', 'ACS Guidelines 2024'],
-                    mcode: mc
-                };
-            }
-
-            return {
-                content: `I understand you're asking about "${text}". For specific guidance, try asking about:<br><br>
-                    • BI-RADS categories<br>
-                    • DCIS treatment<br>
-                    • Chemotherapy indications<br>
-                    • Screening guidelines`,
-                evidence: ['MammoChat.v1'],
-                mcode: mc
-            };
+            return prompt;
         }
 
-        function askQuestion(q) {
-            document.getElementById('input').value = q;
-            send();
-        }
-
-        function send() {
+        async function send() {
             const input = document.getElementById('input');
             const text = input.value.trim();
             if (!text) return;
 
+            input.value = '';
+            input.disabled = true;
+
+            // Switch to chat panel
+            showPanel('chat');
+
             const mc = { snomed: MCODE[ctx.histology].snomed, phase: ctx.phase };
             messages.push({ role: 'user', content: text, mcode: mc });
-            messages.push({ role: 'assistant', ...respond(text) });
+            chatHistory.push({ role: 'user', content: text });
+            render();
 
-            input.value = '';
+            // Show typing indicator
+            const typingMsg = { role: 'assistant', content: '<em>Thinking...</em>', tags: [] };
+            messages.push(typingMsg);
+            render();
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: text,
+                        history: chatHistory.slice(-10),
+                        system: buildSystemPrompt()
+                    })
+                });
+
+                // Remove typing indicator
+                messages.pop();
+
+                if (!response.ok) throw new Error('API error');
+
+                const data = await response.json();
+                const reply = data.message || data.content?.[0]?.text || 'I apologize, but I had trouble processing that. Could you try rephrasing?';
+
+                // Parse reply for tags
+                const tags = [];
+                if (reply.toLowerCase().includes('dcis')) tags.push('DCIS');
+                if (reply.toLowerCase().includes('trial')) tags.push('TRIALS');
+                if (reply.toLowerCase().includes('bi-rads') || reply.toLowerCase().includes('birads')) tags.push('LEARN');
+
+                messages.push({
+                    role: 'assistant',
+                    content: reply.replace(/\n/g, '<br>'),
+                    tags,
+                    evidence: ['NCCN Guidelines', 'ACR BI-RADS'],
+                    mcode: mc
+                });
+                chatHistory.push({ role: 'assistant', content: reply });
+
+            } catch (error) {
+                messages.pop(); // Remove typing indicator
+                messages.push({
+                    role: 'assistant',
+                    content: 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment. 💗',
+                    tags: ['ERROR']
+                });
+            }
+
+            input.disabled = false;
+            input.focus();
             render();
         }
 
+        // Initialize
         render();
+        checkLearning();
+        setInterval(checkLearning, 30000);
     </script>
 </body>
 </html>

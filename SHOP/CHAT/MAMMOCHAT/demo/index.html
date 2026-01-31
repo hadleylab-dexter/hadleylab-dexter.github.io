@@ -810,14 +810,32 @@
     </div>
 
     <script>
+        // API Configuration
+        const API_URL = 'https://mammochat-api.dexter-hadley.workers.dev';
+        const LEARNING_URL = 'http://localhost:3334';
+
         const MCODE = {
             DCIS: { snomed: '109886000', desc: 'Ductal carcinoma in situ', chemo: false },
             INVASIVE: { snomed: '254837009', desc: 'Invasive breast carcinoma', chemo: true },
             UNKNOWN: { snomed: '?', desc: 'Histology pending', chemo: null }
         };
 
+        const SYSTEM_PROMPT = `You are MammoChat, a compassionate breast health information assistant specializing in mammography and breast cancer.
+
+Role: Explain mammography screening (2D/3D), BI-RADS categories, breast cancer types, staging, and treatment options.
+Guidelines:
+- Be warm, supportive, and empathetic
+- Recommend consulting healthcare providers for medical decisions
+- Reference ACR BI-RADS, NCCN guidelines, NCI, breastcancer.org
+- Distinguish clearly between DCIS (non-invasive) and invasive cancer
+- Format responses with clear structure using bullet points when helpful
+
+IMPORTANT: DCIS does NOT typically require chemotherapy. Always clarify this distinction.`;
+
         let ctx = { histology: 'UNKNOWN', phase: 'SCREENING' };
         let messages = [];
+        let chatHistory = [];
+        let learningOnline = false;
 
         function showPanel(panel) {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -830,6 +848,22 @@
             ctx.histology = document.getElementById('histology').value;
             ctx.phase = document.getElementById('phase').value;
             document.getElementById('dcis-badge').classList.toggle('show', ctx.histology === 'DCIS');
+        }
+
+        // Check LEARNING engine status
+        async function checkLearning() {
+            try {
+                const res = await fetch(`${LEARNING_URL}/api/stats`);
+                if (res.ok) {
+                    const data = await res.json();
+                    learningOnline = true;
+                    // Update EVO stats if available
+                    const axiomEl = document.querySelector('.evo-stat .value');
+                    if (axiomEl && data.total) axiomEl.textContent = data.total;
+                }
+            } catch (e) {
+                learningOnline = false;
+            }
         }
 
         function render() {
@@ -907,93 +941,88 @@
             el.scrollTop = el.scrollHeight;
         }
 
-        function respond(text) {
-            const t = text.toLowerCase();
-            const h = ctx.histology;
-            const mc = { snomed: MCODE[h].snomed, phase: ctx.phase };
-
-            if (t.includes('chemo') && h === 'DCIS') {
-                return {
-                    content: `I understand you're asking about chemotherapy. Here's something important that many women find reassuring: <strong>DCIS is non-invasive</strong>, which means it hasn't spread beyond the milk ducts.<br><br>The good news is that <strong>chemotherapy is typically not needed for DCIS</strong>. Treatment usually involves surgery (lumpectomy or mastectomy), sometimes followed by radiation. Your care team will discuss what's right for your specific situation.`,
-                    tags: ['DCIS', 'HOPE'],
-                    evidence: ['NCCN Guidelines 2024', 'mCODE Standard', 'Your Care Team'],
-                    mcode: mc
-                };
+        // Build system prompt with context
+        function buildSystemPrompt() {
+            let prompt = SYSTEM_PROMPT;
+            if (ctx.histology !== 'UNKNOWN') {
+                prompt += `\n\nPatient Context:\n- Histology: ${MCODE[ctx.histology].desc}\n- Phase: ${ctx.phase}`;
             }
-
-            if (t.includes('chemo') && h === 'INVASIVE') {
-                return {
-                    content: `I hear you're thinking about chemotherapy. With invasive breast cancer, chemotherapy <em>may</em> be part of your treatment plan, depending on several factors:<br><br>• Stage and grade of your cancer<br>• Hormone receptor status (ER/PR)<br>• HER2 status<br>• Genomic test results (like Oncotype DX)<br><br>I know this feels like a lot. Your oncologist will help you understand if chemo is recommended for your specific situation. Would you like me to explain any of these factors?`,
-                    tags: ['SUPPORT'],
-                    evidence: ['NCCN Guidelines 2024', 'mCODE Standard'],
-                    mcode: mc
-                };
-            }
-
-            if (t.includes('chemo') && h === 'UNKNOWN') {
-                return {
-                    content: `I'd like to give you the most accurate information I can about chemotherapy. To do that, I need to know a bit more about your diagnosis.<br><br>Could you select your histology type above? The answer is quite different for DCIS (non-invasive) versus invasive cancer. If you're not sure, that's okay — your pathology report will have this information, or we can talk about both scenarios.`,
-                    tags: ['QUESTION'],
-                    evidence: ['mCODE requires histology for accurate guidance'],
-                    mcode: mc
-                };
-            }
-
-            if (t.includes('trial')) {
-                return {
-                    content: `Clinical trials can be a wonderful option — they give you access to cutting-edge treatments while contributing to research that helps others. 💪<br><br>Based on your profile, I can help match you with relevant trials from ClinicalTrials.gov. Would you like me to search for trials that match your specific cancer type and location?`,
-                    tags: ['TRIALS'],
-                    evidence: ['ClinicalTrials.gov', 'Verified matching'],
-                    mcode: mc
-                };
-            }
-
-            if (t.includes('scared') || t.includes('afraid') || t.includes('worried') || t.includes('anxious')) {
-                return {
-                    content: `What you're feeling is completely normal. A breast cancer diagnosis brings up so many emotions — fear, uncertainty, grief, even anger. These feelings are valid.<br><br>Many women find it helpful to:<br>• Connect with others who've been through this<br>• Take things one step at a time<br>• Focus on what you <em>can</em> control<br>• Lean on your support system<br><br>I'm here whenever you need to talk. 💗`,
-                    tags: ['SUPPORT'],
-                    evidence: ['You are not alone'],
-                    mcode: mc
-                };
-            }
-
-            if (t.includes('birads') || t.includes('bi-rads')) {
-                return {
-                    content: `BI-RADS is the standardized way radiologists describe mammogram findings. Here's what the categories mean:<br><br>• <strong>0</strong> — Need more imaging<br>• <strong>1</strong> — Normal, nothing concerning<br>• <strong>2</strong> — Benign finding<br>• <strong>3</strong> — Probably benign (<2% cancer risk)<br>• <strong>4</strong> — Suspicious (2-95% risk, biopsy usually recommended)<br>• <strong>5</strong> — Highly suspicious (>95% risk)<br>• <strong>6</strong> — Known cancer<br><br>Which category would you like me to explain more?`,
-                    tags: ['LEARN'],
-                    evidence: ['ACR BI-RADS 5th Edition'],
-                    mcode: mc
-                };
-            }
-
-            return {
-                content: `Thank you for sharing that with me. I'm here to help you understand "${text}".<br><br>Could you tell me a bit more about what you'd like to know? I'm listening. 💗`,
-                tags: ['LISTENING'],
-                evidence: ['Your journey, your pace'],
-                mcode: mc
-            };
+            return prompt;
         }
 
-        function send() {
+        async function send() {
             const input = document.getElementById('input');
             const text = input.value.trim();
             if (!text) return;
 
+            input.value = '';
+            input.disabled = true;
+
             // Switch to chat panel
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.getElementById('panel-chat').classList.add('active');
+            showPanel('chat');
 
             const mc = { snomed: MCODE[ctx.histology].snomed, phase: ctx.phase };
             messages.push({ role: 'user', content: text, mcode: mc });
+            chatHistory.push({ role: 'user', content: text });
+            render();
 
-            const resp = respond(text);
-            messages.push({ role: 'assistant', ...resp });
+            // Show typing indicator
+            const typingMsg = { role: 'assistant', content: '<em>Thinking...</em>', tags: [] };
+            messages.push(typingMsg);
+            render();
 
-            input.value = '';
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: text,
+                        history: chatHistory.slice(-10),
+                        system: buildSystemPrompt()
+                    })
+                });
+
+                // Remove typing indicator
+                messages.pop();
+
+                if (!response.ok) throw new Error('API error');
+
+                const data = await response.json();
+                const reply = data.message || data.content?.[0]?.text || 'I apologize, but I had trouble processing that. Could you try rephrasing?';
+
+                // Parse reply for tags
+                const tags = [];
+                if (reply.toLowerCase().includes('dcis')) tags.push('DCIS');
+                if (reply.toLowerCase().includes('trial')) tags.push('TRIALS');
+                if (reply.toLowerCase().includes('bi-rads') || reply.toLowerCase().includes('birads')) tags.push('LEARN');
+
+                messages.push({
+                    role: 'assistant',
+                    content: reply.replace(/\n/g, '<br>'),
+                    tags,
+                    evidence: ['NCCN Guidelines', 'ACR BI-RADS'],
+                    mcode: mc
+                });
+                chatHistory.push({ role: 'assistant', content: reply });
+
+            } catch (error) {
+                messages.pop(); // Remove typing indicator
+                messages.push({
+                    role: 'assistant',
+                    content: 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment. 💗',
+                    tags: ['ERROR']
+                });
+            }
+
+            input.disabled = false;
+            input.focus();
             render();
         }
 
+        // Initialize
         render();
+        checkLearning();
+        setInterval(checkLearning, 30000);
     </script>
 </body>
 </html>
